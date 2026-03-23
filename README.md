@@ -41,6 +41,8 @@
   
   *Email* : 258987439@qq.com
 
+## Assigned TA: Wenyue Tong
+
 ## The Allocation of Tasks
 * **Chenzhou Tang** : Game design and development
 * **Bufan Lian** : Homepage design and development
