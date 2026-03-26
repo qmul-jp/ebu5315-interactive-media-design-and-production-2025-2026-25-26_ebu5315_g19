@@ -1,0 +1,117 @@
+/* 基础变量 */
+:root {
+    --primary-blue: #007bff;
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --card-bg: #f8f9fa;
+    --font-size-base: 16px;
+}
+
+/* 暗黑模式样式 (Wellbeing 评分项) */
+[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --text-color: #f0f0f0;
+    --card-bg: #2d2d2d;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: var(--font-size-base);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    transition: all 0.3s ease;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* 极简导航栏 (Minimalism 评分项) */
+header {
+    background: var(--card-bg);
+    padding: 1rem 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--primary-blue);
+    font-size: 1.5rem;
+}
+
+.logo-icon {
+    width: 35px; height: 35px;
+    border: 2px solid var(--primary-blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a { text-decoration: none; color: var(--text-color); font-weight: 500; }
+.nav-links a.active { color: var(--primary-blue); border-bottom: 2px solid var(--primary-blue); }
+
+/* 面包屑导航 */
+.breadcrumb { padding: 15px 0; font-size: 0.9rem; color: #777; }
+.breadcrumb a { color: #777; text-decoration: none; }
+
+/* 视频区域占位 (Mobile 响应式 - 5分) */
+.video-container {
+    background: #e9ecef;
+    border-radius: 15px;
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+    border: 2px dashed #ccc;
+}
+
+/* 规则展示卡片 (Basics) */
+#rules {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 50px;
+}
+
+.rule-card {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* AI 聊天窗固定在右下角 */
+#ai-chat-widget {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 280px;
+    background: white;
+    border: 1px solid var(--primary-blue);
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    color: black;
+}
