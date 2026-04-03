@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CircleMaster - Interactive Geometry Learning</title>
+    <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+    <div id="accessibility-bar">
+        <div class="container">
+            <button onclick="changeLanguage()">EN / 中</button>
+            <button onclick="adjustFontSize(1)">A+</button>
+            <button onclick="adjustFontSize(-1)">A-</button>
+            <button id="theme-btn">🌙 Dark Mode</button>
+            <button id="audio-btn">🔊 Sound</button>
+        </div>
+    </div>
+    <header>
+        <div class="container header-content">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">C</span> CircleMaster
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="game.html">Game</a></li>
+                    <li><a href="quiz.html">Quiz</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">Home (首页)</a> &nbsp;>&nbsp; <span>Quiz</span>
+        </nav>
+    </div>
+     <main class="container">
+        <section class="quiz-layout">
+            <div class="quiz-area">
+                <div id="circle-canvas">
+                    <p>[ Quiz Area ]</p>
+                    <input type="text" placeholder="Enter your answer">
+                </div>
+            </div>
+
+            <aside class="quiz-panel">
+                <div class="panel-card control-card">
+                    <button id="next-btn" type="button">Next</button>
+                    <button id="analysis-btn" type="button" class="secondary-btn">Analysis</button>
+                </div>
+            </aside>
+            <label>Level</label>
+            <Input type="radio" name="Level">Basic
+            <Input type="radio" name="Level">Normal
+            <Input type="radio" name="Level">Hard<br>
+            <button id="feedback-btn" type="button">Feedback</button>
+        </section>
+    </main>
+    <footer>
+        <div class="container footer-content">
+            <p>© 2026 Group 33. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Data Policy (数据隐私政策)</a>
+                <a href="#">Accessibility (无障碍声明)</a>
+                <a href="#">Contact Us (联系我们)</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/quiz.js"></script>
+</body>
+</html>
