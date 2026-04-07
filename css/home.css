@@ -7,111 +7,74 @@
     --font-size-base: 16px;
 }
 
-/* 暗黑模式样式 (Wellbeing 评分项) */
+/* 暗黑模式 */
 [data-theme="dark"] {
     --bg-color: #1a1a1a;
     --text-color: #f0f0f0;
     --card-bg: #2d2d2d;
 }
 
+/* V2: 高对比度模式 (A11y) */
+[data-a11y="high-contrast"] {
+    --primary-blue: #ffff00 !important;
+    --bg-color: #000000 !important;
+    --text-color: #ffff00 !important;
+    --card-bg: #1a1a1a !important;
+}
+
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
     font-size: var(--font-size-base);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    transition: all 0.3s ease;
-    line-height: 1.6;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    margin: 0; transition: all 0.3s ease;
 }
 
-.container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
+.container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 
-/* 极简导航栏 (Minimalism 评分项) */
-header {
-    background: var(--card-bg);
-    padding: 1rem 0;
-    border-bottom: 1px solid #ddd;
-}
+/* 顶部工具栏 */
+#accessibility-bar { background: #333; padding: 5px 0; text-align: right; }
+#accessibility-bar button { background: #444; color: white; border: none; padding: 5px 10px; cursor: pointer; margin-left: 5px; border-radius: 4px; }
 
-.header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+header { background: var(--card-bg); padding: 1rem 0; border-bottom: 1px solid #ddd; }
+.header-content { display: flex; justify-content: space-between; align-items: center; }
+.logo { display: flex; align-items: center; text-decoration: none; font-weight: bold; color: var(--primary-blue); font-size: 1.5rem; }
+.logo-icon { width: 35px; height: 35px; border: 2px solid var(--primary-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px; }
+.nav-links { list-style: none; display: flex; gap: 20px; }
+.nav-links a { text-decoration: none; color: var(--text-color); }
 
-.logo {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    font-weight: bold;
-    color: var(--primary-blue);
-    font-size: 1.5rem;
-}
-
-.logo-icon {
-    width: 35px; height: 35px;
-    border: 2px solid var(--primary-blue);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 10px;
-}
-
-.nav-links {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-}
-
-.nav-links a { text-decoration: none; color: var(--text-color); font-weight: 500; }
-.nav-links a.active { color: var(--primary-blue); border-bottom: 2px solid var(--primary-blue); }
-
-/* 面包屑导航 */
-.breadcrumb { padding: 15px 0; font-size: 0.9rem; color: #777; }
-.breadcrumb a { color: #777; text-decoration: none; }
-
-/* 视频区域占位 (Mobile 响应式 - 5分) */
+/* V2: SVG 动画效果 */
 .video-container {
-    background: #e9ecef;
-    border-radius: 15px;
-    height: 350px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 30px;
-    border: 2px dashed #ccc;
+    background: radial-gradient(circle, var(--card-bg) 0%, rgba(0,123,255,0.05) 100%);
+    border-radius: 15px; height: 350px; display: flex; align-items: center; justify-content: center; margin-top: 30px; border: 2px solid var(--primary-blue);
+}
+#hero-svg { animation: hero-float 4s ease-in-out infinite; }
+@keyframes hero-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
 }
 
-/* 规则展示卡片 (Basics) */
-#rules {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-    margin-top: 50px;
+/* 规则卡片 */
+#rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 50px; }
+.rule-card { background: var(--card-bg); padding: 30px; border-radius: 12px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+
+/* V2: 聊天悬浮按钮 */
+#chat-toggle-btn {
+    position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px;
+    background: var(--primary-blue); border-radius: 50%; display: flex;
+    justify-content: center; align-items: center; font-size: 30px; cursor: pointer; z-index: 1000;
 }
 
-.rule-card {
-    background: var(--card-bg);
-    padding: 30px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
+/* 聊天窗口 */
+#ai-chat-widget { position: fixed; bottom: 95px; right: 25px; width: 300px; background: white; border: 2px solid var(--primary-blue); border-radius: 10px; z-index: 1000; }
+.chat-header { background: var(--primary-blue); color: white; padding: 10px; }
+.chat-body { height: 200px; overflow-y: auto; padding: 10px; color: #333; background: #fff; }
+.chat-input input { width: 100%; border: none; padding: 10px; border-top: 1px solid #ddd; }
 
-/* AI 聊天窗固定在右下角 */
-#ai-chat-widget {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    width: 280px;
-    background: white;
-    border: 1px solid var(--primary-blue);
-    border-radius: 10px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    color: black;
-}
+/* V2: 确认弹窗样式 */
+#confirm-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; display: flex; align-items: center; justify-content: center; }
+.modal-overlay { position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.8); }
+.modal-content { position: relative; background: var(--card-bg); padding: 30px; border-radius: 15px; border: 2px solid var(--primary-blue); text-align: center; }
+.btn-danger { background: #ff4757; color: white; border: none; padding: 8px 20px; border-radius: 5px; cursor: pointer; margin-right: 10px; }
+
+footer { background: var(--card-bg); padding: 2rem 0; margin-top: 50px; border-top: 1px solid #ddd; }
