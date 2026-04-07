@@ -4,109 +4,127 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CircleMaster - Interactive Geometry Learning</title>
-    <!-- 评分要求：必须使用外部 CSS 文件 (Structure & Navigation - 5分) -->
     <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
 
-    <!-- 1. 顶部无障碍工具条 (Inclusive Design - 5分 & Wellbeing - 3分) -->
+    <!-- 1. Accessibility Bar -->
     <div id="accessibility-bar">
         <div class="container">
-            <button onclick="changeLanguage()">EN / 中</button>
+            <button onclick="changeLanguage()" data-i18n="btn-lang">EN / 中</button>
             <button onclick="adjustFontSize(1)">A+</button>
             <button onclick="adjustFontSize(-1)">A-</button>
-            <button id="theme-btn">🌙 Dark Mode</button>
-            <button id="audio-btn">🔊 Sound</button>
+            <button id="theme-btn" data-i18n="btn-theme">🌙 Dark Mode</button>
+            <button id="audio-btn">🔊 <span data-i18n="btn-sound">Sound</span></button>
         </div>
     </div>
 
-    <!-- 2. 头部导航 (Structure & Navigation) -->
+    <!-- 2. Header -->
     <header>
         <div class="container header-content">
-            <!-- 评分要求：Logo 必须链接到主页 -->
             <a href="index.html" class="logo">
-                <span class="logo-icon">C</span> CircleMaster
+                <span class="logo-icon">C</span> <span data-i18n="logo-text">CircleMaster</span>
             </a>
             <nav>
                 <ul class="nav-links">
-                    <li><a href="index.html" class="active">Home</a></li>
-                    <li><a href="game.html">Game</a></li>
-                    <li><a href="quiz.html">Quiz</a></li>
+                    <li><a href="index.html" class="active" data-i18n="nav-home">Home</a></li>
+                    <li><a href="game.html" data-i18n="nav-game">Game</a></li>
+                    <li><a href="quiz.html" data-i18n="nav-quiz">Quiz</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- 3. 面包屑导航 (评分要求：Breadcrumb navigation must be implemented) -->
+    <!-- 3. Breadcrumb -->
     <div class="container">
         <nav class="breadcrumb">
-            <a href="index.html">Home (首页)</a> &nbsp;>&nbsp; <span>Homepage</span>
+            <a href="index.html" data-i18n="bc-home">Home</a> &nbsp;>&nbsp; <span data-i18n="bc-current">Homepage</span>
         </nav>
     </div>
 
     <main class="container">
-        <!-- 4. Hero Section (Basics: USP & Video Area - 10分) -->
+        <!-- 4. Hero Section (SVG Animation for Visual Impact) -->
         <section id="hero">
-            <h1>Master Circle Geometry <br><span class="highlight">Powered by AI</span></h1>
-            <p class="usp">Interactive animations, AI-guided tutoring, and GCSE-focused practice.</p>
+            <h1 data-i18n="hero-title">Master Circle Geometry <br><span class="highlight">Powered by AI</span></h1>
+            <p class="usp" data-i18n="hero-usp">Interactive animations, AI-guided tutoring, and practice.</p>
 
             <div class="video-container">
-                <div class="video-placeholder">
-                    <p>[ Interactive Circle Animation / Video Area ]</p>
-                    <p style="font-size: 14px;">(High visual impact content here)</p>
-                </div>
+                <!-- 动态 SVG 圆几何演示 -->
+                <svg width="400" height="300" viewBox="0 0 400 300" id="hero-svg">
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%?" y2="100%">
+                            <stop offset="0%" style="stop-color:var(--primary-blue);stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#ff4757;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <!-- 圆与半径 -->
+                    <circle cx="200" cy="150" r="100" stroke="var(--text-color)" stroke-width="4" fill="none" opacity="0.3" />
+                    <circle cx="200" cy="150" r="5" fill="var(--primary-blue)" />
+                    <line x1="200" y1="150" x2="300" y2="150" stroke="var(--primary-blue)" stroke-width="3" id="radius-line" />
+                    <!-- 动态切线 -->
+                    <line x1="300" y1="50" x2="300" y2="250" stroke="#ff4757" stroke-width="4" id="tangent-line" />
+                    <rect x="285" y="135" width="15" height="15" fill="none" stroke="#ff4757" />
+                </svg>
             </div>
         </section>
 
-        <!-- 5. 核心规则展示 (Basics: Explain main circle rules) -->
+        <!-- 5. Rules -->
         <section id="rules">
             <div class="rule-card">
                 <div class="rule-icon">📐</div>
-                <h3>Tangent Theorem</h3>
-                <p>The tangent is perpendicular to the radius at the point of contact.</p>
+                <h3 data-i18n="rule1-title">Tangent Theorem</h3>
+                <p data-i18n="rule1-desc">Tangent is perpendicular to radius at contact point.</p>
             </div>
             <div class="rule-card">
                 <div class="rule-icon">🔴</div>
-                <h3>Arc Rule</h3>
-                <p>The angle at the center is twice the angle at the circumference.</p>
+                <h3 data-i18n="rule2-title">Arc Rule</h3>
+                <p data-i18n="rule2-desc">Center angle is twice the circumference angle.</p>
             </div>
             <div class="rule-card">
                 <div class="rule-icon">📏</div>
-                <h3>Chord Rule</h3>
-                <p>Perpendicular from the center to a chord bisects the chord.</p>
+                <h3 data-i18n="rule3-title">Chord Rule</h3>
+                <p data-i18n="rule3-desc">Perpendicular from center bisects the chord.</p>
             </div>
         </section>
 
-        <!-- 6. 广告位 (Basics: Ads banner - 10分) -->
+        <!-- 6. Ads -->
         <div class="ads-banner">
-            <p>Unlock Premium Features: <strong>Join CircleMaster Pro today!</strong> [Ads]</p>
+            <p data-i18n="ads-text">Join <strong>CircleMaster Pro</strong> for advanced AI features!</p>
         </div>
     </main>
 
-    <!-- 7. AI 聊天室 (Basics: AI greeting & Contact us) -->
-    <div id="ai-chat-widget">
-        <div class="chat-header">Circle AI Tutor</div>
-        <div class="chat-body">
-            <p><strong>AI:</strong> Hello! I'm your geometry assistant. Need help or want to <strong>Contact Us</strong>?</p>
-        </div>
-        <div class="chat-input">
-            <input type="text" placeholder="Type your question...">
-        </div>
-    </div>
+    <!-- 在 <footer> 标签上方插入这个按钮 -->
+<div id="chat-toggle-btn" onclick="toggleChat()" title="Chat with AI">
+    <span>🤖</span>
+</div>
 
-    <!-- 8. 双语页脚 (Ethical, Cultural & Social - 2分) -->
+<!-- 给原来的 ai-chat-widget 增加 class="chat-hidden" -->
+<div id="ai-chat-widget" class="chat-hidden">
+    <div class="chat-header">
+        <span data-i18n="chat-header">Circle AI Tutor</span>
+        <!-- 增加一个关闭按钮 -->
+        <button onclick="toggleChat()" style="float:right; background:none; border:none; color:white; cursor:pointer;">✕</button>
+    </div>
+    <div class="chat-body" id="chat-body">
+        <p><strong data-i18n="ai-name">AI:</strong> <span data-i18n="chat-welcome">Hi! Type "Contact" to message us!</span></p>
+    </div>
+    <div class="chat-input">
+        <input type="text" id="chat-input" placeholder="Type here...">
+    </div>
+</div>
+
+    <!-- 8. Footer -->
     <footer>
         <div class="container footer-content">
-            <p>© 2026 Group 33. All rights reserved.</p>
+            <p data-i18n="footer-copy">© 2026 Group 33. All rights reserved.</p>
             <div class="footer-links">
-                <a href="#">Data Policy (数据隐私政策)</a>
-                <a href="#">Accessibility (无障碍声明)</a>
-                <a href="#">Contact Us (联系我们)</a>
+                <a href="#" data-i18n="footer-data">Data Policy</a>
+                <a href="#" data-i18n="footer-access">Accessibility</a>
+                <a href="#" data-i18n="footer-contact">Contact Us</a>
             </div>
         </div>
     </footer>
 
-    <!-- 引用本地 JS 文件 -->
     <script src="js/home.js"></script>
 </body>
 </html>
