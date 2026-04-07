@@ -8,18 +8,22 @@
 </head>
 <body>
 
-    <!-- 1. Accessibility Bar -->
+    <!-- 1. 顶部无障碍工具条 -->
     <div id="accessibility-bar">
         <div class="container">
             <button onclick="changeLanguage()" data-i18n="btn-lang">EN / 中</button>
+            <button onclick="toggleContrast()" data-i18n="btn-contrast">👁️ Contrast</button>
             <button onclick="adjustFontSize(1)">A+</button>
             <button onclick="adjustFontSize(-1)">A-</button>
             <button id="theme-btn" data-i18n="btn-theme">🌙 Dark Mode</button>
-            <button id="audio-btn">🔊 <span data-i18n="btn-sound">Sound</span></button>
+            <!-- 声音按钮：图标和文字分开，防止被覆盖 -->
+            <button id="audio-btn" onclick="toggleSound()">
+                <span id="sound-icon">🔊</span> <span data-i18n="btn-sound">Sound</span>
+            </button>
         </div>
     </div>
 
-    <!-- 2. Header -->
+    <!-- 2. 头部导航 -->
     <header>
         <div class="container header-content">
             <a href="index.html" class="logo">
@@ -35,40 +39,31 @@
         </div>
     </header>
 
-    <!-- 3. Breadcrumb -->
+    <!-- 3. 面包屑导航 -->
     <div class="container">
         <nav class="breadcrumb">
-            <a href="index.html" data-i18n="bc-home">Home</a> &nbsp;>&nbsp; <span data-i18n="bc-current">Homepage</span>
+            <a href="index.html" data-i18n="bc-home">Home (首页)</a> &nbsp;>&nbsp; <span data-i18n="bc-current">Homepage</span>
         </nav>
     </div>
 
     <main class="container">
-        <!-- 4. Hero Section (SVG Animation for Visual Impact) -->
+        <!-- 4. Hero Section -->
         <section id="hero">
             <h1 data-i18n="hero-title">Master Circle Geometry <br><span class="highlight">Powered by AI</span></h1>
             <p class="usp" data-i18n="hero-usp">Interactive animations, AI-guided tutoring, and practice.</p>
 
             <div class="video-container">
-                <!-- 动态 SVG 圆几何演示 -->
                 <svg width="400" height="300" viewBox="0 0 400 300" id="hero-svg">
-                    <defs>
-                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%?" y2="100%">
-                            <stop offset="0%" style="stop-color:var(--primary-blue);stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#ff4757;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <!-- 圆与半径 -->
-                    <circle cx="200" cy="150" r="100" stroke="var(--text-color)" stroke-width="4" fill="none" opacity="0.3" />
                     <circle cx="200" cy="150" r="5" fill="var(--primary-blue)" />
-                    <line x1="200" y1="150" x2="300" y2="150" stroke="var(--primary-blue)" stroke-width="3" id="radius-line" />
-                    <!-- 动态切线 -->
-                    <line x1="300" y1="50" x2="300" y2="250" stroke="#ff4757" stroke-width="4" id="tangent-line" />
+                    <line x1="200" y1="150" x2="300" y2="150" stroke="var(--primary-blue)" stroke-width="3" />
+                    <circle cx="200" cy="150" r="100" stroke="var(--text-color)" stroke-width="4" fill="none" />
+                    <line x1="300" y1="50" x2="300" y2="250" stroke="#ff4757" stroke-width="4" />
                     <rect x="285" y="135" width="15" height="15" fill="none" stroke="#ff4757" />
                 </svg>
             </div>
         </section>
 
-        <!-- 5. Rules -->
+        <!-- 5. 核心规则展示 -->
         <section id="rules">
             <div class="rule-card">
                 <div class="rule-icon">📐</div>
@@ -87,33 +82,45 @@
             </div>
         </section>
 
-        <!-- 6. Ads -->
+        <!-- 6. 广告位 -->
         <div class="ads-banner">
-            <p data-i18n="ads-text">Join <strong>CircleMaster Pro</strong> for advanced AI features!</p>
+            <p data-i18n="ads-text">Unlock Premium Features: Join CircleMaster Pro today!</p>
         </div>
     </main>
 
-    <!-- 在 <footer> 标签上方插入这个按钮 -->
-<div id="chat-toggle-btn" onclick="toggleChat()" title="Chat with AI">
-    <span>🤖</span>
-</div>
+    <!-- 7. AI 聊天室 -->
+    <div id="chat-toggle-btn" onclick="toggleChat()">🤖</div>
 
-<!-- 给原来的 ai-chat-widget 增加 class="chat-hidden" -->
-<div id="ai-chat-widget" class="chat-hidden">
-    <div class="chat-header">
-        <span data-i18n="chat-header">Circle AI Tutor</span>
-        <!-- 增加一个关闭按钮 -->
-        <button onclick="toggleChat()" style="float:right; background:none; border:none; color:white; cursor:pointer;">✕</button>
+    <div id="ai-chat-widget" style="display: none;">
+        <div class="chat-header">
+            <span data-i18n="chat-header">Circle AI Tutor</span>
+            <div style="float:right">
+                <button onclick="confirmClearChat()" style="background:none;border:none;color:white;cursor:pointer">🗑️</button>
+                <button onclick="toggleChat()" style="background:none;border:none;color:white;cursor:pointer">✕</button>
+            </div>
+        </div>
+        <div class="chat-body" id="chat-body">
+            <p><strong data-i18n="ai-name">AI:</strong> <span data-i18n="chat-welcome">Hi! Type "Contact" to message us!</span></p>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chat-input" placeholder="Type here...">
+        </div>
     </div>
-    <div class="chat-body" id="chat-body">
-        <p><strong data-i18n="ai-name">AI:</strong> <span data-i18n="chat-welcome">Hi! Type "Contact" to message us!</span></p>
-    </div>
-    <div class="chat-input">
-        <input type="text" id="chat-input" placeholder="Type here...">
-    </div>
-</div>
 
-    <!-- 8. Footer -->
+    <!-- 8. 确认弹窗 -->
+    <div id="confirm-modal" style="display: none;">
+        <div class="modal-overlay">
+            <div class="modal-content">
+                <h3 data-i18n="modal-title">Confirm?</h3>
+                <p data-i18n="modal-desc">Clear all messages?</p>
+                <div style="margin-top:20px">
+                    <button onclick="executeClear()" class="btn-danger" data-i18n="btn-confirm">Delete</button>
+                    <button onclick="closeModal()" data-i18n="btn-cancel">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <div class="container footer-content">
             <p data-i18n="footer-copy">© 2026 Group 33. All rights reserved.</p>

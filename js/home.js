@@ -1,38 +1,42 @@
+// --- 1. 双语字典 ---
 const translations = {
     'en': {
-        'btn-lang': 'EN / 中', 'btn-theme': '🌙 Dark Mode', 'btn-sound': 'Sound',
+        'btn-lang': 'EN / 中', 'btn-contrast': '👁️ Contrast', 'btn-theme': '🌙 Dark Mode', 'btn-sound': 'Sound',
         'logo-text': 'CircleMaster', 'nav-home': 'Home', 'nav-game': 'Game', 'nav-quiz': 'Quiz',
         'bc-home': 'Home', 'bc-current': 'Homepage',
         'hero-title': 'Master Circle Geometry <br><span class="highlight">Powered by AI</span>',
-        'hero-usp': 'Interactive animations, AI-guided tutoring, and GCSE-focused practice.',
+        'hero-usp': 'Interactive animations, AI-guided tutoring, and practice.',
         'rule1-title': 'Tangent Theorem', 'rule1-desc': 'Tangent is perpendicular to radius at contact point.',
         'rule2-title': 'Arc Rule', 'rule2-desc': 'Center angle is twice the circumference angle.',
         'rule3-title': 'Chord Rule', 'rule3-desc': 'Perpendicular from center bisects the chord.',
-        'ads-text': 'Join <strong>CircleMaster Pro</strong> for advanced AI features!',
+        'ads-text': 'Unlock Premium Features: Join CircleMaster Pro today!',
         'chat-header': 'Circle AI Tutor', 'ai-name': 'AI: ',
         'chat-welcome': 'Hi! Type "Contact" to message us!', 'chat-placeholder': 'Type here...',
         'footer-copy': '© 2026 Group 33. All rights reserved.',
-        'footer-data': 'Data Policy', 'footer-access': 'Accessibility', 'footer-contact': 'Contact Us'
+        'footer-data': 'Data Policy', 'footer-access': 'Accessibility', 'footer-contact': 'Contact Us',
+        'modal-title': 'Confirm Clear?', 'modal-desc': 'Delete all messages?', 'btn-confirm': 'Delete', 'btn-cancel': 'Cancel'
     },
     'zh': {
-        'btn-lang': '中 / EN', 'btn-theme': '🌙 黑夜模式', 'btn-sound': '声音',
-        'logo-text': '圆几何大师', 'nav-home': '首页', 'nav-game': '游戏', 'nav-quiz': '测验',
+        'btn-lang': '中 / EN', 'btn-contrast': '👁️ 对比度', 'btn-theme': '🌙 黑夜模式', 'btn-sound': '声音',
+        'logo-text': '圆几何大师', 'nav-home': '首页', 'nav-game': '数学游戏', 'nav-quiz': '互动测验',
         'bc-home': '首页', 'bc-current': '主页',
-        'hero-title': '精通圆几何 <br><span class="highlight">AI 驱动教学</span>',
-        'hero-usp': '互动动画、AI 引导辅导以及针对 GCSE 的专项练习。',
+        'hero-title': '精通圆几何 <br><span class="highlight">由 AI 驱动教学</span>',
+        'hero-usp': '互动动画、AI 引导辅导以及针对 GCSE 的练习。',
         'rule1-title': '切线定理', 'rule1-desc': '切线在接触点垂直于半径。',
         'rule2-title': '圆弧定理', 'rule2-desc': '圆心角是圆周角的两倍。',
         'rule3-title': '弦定理', 'rule3-desc': '从圆心到弦的垂线平分该弦。',
-        'ads-text': '加入 <strong>CircleMaster Pro</strong> 获取高级 AI 功能！',
+        'ads-text': '解锁高级功能：立即加入 CircleMaster Pro！',
         'chat-header': 'AI 几何导师', 'ai-name': '助理: ',
-        'chat-welcome': '你好！输入“联系”来向我们发送消息！', 'chat-placeholder': '在此输入...',
+        'chat-welcome': '你好！输入“联系”向我们发消息！', 'chat-placeholder': '在此输入...',
         'footer-copy': '© 2026 第33组。保留所有权利。',
-        'footer-data': '隐私政策', 'footer-access': '辅助功能', 'footer-contact': '联系我们'
+        'footer-data': '隐私政策', 'footer-access': '无障碍辅助', 'footer-contact': '联系我们',
+        'modal-title': '确认清空？', 'modal-desc': '确定删除记录吗？', 'btn-confirm': '删除', 'btn-cancel': '取消'
     }
 };
 
 let currentLang = 'en';
 
+// 双语切换
 function changeLanguage() {
     currentLang = currentLang === 'en' ? 'zh' : 'en';
     document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -43,66 +47,74 @@ function changeLanguage() {
 }
 
 // 暗黑模式
-document.getElementById('theme-btn').addEventListener('click', function() {
+document.getElementById('theme-btn').addEventListener('click', () => {
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
-    this.innerText = isDark ? translations[currentLang]['btn-theme'] : "☀️ Light Mode";
+    document.getElementById('theme-btn').innerText = isDark ? translations[currentLang]['btn-theme'] : "☀️ Light Mode";
 });
 
-// AI 聊天与表单模拟 (满足 Basics: Form via AI chatbot)
+// 对比度切换
+function toggleContrast() {
+    const isHigh = document.documentElement.getAttribute('data-a11y') === 'high-contrast';
+    isHigh ? document.documentElement.removeAttribute('data-a11y') : document.documentElement.setAttribute('data-a11y', 'high-contrast');
+}
+
+// --- 声音切换逻辑 (新增) ---
+let isMuted = false;
+function toggleSound() {
+    isMuted = !isMuted;
+    const icon = document.getElementById('sound-icon');
+    // 切换图标：🔊 表示有声，🔇 表示静音（带斜线/叉号的喇叭）
+    icon.innerText = isMuted ? "🔇" : "🔊";
+}
+
+// 聊天框开关
+function toggleChat() {
+    const chat = document.getElementById('ai-chat-widget');
+    chat.style.display = (chat.style.display === 'none') ? 'block' : 'none';
+}
+
+// AI 模拟对话
+let step = 0;
 const chatInput = document.getElementById('chat-input');
 const chatBody = document.getElementById('chat-body');
-let contactStep = 0; // 0: normal, 1: ask name, 2: ask msg
-
 chatInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter' && chatInput.value.trim() !== "") {
         const val = chatInput.value;
-        renderMsg('You', val);
+        renderMessage('You', val);
         chatInput.value = "";
-
         setTimeout(() => {
             if (val.toLowerCase().includes('contact') || val.includes('联系')) {
-                renderMsg('AI', currentLang === 'en' ? "Sure! What is your name?" : "没问题！请问您的名字是？");
-                contactStep = 1;
-            } else if (contactStep === 1) {
-                renderMsg('AI', currentLang === 'en' ? `Nice to meet you, ${val}. What is your message?` : `${val}您好，请问您想对我们说什么？`);
-                contactStep = 2;
-            } else if (contactStep === 2) {
-                renderMsg('AI', currentLang === 'en' ? "Thank you! Your message has been sent to Group 33." : "谢谢！您的信息已成功发送给第33组。");
-                contactStep = 0;
+                renderMessage('AI', currentLang === 'en' ? "Sure! What's your name?" : "好的，请问您的名字是？");
+                step = 1;
+            } else if (step === 1) {
+                renderMessage('AI', currentLang === 'en' ? `Hello ${val}, what's your message?` : `${val} 您好，想对我们说什么？`);
+                step = 2;
+            } else if (step === 2) {
+                renderMessage('AI', currentLang === 'en' ? "Thanks! Message sent." : "谢谢！消息已发送给团队。");
+                step = 0;
             } else {
-                renderMsg('AI', currentLang === 'en' ? "I can help with circle theorems! Try asking about 'Tangent'." : "我可以帮你学习圆定理！试着问问“切线”吧。");
+                renderMessage('AI', currentLang === 'en' ? "I'm a geometry AI!" : "我是你的几何助教！");
             }
         }, 800);
     }
 });
 
-function renderMsg(sender, text) {
+function renderMessage(sender, text) {
     const p = document.createElement('p');
     p.innerHTML = `<strong>${sender}:</strong> ${text}`;
     chatBody.appendChild(p);
     chatBody.scrollTop = chatBody.scrollHeight;
 }
 
-// 字号
+// 确认弹窗
+function confirmClearChat() { document.getElementById('confirm-modal').style.display = 'flex'; }
+function closeModal() { document.getElementById('confirm-modal').style.display = 'none'; }
+function executeClear() { chatBody.innerHTML = ""; closeModal(); }
+
+// 字号调节
 let fs = 16;
 function adjustFontSize(d) {
-    fs = Math.min(Math.max(fs + (d * 2), 12), 26);
+    fs = Math.min(Math.max(fs + (d * 2), 12), 30);
     document.documentElement.style.setProperty('--font-size-base', fs + 'px');
-}
-
-// 在文件末尾添加切换函数
-function toggleChat() {
-    const chatWidget = document.getElementById('ai-chat-widget');
-    const toggleIcon = document.getElementById('toggle-icon');
-
-    if (chatWidget.classList.contains('chat-hidden')) {
-        chatWidget.classList.remove('chat-hidden');
-        chatWidget.classList.add('chat-visible');
-        toggleIcon.innerText = "✕"; // 切换图标
-    } else {
-        chatWidget.classList.remove('chat-visible');
-        chatWidget.classList.add('chat-hidden');
-        toggleIcon.innerText = "🤖";
-    }
 }
