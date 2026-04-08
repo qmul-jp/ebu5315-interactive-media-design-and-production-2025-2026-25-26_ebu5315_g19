@@ -35,37 +35,116 @@
 
     <div class="container">
         <nav class="breadcrumb">
-            <a href="index.html">Home (首页)</a> &nbsp;>&nbsp; <span>Game: Angle Challenge</span>
+            <a href="index.html">Home (首页)</a> &nbsp;>&nbsp; <span>Game: Circle Lock Challenge</span>
         </nav>
     </div>
 
     <main class="container">
         <section class="game-layout">
             <div class="game-area">
-                <div id="circle-canvas">
-                    <p>[ Interactive Graphic Game Area ]</p>
+                <div class="prototype-stage">
+                    <div class="stage-header">
+                        <div>
+                            <h2>Circle Lock Challenge</h2>
+                            <p>
+                                Rebuild each chamber by installing theorem modules into the correct lock path.
+                                The page structure stays aligned with the rest of the site, but the gameplay is now a stage-based puzzle.
+                            </p>
+                        </div>
+                        <div class="stage-badge" id="stage-badge">Chamber 1</div>
+                    </div>
+
+                    <div class="mission-grid">
+                        <article class="mission-card">
+                            <h3 id="mission-title">Chamber 1: Gate of Reflection</h3>
+                            <p id="mission-story"></p>
+                            <ul class="objective-list">
+                                <li id="mission-objective"></li>
+                                <li>Install theorem modules into the visible slots.</li>
+                                <li>Run the mechanism and check whether the chamber unlocks.</li>
+                            </ul>
+                        </article>
+
+                        <article class="target-card">
+                            <h3>Unlock Target</h3>
+                            <div class="target-value" id="target-value">60°</div>
+                            <div class="target-note" id="target-note"></div>
+                        </article>
+                    </div>
+
+                    <div class="mechanism-board">
+                        <div class="board-flow">
+                            <div class="board-node">
+                                <div class="node-label">Source Node</div>
+                                <div class="node-value" id="source-value">120°</div>
+                                <div class="slot-caption" id="source-label"></div>
+                            </div>
+                            <div class="flow-arrow">→</div>
+
+                            <div class="drop-slot" data-slot-index="0">
+                                <div class="slot-label">Slot 1</div>
+                                <div class="slot-hint">Drop a theorem module here</div>
+                            </div>
+                            <div class="flow-arrow">→</div>
+
+                            <div class="drop-slot" data-slot-index="1">
+                                <div class="slot-label">Slot 2</div>
+                                <div class="slot-hint">Drop a theorem module here</div>
+                            </div>
+                            <div class="flow-arrow">→</div>
+
+                            <div class="drop-slot" data-slot-index="2">
+                                <div class="slot-label">Slot 3</div>
+                                <div class="slot-hint">Drop a theorem module here</div>
+                            </div>
+                            <div class="flow-arrow">→</div>
+
+                            <div class="board-lock" id="lock-card">
+                                <div class="lock-label">Output Lock</div>
+                                <div class="lock-value" id="lock-value">--</div>
+                                <div class="slot-caption" id="lock-label">Target pending</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modules-panel">
+                        <h3>Theorem Modules</h3>
+                        <div class="module-grid" id="module-list"></div>
+                    </div>
+
+                    <div class="stage-console">
+                        <div class="status-banner info" id="status-banner">
+                            Drag a theorem module into each visible slot, then activate the mechanism.
+                        </div>
+                        <h3>Mechanism Log</h3>
+                        <div class="log-box" id="log-box">
+                            <div class="log-empty">No activation yet.</div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <aside class="game-panel">
                 <div class="panel-card status-card">
-                    <h2>Angle Challenge</h2>
-                    <p><strong>Level:</strong> <span id="level-display">1</span></p>
+                    <h2>Chamber Status</h2>
+                    <p><strong>Chamber:</strong> <span id="level-display">1</span></p>
                     <p><strong>Score:</strong> <span id="score-display">0</span></p>
+                    <p><strong>Stability:</strong> <span id="energy-display">3</span></p>
                 </div>
 
                 <div class="panel-card control-card">
-                    <label for="angle-input">Enter the angle of the inscribed angle:</label>
-                    <input
-                        type="number"
-                        id="angle-input"
-                        name="angle-input"
-                        placeholder="Type angle in degrees"
-                        min="0"
-                        max="360"
-                    >
-                    <button id="submit-btn" type="button">Submit</button>
-                    <button id="restart-btn" type="button" class="secondary-btn">Restart Game</button>
+                    <label>Mechanism Controls</label>
+                    <p class="control-helper">Use the same game sidebar layout, but run the chamber like a puzzle instead of submitting a single answer.</p>
+                    <button id="activate-btn" type="button">Activate Mechanism</button>
+                    <button id="reset-btn" type="button" class="secondary-btn">Reset Chamber</button>
+                    <button id="next-btn" type="button" class="secondary-btn" disabled>Next Chamber</button>
+                </div>
+
+                <div class="panel-card status-card">
+                    <h2>How This Plays</h2>
+                    <p><strong>Main action:</strong> drag a theorem module, or click a module and then a slot.</p>
+                    <p><strong>Goal:</strong> configure the system so the final output matches the chamber lock.</p>
+                    <p><strong>Difference from the old page:</strong> the game now uses staged chamber logic instead of a placeholder answer input.</p>
                 </div>
             </aside>
         </section>
@@ -95,8 +174,3 @@
     <script src="js/game.js"></script>
 </body>
 </html>
-
-
-
-
-
