@@ -1,4 +1,4 @@
-// 1. Accessibility and shared UI controls
+// Accessibility and shared UI controls
 const themeBtn = document.getElementById('theme-btn');
 if (themeBtn) {
     themeBtn.addEventListener('click', () => {
@@ -7,8 +7,6 @@ if (themeBtn) {
 
         document.documentElement.setAttribute('data-theme', newTheme);
         themeBtn.innerText = newTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
-
-        console.log(`UI Updated: Theme changed to ${newTheme}`);
     });
 }
 
@@ -20,21 +18,20 @@ function adjustFontSize(delta) {
     if (currentFontSize > 30) currentFontSize = 30;
 
     document.documentElement.style.setProperty('--font-size-base', currentFontSize + 'px');
-    console.log(`Accessibility: Font size set to ${currentFontSize}px`);
 }
 
 function changeLanguage() {
-    alert('Language switch will be fully implemented in Version 2.');
+    alert('Language switch will be expanded in the full bilingual release.');
 }
 
 const audioBtn = document.getElementById('audio-btn');
 if (audioBtn) {
     audioBtn.addEventListener('click', () => {
-        alert('Audio feedback enabled/disabled. (This feature will be fully implemented in Version 2)');
+        alert('Sound toggle state changed. Full audio assets can be added in the next iteration.');
     });
 }
 
-// 2. AI chat widget
+// AI chat widget
 const chatInput = document.querySelector('#ai-chat-widget input');
 const chatBody = document.querySelector('#ai-chat-widget .chat-body');
 
@@ -52,210 +49,108 @@ function renderMessage(sender, text) {
 }
 
 if (chatInput) {
-    chatInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' && chatInput.value.trim() !== '') {
-            const userMsg = chatInput.value.trim();
-
-            renderMessage('You', userMsg);
-            chatInput.value = '';
-
-            setTimeout(() => {
-                let aiReply = 'That is a great geometry question. Remember: an inscribed angle on the same arc is half the central angle. Want a hint for the current chamber?';
-                if (userMsg.toLowerCase().includes('contact')) {
-                    aiReply = 'You can contact our team at support@circlemaster.edu or use the form in the footer!';
-                } else if (userMsg.toLowerCase().includes('hint')) {
-                    aiReply = 'Try checking what kind of angle the chamber starts with, then choose a theorem module that accepts that input type.';
-                }
-                renderMessage('AI', aiReply);
-            }, 1000);
+    chatInput.addEventListener('keypress', (event) => {
+        if (event.key !== 'Enter' || chatInput.value.trim() === '') {
+            return;
         }
+
+        const userMsg = chatInput.value.trim();
+        renderMessage('You', userMsg);
+        chatInput.value = '';
+
+        setTimeout(() => {
+            let aiReply = 'Watch the radius first, then remember the tangent always leaves the circle at 90 degrees.';
+            if (userMsg.toLowerCase().includes('contact')) {
+                aiReply = 'You can contact our team with the footer links or ask here for a tangent tip.';
+            } else if (userMsg.toLowerCase().includes('hint')) {
+                aiReply = 'Do not aim at the target centre. Fire when the pink beam just grazes the circle and crosses the target ring.';
+            } else if (userMsg.toLowerCase().includes('tangent')) {
+                aiReply = 'The tangent is perpendicular to the radius exactly at the contact point. That is the key to timing each shot.';
+            }
+            renderMessage('AI', aiReply);
+        }, 800);
     });
 }
 
-// 3. Chamber puzzle gameplay
-const modules = {
-    halfCentral: {
-        id: 'halfCentral',
-        name: 'Half of central angle',
-        desc: 'Convert a central angle into an inscribed angle on the same arc.',
-        chip: 'Angle transfer',
-        color: 'linear-gradient(135deg, #1a73e8 0%, #4ea3ff 100%)',
-        apply(currentState) {
-            if (currentState.type !== 'central') {
-                return { ok: false, reason: 'This module only works when the current input is a central angle.' };
-            }
-
-            return {
-                ok: true,
-                next: {
-                    value: currentState.value / 2,
-                    type: 'inscribed',
-                    label: 'Inscribed angle on the same arc'
-                },
-                explain: currentState.value + '° at the centre becomes ' + (currentState.value / 2) + '° at the circumference.'
-            };
-        }
-    },
-    cyclicOpposite: {
-        id: 'cyclicOpposite',
-        name: 'Opposite angles sum to 180°',
-        desc: 'Use the cyclic quadrilateral rule to derive the opposite angle.',
-        chip: 'Cyclic rule',
-        color: 'linear-gradient(135deg, #6f42c1 0%, #9575de 100%)',
-        apply(currentState) {
-            if (!['cyclic', 'inscribed'].includes(currentState.type)) {
-                return { ok: false, reason: 'This module needs an angle from a cyclic quadrilateral situation.' };
-            }
-
-            const result = 180 - currentState.value;
-            return {
-                ok: true,
-                next: {
-                    value: result,
-                    type: 'cyclic',
-                    label: 'Opposite angle in the same cyclic quadrilateral'
-                },
-                explain: 'Opposite angles in a cyclic quadrilateral add to 180°, so the result is ' + result + '°.'
-            };
-        }
-    },
-    sameArcEqual: {
-        id: 'sameArcEqual',
-        name: 'Same arc gives equal angle',
-        desc: 'Transfer an inscribed angle to another point on the same arc.',
-        chip: 'Equality rule',
-        color: 'linear-gradient(135deg, #198754 0%, #41b883 100%)',
-        apply(currentState) {
-            if (currentState.type !== 'inscribed') {
-                return { ok: false, reason: 'Equal angles on the same arc require an inscribed angle first.' };
-            }
-
-            return {
-                ok: true,
-                next: {
-                    value: currentState.value,
-                    type: 'inscribed',
-                    label: 'Another inscribed angle on the same arc'
-                },
-                explain: 'Angles standing on the same arc are equal, so the value stays ' + currentState.value + '°.'
-            };
-        }
-    },
-    diameter90: {
-        id: 'diameter90',
-        name: 'Angle in a semicircle is 90°',
-        desc: 'Turn a diameter-based setup into a right angle instantly.',
-        chip: 'Diameter rule',
-        color: 'linear-gradient(135deg, #fd7e14 0%, #ffb347 100%)',
-        apply(currentState) {
-            if (currentState.type !== 'diameter') {
-                return { ok: false, reason: 'This module only works for a diameter-based source.' };
-            }
-
-            return {
-                ok: true,
-                next: {
-                    value: 90,
-                    type: 'inscribed',
-                    label: 'Angle subtended by a diameter'
-                },
-                explain: 'The angle in a semicircle is always 90°.'
-            };
-        }
-    },
-    supplementary: {
-        id: 'supplementary',
-        name: 'Supplementary angle',
-        desc: 'Turn the current angle into its supplement.',
-        chip: 'Support rule',
-        color: 'linear-gradient(135deg, #dc3545 0%, #f07f8e 100%)',
-        apply(currentState) {
-            return {
-                ok: true,
-                next: {
-                    value: 180 - currentState.value,
-                    type: 'general',
-                    label: 'Supplementary angle'
-                },
-                explain: 'A supplementary angle totals 180°, so the result becomes ' + (180 - currentState.value) + '°.'
-            };
-        }
-    }
-};
-
-const levels = [
-    {
-        id: 1,
-        name: 'Gate of Reflection',
-        story: 'A clean entry chamber that introduces the idea of installing one theorem module into the lock path.',
-        objective: 'Transform the central angle into the unlock angle at the edge of the circle.',
-        source: { value: 120, type: 'central', label: 'Central angle' },
-        target: { value: 60, note: 'One correct theorem is enough to open this chamber.' },
-        slotCount: 1,
-        cards: ['halfCentral', 'cyclicOpposite', 'diameter90', 'supplementary']
-    },
-    {
-        id: 2,
-        name: 'Quadrilateral Vault',
-        story: 'The lock sits across a cyclic quadrilateral, so the source angle is not the one you actually need.',
-        objective: 'Derive the opposite angle inside the same cyclic figure.',
-        source: { value: 110, type: 'cyclic', label: 'Known angle in cyclic quadrilateral' },
-        target: { value: 70, note: 'The correct rule reveals the angle at the opposite corner.' },
-        slotCount: 1,
-        cards: ['sameArcEqual', 'cyclicOpposite', 'halfCentral', 'supplementary']
-    },
-    {
-        id: 3,
-        name: 'Chain Reactor',
-        story: 'The final chamber needs a multi-step transformation chain, so it feels less like a quiz and more like system configuration.',
-        objective: 'Build a three-step sequence that produces the final chamber output.',
-        source: { value: 140, type: 'central', label: 'Central angle feeding the reactor' },
-        target: { value: 110, note: 'Only the right sequence of rules produces the final output.' },
-        slotCount: 3,
-        cards: ['halfCentral', 'sameArcEqual', 'cyclicOpposite', 'diameter90', 'supplementary']
-    }
-];
-
-const state = {
-    levelIndex: 0,
+// Neon Tangent Striker gameplay
+const gameState = {
+    running: false,
+    paused: false,
+    phase: 1,
     score: 0,
-    energy: 3,
-    placements: [null, null, null],
-    selectedCard: null,
-    clearedLevels: new Set(),
-    logSeed: 0
+    combo: 0,
+    lives: 3,
+    alignment: 0,
+    orbitAngle: -Math.PI / 2,
+    orbitSpeed: 0.88,
+    timeLimit: 4.5,
+    timeRemaining: 4.5,
+    targetContactAngle: -0.42,
+    targetDistance: 210,
+    targetWindow: 0.22,
+    lastTimestamp: 0,
+    beamVisible: false,
+    beamTimer: 0,
+    blastTimer: 0
 };
 
-const levelDisplay = document.getElementById('level-display');
-const scoreDisplay = document.getElementById('score-display');
-const energyDisplay = document.getElementById('energy-display');
-const stageBadge = document.getElementById('stage-badge');
-const missionTitle = document.getElementById('mission-title');
-const missionStory = document.getElementById('mission-story');
-const missionObjective = document.getElementById('mission-objective');
-const targetValue = document.getElementById('target-value');
-const targetNote = document.getElementById('target-note');
-const sourceValue = document.getElementById('source-value');
-const sourceLabel = document.getElementById('source-label');
-const lockValue = document.getElementById('lock-value');
-const lockLabel = document.getElementById('lock-label');
-const lockCard = document.getElementById('lock-card');
-const moduleList = document.getElementById('module-list');
-const logBox = document.getElementById('log-box');
-const statusBanner = document.getElementById('status-banner');
-const activateBtn = document.getElementById('activate-btn');
-const resetBtn = document.getElementById('reset-btn');
-const nextBtn = document.getElementById('next-btn');
-const slots = Array.from(document.querySelectorAll('.drop-slot'));
+const geometry = {
+    cx: 320,
+    cy: 260,
+    coreRadius: 118,
+    tangentLength: 330,
+    markerSize: 22
+};
 
-function getLevel() {
-    return levels[state.levelIndex];
+const fields = Array.from(document.querySelectorAll('[data-field]'));
+const stageBadge = document.getElementById('stage-badge');
+const arenaMessage = document.getElementById('arena-message');
+const logBox = document.getElementById('log-box');
+const pauseLabels = Array.from(document.querySelectorAll('[data-role="pause-label"]'));
+const arenaSvg = document.getElementById('arena-svg');
+const radiusLine = document.getElementById('radius-line');
+const tangentPreview = document.getElementById('tangent-preview');
+const laserBeam = document.getElementById('laser-beam');
+const rightAngleMarker = document.getElementById('right-angle-marker');
+const contactPoint = document.getElementById('contact-point');
+const contactGlow = document.getElementById('contact-glow');
+const targetWarning = document.getElementById('target-warning');
+const countdownRing = document.getElementById('countdown-ring');
+const targetRing = document.getElementById('target-ring');
+const targetBody = document.getElementById('target-body');
+const targetTimer = document.getElementById('target-timer');
+const blastRing = document.getElementById('blast-ring');
+const blastCore = document.getElementById('blast-core');
+const actionButtons = Array.from(document.querySelectorAll('[data-action]'));
+
+function setField(name, value) {
+    fields.filter((node) => node.dataset.field === name).forEach((node) => {
+        node.textContent = value;
+    });
+}
+
+function updateHud() {
+    setField('score', gameState.score);
+    setField('combo', gameState.combo);
+    setField('lives', gameState.lives);
+    setField('alignment', `${gameState.alignment}%`);
+    setField('phase', gameState.phase);
+    if (stageBadge) {
+        stageBadge.textContent = `Phase ${gameState.phase}`;
+    }
+}
+
+function updatePauseLabels() {
+    const label = gameState.paused ? 'Resume' : 'Pause';
+    pauseLabels.forEach((node) => {
+        node.textContent = label;
+    });
 }
 
 function updateStatus(type, text) {
-    if (!statusBanner) return;
-    statusBanner.className = 'status-banner ' + type;
-    statusBanner.textContent = text;
+    if (!arenaMessage) return;
+    arenaMessage.className = `status-banner ${type} arena-message`;
+    arenaMessage.textContent = text;
 }
 
 function logMessage(title, text) {
@@ -265,268 +160,356 @@ function logMessage(title, text) {
         logBox.innerHTML = '';
     }
 
-    state.logSeed += 1;
     const item = document.createElement('div');
     item.className = 'log-entry';
-    item.innerHTML = '<div class="log-title">' + title + '</div><div class="log-text">' + text + '</div>';
+    item.innerHTML = `<div class="log-title">${title}</div><div class="log-text">${text}</div>`;
     logBox.prepend(item);
 }
 
-function renderModules() {
-    const level = getLevel();
-    if (!moduleList) return;
-
-    moduleList.innerHTML = '';
-
-    level.cards.forEach((id) => {
-        const module = modules[id];
-        const card = document.createElement('div');
-        card.className = 'module-card' + (state.selectedCard === id ? ' selected' : '');
-        card.draggable = true;
-        card.dataset.cardId = id;
-        card.style.background = module.color;
-        card.innerHTML = '<div class="rule-chip">' + module.chip + '</div><h4>' + module.name + '</h4><p class="rule-card-desc">' + module.desc + '</p>';
-
-        card.addEventListener('click', () => {
-            state.selectedCard = state.selectedCard === id ? null : id;
-            renderModules();
-        });
-
-        card.addEventListener('dragstart', (event) => {
-            event.dataTransfer.setData('text/plain', id);
-            state.selectedCard = id;
-            renderModules();
-        });
-
-        moduleList.appendChild(card);
-    });
+function pointOnCircle(angle, radius) {
+    return {
+        x: geometry.cx + Math.cos(angle) * radius,
+        y: geometry.cy + Math.sin(angle) * radius
+    };
 }
 
-function renderSlots() {
-    const level = getLevel();
-
-    slots.forEach((slot, index) => {
-        slot.classList.remove('invalid', 'over', 'active');
-
-        if (index >= level.slotCount) {
-            slot.style.display = 'none';
-            return;
-        }
-
-        slot.style.display = 'flex';
-        slot.innerHTML = '<div class="slot-label">Slot ' + (index + 1) + '</div>';
-
-        const placedId = state.placements[index];
-        if (!placedId) {
-            slot.innerHTML += '<div class="slot-hint">Drop a theorem module here</div>';
-            return;
-        }
-
-        const module = modules[placedId];
-        slot.innerHTML += '<div class="slot-card" style="background:' + module.color + '">' + module.name + '</div>';
-        slot.innerHTML += '<div class="slot-result">--</div>';
-        slot.innerHTML += '<div class="slot-caption">Click slot to remove</div>';
-    });
+function tangentDirection(angle) {
+    return {
+        x: -Math.sin(angle),
+        y: Math.cos(angle)
+    };
 }
 
-function renderLevel() {
-    const level = getLevel();
-
-    if (levelDisplay) levelDisplay.textContent = level.id;
-    if (scoreDisplay) scoreDisplay.textContent = state.score;
-    if (energyDisplay) energyDisplay.textContent = state.energy;
-    if (stageBadge) stageBadge.textContent = 'Chamber ' + level.id;
-    if (missionTitle) missionTitle.textContent = 'Chamber ' + level.id + ': ' + level.name;
-    if (missionStory) missionStory.textContent = level.story;
-    if (missionObjective) missionObjective.textContent = level.objective;
-    if (targetValue) targetValue.textContent = level.target.value + '°';
-    if (targetNote) targetNote.textContent = level.target.note;
-    if (sourceValue) sourceValue.textContent = level.source.value + '°';
-    if (sourceLabel) sourceLabel.textContent = level.source.label;
-    if (lockValue) lockValue.textContent = '--';
-    if (lockLabel) lockLabel.textContent = 'Expected output: ' + level.target.value + '°';
-    if (lockCard) lockCard.className = 'board-lock';
-    if (nextBtn) nextBtn.disabled = !state.clearedLevels.has(level.id) || state.levelIndex === levels.length - 1;
-
-    updateStatus('info', 'Drag a theorem module into each visible slot, then activate the mechanism.');
-    renderModules();
-    renderSlots();
-    logMessage('Loaded chamber ' + level.id, level.name + ' is ready for testing.');
-}
-
-function placeModule(cardId, slotIndex) {
-    const level = getLevel();
-
-    if (!modules[cardId] || slotIndex >= level.slotCount) {
+function updateMarkerGeometry() {
+    if (!contactPoint || !contactGlow || !radiusLine || !tangentPreview || !laserBeam || !rightAngleMarker) {
         return;
     }
 
-    state.placements[slotIndex] = cardId;
-    state.selectedCard = null;
-    renderModules();
-    renderSlots();
-    logMessage('Module installed', modules[cardId].name + ' placed into Slot ' + (slotIndex + 1) + '.');
-}
+    const contact = pointOnCircle(gameState.orbitAngle, geometry.coreRadius);
+    const direction = tangentDirection(gameState.orbitAngle);
+    const tangentStart = {
+        x: contact.x - direction.x * geometry.tangentLength,
+        y: contact.y - direction.y * geometry.tangentLength
+    };
+    const tangentEnd = {
+        x: contact.x + direction.x * geometry.tangentLength,
+        y: contact.y + direction.y * geometry.tangentLength
+    };
 
-function resetChamber(showMessage = true) {
-    state.placements = [null, null, null];
-    state.selectedCard = null;
-    renderModules();
-    renderSlots();
+    contactPoint.setAttribute('cx', contact.x);
+    contactPoint.setAttribute('cy', contact.y);
+    contactGlow.setAttribute('cx', contact.x);
+    contactGlow.setAttribute('cy', contact.y);
+    radiusLine.setAttribute('x2', contact.x);
+    radiusLine.setAttribute('y2', contact.y);
+    tangentPreview.setAttribute('x1', tangentStart.x);
+    tangentPreview.setAttribute('y1', tangentStart.y);
+    tangentPreview.setAttribute('x2', tangentEnd.x);
+    tangentPreview.setAttribute('y2', tangentEnd.y);
 
-    if (lockValue) lockValue.textContent = '--';
-    if (lockLabel) lockLabel.textContent = 'Expected output: ' + getLevel().target.value + '°';
-    if (lockCard) lockCard.className = 'board-lock';
+    const marker = geometry.markerSize;
+    const radial = {
+        x: Math.cos(gameState.orbitAngle),
+        y: Math.sin(gameState.orbitAngle)
+    };
+    const markerA = {
+        x: contact.x - radial.x * marker,
+        y: contact.y - radial.y * marker
+    };
+    const markerB = {
+        x: markerA.x - direction.x * marker,
+        y: markerA.y - direction.y * marker
+    };
+    rightAngleMarker.setAttribute('d', `M ${contact.x} ${contact.y} L ${markerA.x} ${markerA.y} L ${markerB.x} ${markerB.y}`);
 
-    if (showMessage) {
-        updateStatus('info', 'Chamber reset. Rebuild the theorem chain.');
-        logMessage('Chamber reset', 'All installed modules were removed.');
-    }
-}
-
-function markInvalidSlot(index, reason) {
-    const slot = slots[index];
-    if (!slot) return;
-
-    slot.classList.add('invalid');
-    setTimeout(() => slot.classList.remove('invalid'), 300);
-    updateStatus('error', reason);
-}
-
-function activateMechanism() {
-    const level = getLevel();
-    const activeSlots = state.placements.slice(0, level.slotCount);
-
-    if (activeSlots.some((slot) => !slot)) {
-        updateStatus('error', 'The mechanism is incomplete. Every visible slot must contain one module.');
-        return;
-    }
-
-    let current = { ...level.source };
-
-    for (let index = 0; index < activeSlots.length; index += 1) {
-        const moduleId = activeSlots[index];
-        const slot = slots[index];
-        const module = modules[moduleId];
-        const outcome = module.apply(current);
-
-        if (slot) {
-            slot.classList.add('active');
-        }
-
-        if (!outcome.ok) {
-            if (slot) {
-                slot.classList.remove('active');
-            }
-            markInvalidSlot(index, outcome.reason);
-            logMessage('Activation failed at Slot ' + (index + 1), module.name + ' could not process a ' + current.type + ' input.');
-            state.energy = Math.max(0, state.energy - 1);
-            if (energyDisplay) energyDisplay.textContent = state.energy;
-            slots.forEach((slotItem) => slotItem.classList.remove('active'));
-            return;
-        }
-
-        current = outcome.next;
-
-        if (slot) {
-            const resultNode = slot.querySelector('.slot-result');
-            const captionNode = slot.querySelector('.slot-caption');
-            if (resultNode) resultNode.textContent = current.value + '°';
-            if (captionNode) captionNode.textContent = current.label;
-            slot.classList.remove('active');
-        }
-
-        logMessage('Slot ' + (index + 1) + ' succeeded', outcome.explain);
-    }
-
-    if (lockValue) lockValue.textContent = current.value + '°';
-    if (lockLabel) lockLabel.textContent = current.label;
-
-    if (current.value === level.target.value) {
-        if (lockCard) lockCard.className = 'board-lock unlocked';
-        state.score += 100 + level.slotCount * 20;
-        if (scoreDisplay) scoreDisplay.textContent = state.score;
-        state.clearedLevels.add(level.id);
-        if (nextBtn) nextBtn.disabled = state.levelIndex === levels.length - 1;
-        updateStatus('success', 'Chamber unlocked. Configure the next path when you are ready.');
-        logMessage('Chamber unlocked', 'Final output matched ' + level.target.value + '° exactly.');
+    if (gameState.beamVisible) {
+        laserBeam.setAttribute('x1', contact.x);
+        laserBeam.setAttribute('y1', contact.y);
+        laserBeam.setAttribute('x2', tangentEnd.x);
+        laserBeam.setAttribute('y2', tangentEnd.y);
     } else {
-        state.energy = Math.max(0, state.energy - 1);
-        if (energyDisplay) energyDisplay.textContent = state.energy;
-        updateStatus('error', 'The mechanism ran, but the final output was incorrect. Try another rule chain.');
-        logMessage('Incorrect output', 'Expected ' + level.target.value + '° but received ' + current.value + '°.');
+        laserBeam.setAttribute('x1', contact.x);
+        laserBeam.setAttribute('y1', contact.y);
+        laserBeam.setAttribute('x2', contact.x);
+        laserBeam.setAttribute('y2', contact.y);
     }
 }
 
-slots.forEach((slot) => {
-    slot.addEventListener('dragover', (event) => {
-        event.preventDefault();
-        slot.classList.add('over');
-    });
+function updateTargetGeometry() {
+    if (!targetWarning || !countdownRing || !targetRing || !targetBody || !targetTimer || !blastRing || !blastCore) {
+        return;
+    }
 
-    slot.addEventListener('dragleave', () => {
-        slot.classList.remove('over');
-    });
+    const contact = pointOnCircle(gameState.targetContactAngle, geometry.coreRadius);
+    const direction = tangentDirection(gameState.targetContactAngle);
+    const target = {
+        x: contact.x + direction.x * gameState.targetDistance,
+        y: contact.y + direction.y * gameState.targetDistance
+    };
 
-    slot.addEventListener('drop', (event) => {
-        event.preventDefault();
-        slot.classList.remove('over');
-        const cardId = event.dataTransfer.getData('text/plain');
-        placeModule(cardId, Number(slot.dataset.slotIndex));
-    });
+    targetWarning.setAttribute('cx', target.x);
+    targetWarning.setAttribute('cy', target.y);
+    countdownRing.setAttribute('cx', target.x);
+    countdownRing.setAttribute('cy', target.y);
+    targetRing.setAttribute('cx', target.x);
+    targetRing.setAttribute('cy', target.y);
+    targetBody.setAttribute('cx', target.x);
+    targetBody.setAttribute('cy', target.y);
+    targetTimer.setAttribute('x', target.x);
+    targetTimer.setAttribute('y', target.y - 40);
+    blastRing.setAttribute('cx', target.x);
+    blastRing.setAttribute('cy', target.y);
+    blastCore.setAttribute('cx', target.x);
+    blastCore.setAttribute('cy', target.y);
+}
 
-    slot.addEventListener('click', () => {
-        const index = Number(slot.dataset.slotIndex);
+function renderTargetTimer() {
+    if (!countdownRing || !targetTimer) return;
 
-        if (state.selectedCard) {
-            placeModule(state.selectedCard, index);
-            return;
+    const ratio = Math.max(gameState.timeRemaining / gameState.timeLimit, 0);
+    const circumference = 2 * Math.PI * 28;
+    countdownRing.style.strokeDasharray = `${circumference}`;
+    countdownRing.style.strokeDashoffset = `${circumference * (1 - ratio)}`;
+    targetTimer.textContent = `${gameState.timeRemaining.toFixed(1)}s`;
+}
+
+function showBlast() {
+    if (!blastRing || !blastCore) return;
+    gameState.blastTimer = 0.35;
+    blastRing.style.opacity = '1';
+    blastCore.style.opacity = '1';
+}
+
+function resetRound(keepRunning = true) {
+    gameState.timeLimit = Math.max(2.4, 4.5 - (gameState.phase - 1) * 0.35);
+    gameState.timeRemaining = gameState.timeLimit;
+    gameState.targetWindow = Math.max(0.1, 0.22 - (gameState.phase - 1) * 0.01);
+    gameState.targetContactAngle = Math.random() * Math.PI * 2;
+    gameState.targetDistance = Math.max(180, 210 - (gameState.phase - 1) * 6);
+    gameState.beamVisible = false;
+    if (laserBeam) {
+        laserBeam.style.opacity = '0';
+    }
+    renderTargetTimer();
+    updateTargetGeometry();
+    if (!keepRunning) {
+        gameState.running = false;
+        gameState.paused = false;
+        updatePauseLabels();
+    }
+}
+
+function startSession() {
+    if (gameState.running && !gameState.paused) {
+        return;
+    }
+
+    gameState.running = true;
+    gameState.paused = false;
+    updatePauseLabels();
+    updateStatus('info', 'Session live. Time the tangent beam so it cuts through the target ring.');
+    logMessage('Session started', 'The turret is rotating. Watch the tangent line rather than the target centre.');
+}
+
+function endSession() {
+    gameState.running = false;
+    gameState.paused = false;
+    updatePauseLabels();
+    updateStatus('error', 'Session unstable. Restart to continue testing the prototype.');
+}
+
+function restartSession() {
+    gameState.running = false;
+    gameState.paused = false;
+    gameState.phase = 1;
+    gameState.score = 0;
+    gameState.combo = 0;
+    gameState.lives = 3;
+    gameState.alignment = 0;
+    gameState.orbitSpeed = 0.88;
+    gameState.orbitAngle = -Math.PI / 2;
+    gameState.beamTimer = 0;
+    gameState.blastTimer = 0;
+    gameState.lastTimestamp = 0;
+
+    resetRound(false);
+    updatePauseLabels();
+    updateHud();
+    updateStatus('info', 'Press Start Session, then fire when the tangent beam slices through the target.');
+    if (logBox) {
+        logBox.innerHTML = '<div class="log-empty">No rounds played yet.</div>';
+    }
+    logMessage('Prototype reset', 'Score, combo and lives returned to the initial tuning values.');
+}
+
+function togglePause() {
+    if (!gameState.running && gameState.lives > 0) {
+        startSession();
+        return;
+    }
+    if (!gameState.running) {
+        return;
+    }
+
+    gameState.paused = !gameState.paused;
+    updatePauseLabels();
+    updateStatus('info', gameState.paused ? 'Session paused. Resume when you are ready to continue the timing challenge.' : 'Session live. Time the tangent beam so it cuts through the target ring.');
+}
+
+function handleTimeout() {
+    gameState.combo = 0;
+    gameState.lives = Math.max(0, gameState.lives - 1);
+    gameState.alignment = 0;
+    updateHud();
+    logMessage('Target expired', 'The countdown ended before the tangent beam connected.');
+
+    if (gameState.lives === 0) {
+        endSession();
+        return;
+    }
+
+    updateStatus('error', 'Target window collapsed. Stability lost.');
+    resetRound(true);
+}
+
+function clearPhase() {
+    gameState.phase += 1;
+    gameState.orbitSpeed += 0.16;
+    logMessage('Phase advanced', `Orbit speed increased and the target window tightened for phase ${gameState.phase}.`);
+    updateStatus('success', 'Phase cleared. The next target speeds up the orbit.');
+    updateHud();
+    resetRound(true);
+}
+
+function fireShot() {
+    if (!gameState.running || gameState.paused || gameState.lives === 0) {
+        return;
+    }
+
+    gameState.beamVisible = true;
+    gameState.beamTimer = 0.18;
+    if (laserBeam) {
+        laserBeam.style.opacity = '1';
+    }
+
+    let angleDiff = Math.abs(gameState.orbitAngle - gameState.targetContactAngle);
+    angleDiff = Math.min(angleDiff, Math.PI * 2 - angleDiff);
+    const alignment = Math.max(0, 1 - angleDiff / gameState.targetWindow);
+    const alignmentPct = Math.round(alignment * 100);
+    gameState.alignment = alignmentPct;
+
+    if (alignment > 0) {
+        gameState.combo += 1;
+        const scoreGain = Math.round(120 + alignmentPct + gameState.combo * 25);
+        gameState.score += scoreGain;
+        updateHud();
+        showBlast();
+        updateStatus('success', 'Perfect strike. The tangent line clipped the target cleanly.');
+        logMessage('Direct tangent hit', `Alignment ${alignmentPct}%. Combo x${gameState.combo}. Score +${scoreGain}.`);
+
+        if (gameState.combo % 4 === 0) {
+            clearPhase();
+        } else {
+            resetRound(true);
         }
+        return;
+    }
 
-        if (state.placements[index]) {
-            logMessage('Module removed', modules[state.placements[index]].name + ' removed from Slot ' + (index + 1) + '.');
-            state.placements[index] = null;
-            renderSlots();
+    gameState.combo = 0;
+    gameState.lives = Math.max(0, gameState.lives - 1);
+    updateHud();
+    updateStatus('error', 'Missed timing. The beam fired outside the tangent window.');
+    logMessage('Shot drifted wide', `Alignment only reached ${alignmentPct}%. Stability dropped to ${gameState.lives}.`);
+
+    if (gameState.lives === 0) {
+        endSession();
+        return;
+    }
+
+    resetRound(true);
+}
+
+function animate(timestamp) {
+    if (!arenaSvg) return;
+
+    if (!gameState.lastTimestamp) {
+        gameState.lastTimestamp = timestamp;
+    }
+    const delta = Math.min((timestamp - gameState.lastTimestamp) / 1000, 0.04);
+    gameState.lastTimestamp = timestamp;
+
+    if (gameState.running && !gameState.paused && gameState.lives > 0) {
+        gameState.orbitAngle += gameState.orbitSpeed * delta;
+        gameState.timeRemaining = Math.max(0, gameState.timeRemaining - delta);
+        if (gameState.timeRemaining === 0) {
+            handleTimeout();
         }
+    }
+
+    if (gameState.beamTimer > 0) {
+        gameState.beamTimer = Math.max(0, gameState.beamTimer - delta);
+        if (gameState.beamTimer === 0) {
+            gameState.beamVisible = false;
+            if (laserBeam) {
+                laserBeam.style.opacity = '0';
+            }
+        }
+    }
+
+    if (gameState.blastTimer > 0 && blastRing && blastCore) {
+        gameState.blastTimer = Math.max(0, gameState.blastTimer - delta);
+        const progress = 1 - gameState.blastTimer / 0.35;
+        blastRing.style.opacity = `${1 - progress}`;
+        blastRing.setAttribute('r', `${8 + progress * 36}`);
+        blastCore.style.opacity = `${1 - progress}`;
+        blastCore.setAttribute('r', `${5 + progress * 10}`);
+    } else if (blastRing && blastCore) {
+        blastRing.style.opacity = '0';
+        blastCore.style.opacity = '0';
+    }
+
+    updateMarkerGeometry();
+    updateTargetGeometry();
+    renderTargetTimer();
+
+    requestAnimationFrame(animate);
+}
+
+actionButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        const action = button.dataset.action;
+        if (action === 'start') startSession();
+        if (action === 'fire') fireShot();
+        if (action === 'pause') togglePause();
+        if (action === 'restart') restartSession();
     });
 });
 
-if (activateBtn) {
-    activateBtn.addEventListener('click', activateMechanism);
-}
-
-if (resetBtn) {
-    resetBtn.addEventListener('click', () => resetChamber());
-}
-
-if (nextBtn) {
-    nextBtn.addEventListener('click', () => {
-        if (state.levelIndex < levels.length - 1) {
-            state.levelIndex += 1;
-            resetChamber(false);
-            renderLevel();
+if (arenaSvg) {
+    arenaSvg.addEventListener('click', () => {
+        if (!gameState.running) {
+            startSession();
+            return;
         }
+        fireShot();
     });
+
+    requestAnimationFrame(animate);
 }
 
-if (
-    levelDisplay &&
-    scoreDisplay &&
-    energyDisplay &&
-    stageBadge &&
-    missionTitle &&
-    missionStory &&
-    missionObjective &&
-    targetValue &&
-    targetNote &&
-    sourceValue &&
-    sourceLabel &&
-    lockValue &&
-    lockLabel &&
-    lockCard &&
-    moduleList &&
-    logBox &&
-    statusBanner
-) {
-    renderLevel();
-}
+document.addEventListener('keydown', (event) => {
+    if (event.code === 'Space') {
+        event.preventDefault();
+        if (!gameState.running) {
+            startSession();
+            return;
+        }
+        fireShot();
+    }
+
+    if (event.key.toLowerCase() === 'p') {
+        togglePause();
+    }
+});
+
+restartSession();
