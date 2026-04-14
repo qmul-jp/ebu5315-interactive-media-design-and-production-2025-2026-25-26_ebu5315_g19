@@ -1,16 +1,243 @@
-// Accessibility and shared UI controls
+const translations = {
+    en: {
+        'btn-lang': 'EN / 中',
+        'theme-dark': 'Dark Mode',
+        'theme-light': 'Light Mode',
+        'audio-on': 'Sound On',
+        'audio-off': 'Sound Off',
+        'logo-text': 'CircleMaster',
+        'nav-home': 'Home',
+        'nav-game': 'Game',
+        'nav-quiz': 'Quiz',
+        'bc-home': 'Home',
+        'bc-current': 'Game: Neon Tangent Striker',
+        'stage-title': 'Neon Tangent Striker',
+        'stage-intro': 'CircleMaster now turns the tangent theorem into a timing challenge. Watch the rotating contact point, read the tangent line, and fire when it slices through the target.',
+        'mission-title': 'Prototype Goal',
+        'mission-desc': 'This game page keeps the same CircleMaster shell, but replaces the old theorem-chain chamber with a more active shooting loop.',
+        'mission-step-1': 'The cyan radius and the pink tangent always meet at a right angle.',
+        'mission-step-2': 'Fire when the tangent beam passes through the outer target ring.',
+        'mission-step-3': 'Build combo, protect stability, and survive as the orbit speeds up.',
+        'target-title': 'Rule Focus',
+        'target-note': 'A tangent is perpendicular to the radius at the contact point.',
+        'hud-score': 'Score',
+        'hud-combo': 'Combo',
+        'hud-lives': 'Lives',
+        'hud-alignment': 'Alignment',
+        'btn-start': 'Start Session',
+        'btn-fire': 'Fire Tangent',
+        'btn-pause': 'Pause',
+        'btn-resume': 'Resume',
+        'btn-restart': 'Restart',
+        'panel-session': 'Session Status',
+        'panel-phase': 'Phase:',
+        'panel-score': 'Score:',
+        'panel-combo': 'Combo:',
+        'panel-lives': 'Lives:',
+        'panel-alignment': 'Alignment:',
+        'panel-controls': 'Tangent Controls',
+        'controls-helper': 'Desktop: press Space to fire and P to pause. Mobile: tap the arena or the Fire Tangent button.',
+        'panel-theorem': 'Tangent Theorem',
+        'theorem-body': 'The cannon rotates around the circle. Each shot travels along the tangent at the contact point, while the cyan guide shows the matching radius.',
+        'play-tip-label': 'Play tip:',
+        'play-tip-body': 'Do not aim at the centre of the target. Wait until the beam just grazes the circle and passes through the outer lock.',
+        'panel-log': 'Combat Log',
+        'log-empty': 'No rounds played yet.',
+        'chat-header': 'Circle AI Tutor',
+        'chat-ai': 'AI:',
+        'chat-welcome': 'Welcome to Neon Tangent Striker. Ask for a hint, the tangent rule, or contact help.',
+        'chat-placeholder': 'Ask about tangent timing...',
+        'chat-you': 'You:',
+        'footer-copy': '© 2026 Group 33. All rights reserved.',
+        'footer-data': 'Data Policy',
+        'footer-access': 'Accessibility',
+        'footer-contact': 'Contact Us',
+        'arena-aria-label': 'Neon Tangent Striker arena',
+        'msg-ready': 'Press Start Session, then fire when the tangent beam slices through the target.',
+        'msg-running': 'Session live. Time the tangent beam so it cuts through the target ring.',
+        'msg-paused': 'Session paused. Resume when you are ready to continue the timing challenge.',
+        'msg-hit': 'Perfect strike. The tangent line clipped the target cleanly.',
+        'msg-miss': 'Missed timing. The beam fired outside the tangent window.',
+        'msg-timeout': 'Target window collapsed. Stability lost.',
+        'msg-over': 'Session unstable. Restart to continue testing the prototype.',
+        'msg-cleared': 'Phase cleared. The next target speeds up the orbit.',
+        'log-start-title': 'Session started',
+        'log-start-body': 'The turret is rotating. Watch the tangent line rather than the target centre.',
+        'log-hit-title': 'Direct tangent hit',
+        'log-hit-body': 'Alignment {alignment}%. Combo x{combo}. Score +{scoreGain}.',
+        'log-miss-title': 'Shot drifted wide',
+        'log-miss-body': 'Alignment only reached {alignment}%. Stability dropped to {lives}.',
+        'log-time-title': 'Target expired',
+        'log-time-body': 'The countdown ended before the tangent beam connected.',
+        'log-phase-title': 'Phase advanced',
+        'log-phase-body': 'Orbit speed increased and the target window tightened for phase {phase}.',
+        'log-restart-title': 'Prototype reset',
+        'log-restart-body': 'Score, combo and lives returned to the initial tuning values.',
+        'chat-reply-contact': 'You can contact our team with the footer links or ask here for a tangent tip.',
+        'chat-reply-hint': 'Do not aim at the target centre. Fire when the pink beam just grazes the circle and crosses the target ring.',
+        'chat-reply-tangent': 'The tangent is perpendicular to the radius exactly at the contact point. That is the key to timing each shot.',
+        'chat-reply-default': 'Watch the radius first, then remember the tangent always leaves the circle at 90 degrees.',
+        'phase-label': 'Phase {phase}',
+        'timer-unit': '{time}s'
+    },
+    zh: {
+        'btn-lang': '中 / EN',
+        'theme-dark': '黑夜模式',
+        'theme-light': '明亮模式',
+        'audio-on': '声音开启',
+        'audio-off': '声音关闭',
+        'logo-text': '圆几何大师',
+        'nav-home': '首页',
+        'nav-game': '游戏',
+        'nav-quiz': '测验',
+        'bc-home': '首页',
+        'bc-current': '游戏：霓虹切线射击',
+        'stage-title': '霓虹切线射击',
+        'stage-intro': 'CircleMaster 现在把切线定理变成了一个时机挑战。观察旋转的接触点，判断切线方向，并在它切过目标的瞬间发射。',
+        'mission-title': '玩法目标',
+        'mission-desc': '这个游戏页面保留了 CircleMaster 原有页面外壳，但把旧的定理链机关改成了更主动的射击循环。',
+        'mission-step-1': '青色半径与粉色切线会始终在接触点形成直角。',
+        'mission-step-2': '当切线光束穿过外侧目标环时发射。',
+        'mission-step-3': '累积连击、保护稳定值，并在轨道加速后继续生存。',
+        'target-title': '规则聚焦',
+        'target-note': '切线在接触点处垂直于半径。',
+        'hud-score': '分数',
+        'hud-combo': '连击',
+        'hud-lives': '生命',
+        'hud-alignment': '对准度',
+        'btn-start': '开始挑战',
+        'btn-fire': '发射切线',
+        'btn-pause': '暂停',
+        'btn-resume': '继续',
+        'btn-restart': '重新开始',
+        'panel-session': '战局状态',
+        'panel-phase': '阶段：',
+        'panel-score': '分数：',
+        'panel-combo': '连击：',
+        'panel-lives': '生命：',
+        'panel-alignment': '对准度：',
+        'panel-controls': '切线操作',
+        'controls-helper': '桌面端按空格发射，按 P 暂停。移动端可点击舞台或“发射切线”按钮。',
+        'panel-theorem': '切线定理',
+        'theorem-body': '炮台沿圆周旋转。每次发射都会沿接触点处的切线前进，青色引导线则显示对应的半径。',
+        'play-tip-label': '游玩提示：',
+        'play-tip-body': '不要瞄准目标中心，要等光束刚好擦着圆边并穿过外侧锁环。',
+        'panel-log': '战斗日志',
+        'log-empty': '还没有开始任何回合。',
+        'chat-header': 'AI 几何导师',
+        'chat-ai': 'AI：',
+        'chat-welcome': '欢迎来到霓虹切线射击。你可以询问提示、切线定理，或联系我们。',
+        'chat-placeholder': '询问切线时机...',
+        'chat-you': '你：',
+        'footer-copy': '© 2026 第33组。保留所有权利。',
+        'footer-data': '数据政策',
+        'footer-access': '无障碍声明',
+        'footer-contact': '联系我们',
+        'arena-aria-label': '霓虹切线射击游戏场',
+        'msg-ready': '点击“开始挑战”，然后在切线光束切过目标时发射。',
+        'msg-running': '挑战进行中。把握切线穿过目标环的时机。',
+        'msg-paused': '挑战已暂停，准备好后继续这个时机挑战。',
+        'msg-hit': '完美命中，切线精准穿过目标。',
+        'msg-miss': '时机失误，光束在切线窗口外发射。',
+        'msg-timeout': '目标窗口关闭，稳定值下降。',
+        'msg-over': '系统失稳。重新开始以继续测试这个原型。',
+        'msg-cleared': '阶段通过。下一个目标会让轨道转得更快。',
+        'log-start-title': '挑战开始',
+        'log-start-body': '炮台开始旋转了。请观察切线，而不是只盯着目标中心。',
+        'log-hit-title': '切线命中',
+        'log-hit-body': '对准度 {alignment}%。连击 x{combo}。分数 +{scoreGain}。',
+        'log-miss-title': '射线偏离',
+        'log-miss-body': '对准度只有 {alignment}%。稳定值降到 {lives}。',
+        'log-time-title': '目标超时',
+        'log-time-body': '倒计时结束前，切线光束没有成功连接目标。',
+        'log-phase-title': '阶段提升',
+        'log-phase-body': '轨道速度提升，阶段 {phase} 的目标窗口更紧了。',
+        'log-restart-title': '原型重置',
+        'log-restart-body': '分数、连击和生命值都已恢复到初始调校值。',
+        'chat-reply-contact': '你可以使用页脚链接联系我们，或者在这里继续询问切线提示。',
+        'chat-reply-hint': '不要瞄准目标中心，要等粉色光束刚好擦着圆并穿过目标环时再发射。',
+        'chat-reply-tangent': '切线在接触点处与半径垂直，这正是每次发射定时的关键。',
+        'chat-reply-default': '先观察半径，再记住切线离开圆时总是形成 90 度。',
+        'phase-label': '阶段 {phase}',
+        'timer-unit': '{time}秒'
+    }
+};
+
+let currentLang = 'en';
+let currentFontSize = 16;
+let soundEnabled = true;
+
+function t(key, vars = {}) {
+    const table = translations[currentLang] || translations.en;
+    let output = table[key] || translations.en[key] || key;
+    Object.keys(vars).forEach((name) => {
+        output = output.replace(`{${name}}`, vars[name]);
+    });
+    return output;
+}
+
+function updateThemeButton() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const themeIcon = document.getElementById('theme-icon');
+    const themeLabel = document.getElementById('theme-label');
+    if (themeIcon) {
+        themeIcon.textContent = isDark ? '☀️' : '🌙';
+    }
+    if (themeLabel) {
+        themeLabel.textContent = isDark ? t('theme-light') : t('theme-dark');
+    }
+}
+
+function updateAudioButton() {
+    const audioIcon = document.getElementById('audio-icon');
+    const audioLabel = document.getElementById('audio-label');
+    if (audioIcon) {
+        audioIcon.textContent = soundEnabled ? '🔊' : '🔇';
+    }
+    if (audioLabel) {
+        audioLabel.textContent = soundEnabled ? t('audio-on') : t('audio-off');
+    }
+}
+
+function updateTranslations() {
+    document.documentElement.lang = currentLang;
+
+    document.querySelectorAll('[data-i18n]').forEach((node) => {
+        const key = node.getAttribute('data-i18n');
+        const value = t(key);
+        node.textContent = value;
+    });
+
+    document.querySelectorAll('[data-i18n-placeholder]').forEach((node) => {
+        const key = node.getAttribute('data-i18n-placeholder');
+        node.placeholder = t(key);
+    });
+
+    document.querySelectorAll('[data-i18n-aria-label]').forEach((node) => {
+        const key = node.getAttribute('data-i18n-aria-label');
+        node.setAttribute('aria-label', t(key));
+    });
+
+    updateThemeButton();
+    updateAudioButton();
+    updatePauseLabels();
+    updateHud();
+    updateStatus(currentStatus.type, currentStatus.key);
+    renderTargetTimer();
+    refreshChatWelcome();
+    relocalizeLogEntries();
+}
+
 const themeBtn = document.getElementById('theme-btn');
 if (themeBtn) {
     themeBtn.addEventListener('click', () => {
         const currentTheme = document.documentElement.getAttribute('data-theme');
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
         document.documentElement.setAttribute('data-theme', newTheme);
-        themeBtn.innerText = newTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+        updateThemeButton();
     });
 }
 
-let currentFontSize = 16;
 function adjustFontSize(delta) {
     currentFontSize += delta * 2;
 
@@ -21,13 +248,15 @@ function adjustFontSize(delta) {
 }
 
 function changeLanguage() {
-    alert('Language switch will be expanded in the full bilingual release.');
+    currentLang = currentLang === 'en' ? 'zh' : 'en';
+    updateTranslations();
 }
 
 const audioBtn = document.getElementById('audio-btn');
 if (audioBtn) {
     audioBtn.addEventListener('click', () => {
-        alert('Sound toggle state changed. Full audio assets can be added in the next iteration.');
+        soundEnabled = !soundEnabled;
+        updateAudioButton();
     });
 }
 
@@ -35,17 +264,43 @@ if (audioBtn) {
 const chatInput = document.querySelector('#ai-chat-widget input');
 const chatBody = document.querySelector('#ai-chat-widget .chat-body');
 
-function renderMessage(sender, text) {
+function refreshChatWelcome() {
+    if (!chatBody) return;
+    const firstMessage = chatBody.querySelector('[data-chat-welcome]');
+    if (firstMessage) {
+        const strong = firstMessage.querySelector('strong');
+        const span = firstMessage.querySelector('span');
+        if (strong) strong.textContent = t('chat-ai');
+        if (span) span.textContent = t('chat-welcome');
+    }
+}
+
+function renderMessage(senderKey, text) {
     if (!chatBody) return;
 
     const p = document.createElement('p');
     const strong = document.createElement('strong');
+    const sender = senderKey === 'chat-you' ? t('chat-you') : t('chat-ai');
 
-    strong.textContent = `${sender}:`;
+    strong.textContent = sender;
     p.appendChild(strong);
     p.appendChild(document.createTextNode(` ${text}`));
     chatBody.appendChild(p);
     chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+function getChatReply(message) {
+    const normalized = message.toLowerCase();
+    if (normalized.includes('contact') || message.includes('联系')) {
+        return t('chat-reply-contact');
+    }
+    if (normalized.includes('hint') || message.includes('提示')) {
+        return t('chat-reply-hint');
+    }
+    if (normalized.includes('tangent') || message.includes('切线') || normalized.includes('90')) {
+        return t('chat-reply-tangent');
+    }
+    return t('chat-reply-default');
 }
 
 if (chatInput) {
@@ -55,19 +310,11 @@ if (chatInput) {
         }
 
         const userMsg = chatInput.value.trim();
-        renderMessage('You', userMsg);
+        renderMessage('chat-you', userMsg);
         chatInput.value = '';
 
         setTimeout(() => {
-            let aiReply = 'Watch the radius first, then remember the tangent always leaves the circle at 90 degrees.';
-            if (userMsg.toLowerCase().includes('contact')) {
-                aiReply = 'You can contact our team with the footer links or ask here for a tangent tip.';
-            } else if (userMsg.toLowerCase().includes('hint')) {
-                aiReply = 'Do not aim at the target centre. Fire when the pink beam just grazes the circle and crosses the target ring.';
-            } else if (userMsg.toLowerCase().includes('tangent')) {
-                aiReply = 'The tangent is perpendicular to the radius exactly at the contact point. That is the key to timing each shot.';
-            }
-            renderMessage('AI', aiReply);
+            renderMessage('chat-ai', getChatReply(userMsg));
         }, 800);
     });
 }
@@ -92,6 +339,11 @@ const gameState = {
     beamVisible: false,
     beamTimer: 0,
     blastTimer: 0
+};
+
+const currentStatus = {
+    type: 'info',
+    key: 'msg-ready'
 };
 
 const geometry = {
@@ -136,24 +388,26 @@ function updateHud() {
     setField('alignment', `${gameState.alignment}%`);
     setField('phase', gameState.phase);
     if (stageBadge) {
-        stageBadge.textContent = `Phase ${gameState.phase}`;
+        stageBadge.textContent = t('phase-label', { phase: gameState.phase });
     }
 }
 
 function updatePauseLabels() {
-    const label = gameState.paused ? 'Resume' : 'Pause';
+    const label = gameState.paused ? t('btn-resume') : t('btn-pause');
     pauseLabels.forEach((node) => {
         node.textContent = label;
     });
 }
 
-function updateStatus(type, text) {
+function updateStatus(type, key) {
     if (!arenaMessage) return;
+    currentStatus.type = type;
+    currentStatus.key = key;
     arenaMessage.className = `status-banner ${type} arena-message`;
-    arenaMessage.textContent = text;
+    arenaMessage.textContent = t(key);
 }
 
-function logMessage(title, text) {
+function logMessage(titleKey, bodyKey, vars = {}) {
     if (!logBox) return;
 
     if (logBox.querySelector('.log-empty')) {
@@ -162,8 +416,33 @@ function logMessage(title, text) {
 
     const item = document.createElement('div');
     item.className = 'log-entry';
-    item.innerHTML = `<div class="log-title">${title}</div><div class="log-text">${text}</div>`;
+    item.dataset.titleKey = titleKey;
+    item.dataset.bodyKey = bodyKey;
+    item.dataset.vars = JSON.stringify(vars);
+    item.innerHTML = `<div class="log-title">${t(titleKey, vars)}</div><div class="log-text">${t(bodyKey, vars)}</div>`;
     logBox.prepend(item);
+}
+
+function relocalizeLogEntries() {
+    if (!logBox) return;
+
+    const entries = Array.from(logBox.querySelectorAll('.log-entry'));
+    entries.forEach((entry) => {
+        const vars = entry.dataset.vars ? JSON.parse(entry.dataset.vars) : {};
+        const title = entry.querySelector('.log-title');
+        const body = entry.querySelector('.log-text');
+        if (title && entry.dataset.titleKey) {
+            title.textContent = t(entry.dataset.titleKey, vars);
+        }
+        if (body && entry.dataset.bodyKey) {
+            body.textContent = t(entry.dataset.bodyKey, vars);
+        }
+    });
+
+    const empty = logBox.querySelector('.log-empty');
+    if (empty) {
+        empty.textContent = t('log-empty');
+    }
 }
 
 function pointOnCircle(angle, radius) {
@@ -270,7 +549,7 @@ function renderTargetTimer() {
     const circumference = 2 * Math.PI * 28;
     countdownRing.style.strokeDasharray = `${circumference}`;
     countdownRing.style.strokeDashoffset = `${circumference * (1 - ratio)}`;
-    targetTimer.textContent = `${gameState.timeRemaining.toFixed(1)}s`;
+    targetTimer.textContent = t('timer-unit', { time: gameState.timeRemaining.toFixed(1) });
 }
 
 function showBlast() {
@@ -307,15 +586,15 @@ function startSession() {
     gameState.running = true;
     gameState.paused = false;
     updatePauseLabels();
-    updateStatus('info', 'Session live. Time the tangent beam so it cuts through the target ring.');
-    logMessage('Session started', 'The turret is rotating. Watch the tangent line rather than the target centre.');
+    updateStatus('info', 'msg-running');
+    logMessage('log-start-title', 'log-start-body');
 }
 
 function endSession() {
     gameState.running = false;
     gameState.paused = false;
     updatePauseLabels();
-    updateStatus('error', 'Session unstable. Restart to continue testing the prototype.');
+    updateStatus('error', 'msg-over');
 }
 
 function restartSession() {
@@ -335,11 +614,11 @@ function restartSession() {
     resetRound(false);
     updatePauseLabels();
     updateHud();
-    updateStatus('info', 'Press Start Session, then fire when the tangent beam slices through the target.');
+    updateStatus('info', 'msg-ready');
     if (logBox) {
-        logBox.innerHTML = '<div class="log-empty">No rounds played yet.</div>';
+        logBox.innerHTML = `<div class="log-empty">${t('log-empty')}</div>`;
     }
-    logMessage('Prototype reset', 'Score, combo and lives returned to the initial tuning values.');
+    logMessage('log-restart-title', 'log-restart-body');
 }
 
 function togglePause() {
@@ -353,7 +632,7 @@ function togglePause() {
 
     gameState.paused = !gameState.paused;
     updatePauseLabels();
-    updateStatus('info', gameState.paused ? 'Session paused. Resume when you are ready to continue the timing challenge.' : 'Session live. Time the tangent beam so it cuts through the target ring.');
+    updateStatus('info', gameState.paused ? 'msg-paused' : 'msg-running');
 }
 
 function handleTimeout() {
@@ -361,22 +640,22 @@ function handleTimeout() {
     gameState.lives = Math.max(0, gameState.lives - 1);
     gameState.alignment = 0;
     updateHud();
-    logMessage('Target expired', 'The countdown ended before the tangent beam connected.');
+    logMessage('log-time-title', 'log-time-body');
 
     if (gameState.lives === 0) {
         endSession();
         return;
     }
 
-    updateStatus('error', 'Target window collapsed. Stability lost.');
+    updateStatus('error', 'msg-timeout');
     resetRound(true);
 }
 
 function clearPhase() {
     gameState.phase += 1;
     gameState.orbitSpeed += 0.16;
-    logMessage('Phase advanced', `Orbit speed increased and the target window tightened for phase ${gameState.phase}.`);
-    updateStatus('success', 'Phase cleared. The next target speeds up the orbit.');
+    logMessage('log-phase-title', 'log-phase-body', { phase: gameState.phase });
+    updateStatus('success', 'msg-cleared');
     updateHud();
     resetRound(true);
 }
@@ -404,8 +683,8 @@ function fireShot() {
         gameState.score += scoreGain;
         updateHud();
         showBlast();
-        updateStatus('success', 'Perfect strike. The tangent line clipped the target cleanly.');
-        logMessage('Direct tangent hit', `Alignment ${alignmentPct}%. Combo x${gameState.combo}. Score +${scoreGain}.`);
+        updateStatus('success', 'msg-hit');
+        logMessage('log-hit-title', 'log-hit-body', { alignment: alignmentPct, combo: gameState.combo, scoreGain });
 
         if (gameState.combo % 4 === 0) {
             clearPhase();
@@ -418,8 +697,8 @@ function fireShot() {
     gameState.combo = 0;
     gameState.lives = Math.max(0, gameState.lives - 1);
     updateHud();
-    updateStatus('error', 'Missed timing. The beam fired outside the tangent window.');
-    logMessage('Shot drifted wide', `Alignment only reached ${alignmentPct}%. Stability dropped to ${gameState.lives}.`);
+    updateStatus('error', 'msg-miss');
+    logMessage('log-miss-title', 'log-miss-body', { alignment: alignmentPct, lives: gameState.lives });
 
     if (gameState.lives === 0) {
         endSession();
@@ -513,3 +792,4 @@ document.addEventListener('keydown', (event) => {
 });
 
 restartSession();
+updateTranslations();
