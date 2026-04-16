@@ -39,54 +39,204 @@
         </div>
     </header>
 
-    <!-- 3. 面包屑导航 -->
+<!-- 3. 面包屑导航 -->
     <div class="container">
         <nav class="breadcrumb">
-            <a href="index.html" data-i18n="bc-home">Home (首页)</a> &nbsp;>&nbsp; <span data-i18n="bc-current">Homepage</span>
+            <a href="index.html" data-i18n="bc-home">Home</a> &nbsp;>&nbsp; <span data-i18n="bc-current">Homepage</span>
         </nav>
     </div>
 
+    <!-- 核心内容容器开始 -->
     <main class="container">
-        <!-- 4. Hero Section -->
-        <section id="hero">
-            <h1 data-i18n="hero-title">Master Circle Geometry <br><span class="highlight">Powered by AI</span></h1>
-            <p class="usp" data-i18n="hero-usp">Interactive animations, AI-guided tutoring, and practice.</p>
 
-            <div class="video-container">
-                <svg width="400" height="300" viewBox="0 0 400 300" id="hero-svg">
-                    <circle cx="200" cy="150" r="5" fill="var(--primary-blue)" />
-                    <line x1="200" y1="150" x2="300" y2="150" stroke="var(--primary-blue)" stroke-width="3" />
-                    <circle cx="200" cy="150" r="100" stroke="var(--text-color)" stroke-width="4" fill="none" />
-                    <line x1="300" y1="50" x2="300" y2="250" stroke="#ff4757" stroke-width="4" />
-                    <rect x="285" y="135" width="15" height="15" fill="none" stroke="#ff4757" />
-                </svg>
-            </div>
-        </section>
+        <!-- 视图 1：主页内容 (默认显示) -->
+        <div id="main-view">
+            <!-- 4. Hero Section -->
+            <section id="hero">
+                <h1 data-i18n="hero-title">Master Circle Geometry <br><span class="highlight">Powered by AI</span></h1>
+                <p class="usp" data-i18n="hero-usp">Interactive animations, AI-guided tutoring, and practice.</p>
+                <div class="video-container">
+                    <svg width="400" height="300" viewBox="0 0 400 300" id="hero-svg">
+                        <circle cx="200" cy="150" r="5" fill="var(--primary-blue)" />
+                        <line x1="200" y1="150" x2="300" y2="150" stroke="var(--primary-blue)" stroke-width="3" />
+                        <circle cx="200" cy="150" r="100" stroke="var(--text-color)" stroke-width="4" fill="none" />
+                        <line x1="300" y1="50" x2="300" y2="250" stroke="#ff4757" stroke-width="4" />
+                        <rect x="285" y="135" width="15" height="15" fill="none" stroke="#ff4757" />
+                    </svg>
+                </div>
+            </section>
 
-        <!-- 5. 核心规则展示 -->
-        <section id="rules">
-            <div class="rule-card">
-                <div class="rule-icon">📐</div>
-                <h3 data-i18n="rule1-title">Tangent Theorem</h3>
-                <p data-i18n="rule1-desc">Tangent is perpendicular to radius at contact point.</p>
-            </div>
-            <div class="rule-card">
-                <div class="rule-icon">🔴</div>
-                <h3 data-i18n="rule2-title">Arc Rule</h3>
-                <p data-i18n="rule2-desc">Center angle is twice the circumference angle.</p>
-            </div>
-            <div class="rule-card">
-                <div class="rule-icon">📏</div>
-                <h3 data-i18n="rule3-title">Chord Rule</h3>
-                <p data-i18n="rule3-desc">Perpendicular from center bisects the chord.</p>
-            </div>
-        </section>
+            <!-- 5. 定理卡片展示区 (Learning Hub) -->
+            <section id="learning-hub">
+                <h2 class="section-title" data-i18n="hub-title">Interactive Theorem Gallery</h2>
+                <div class="theorem-grid">
+                    <!-- 1. 切线 -->
+                    <div class="theorem-card" onclick="goToDetail('tangent')">
+                        <span class="badge">GCSE</span>
+                        <div class="rule-icon">📐</div>
+                        <h3 data-i18n="rule1-title">Tangent-Radius</h3>
+                        <p data-i18n="rule1-desc">Tangent is perpendicular to radius at contact point.</p>
+                        <button class="learn-more" data-i18n="btn-learn">Explore Detail</button>
+                    </div>
+                    <!-- 2. 圆心角 -->
+                    <div class="theorem-card" onclick="goToDetail('center-angle')">
+                        <span class="badge">GCSE</span>
+                        <div class="rule-icon">🔴</div>
+                        <h3 data-i18n="rule2-title">Angle at Center</h3>
+                        <p data-i18n="rule2-desc">Angle at center is twice the angle at circumference.</p>
+                        <button class="learn-more" data-i18n="btn-learn">Explore Detail</button>
+                    </div>
+                    <!-- 3. 圆内接四边形 -->
+                    <div class="theorem-card" onclick="goToDetail('cyclic')">
+                        <span class="badge">GCSE</span>
+                        <div class="rule-icon">📏</div>
+                        <h3 data-i18n="rule3-title">Cyclic Quads</h3>
+                        <p data-i18n="rule3-desc">Opposite angles sum to 180 degrees.</p>
+                        <button class="learn-more" data-i18n="btn-learn">Explore Detail</button>
+                    </div>
+                    <!-- 4. 弦切角 -->
+                    <div class="theorem-card" onclick="goToDetail('alternate')">
+                        <span class="badge">Advanced</span>
+                        <div class="rule-icon">✂️</div>
+                        <h3 data-i18n="rule4-title">Alternate Segment</h3>
+                        <p data-i18n="rule4-desc">Angle between tangent and chord equals alternate segment angle.</p>
+                        <button class="learn-more" data-i18n="btn-learn">Explore Detail</button>
+                    </div>
+                    <!-- 5. 同弧圆周角 -->
+                    <div class="theorem-card" onclick="goToDetail('same-arc')">
+                        <span class="badge">GCSE</span>
+                        <div class="rule-icon">🏹</div>
+                        <h3 data-i18n="rule5-title">Same Arc Theorem</h3>
+                        <p data-i18n="rule5-desc">Angles subtended by the same arc are equal.</p>
+                        <button class="learn-more" data-i18n="btn-learn">Explore Detail</button>
+                    </div>
+                    <!-- 6. 半圆圆周角 -->
+                    <div class="theorem-card" onclick="goToDetail('semicircle')">
+                        <span class="badge">Basic</span>
+                        <div class="rule-icon">🌗</div>
+                        <h3 data-i18n="rule6-title">Semi-circle Angle</h3>
+                        <p data-i18n="rule6-desc">The angle in a semi-circle is always 90 degrees.</p>
+                        <button class="learn-more" data-i18n="btn-learn">Explore Detail</button>
+                    </div>
+                </div>
+            </section>
 
-        <!-- 6. 广告位 -->
-        <div class="ads-banner">
-            <p data-i18n="ads-text">Unlock Premium Features: Join CircleMaster Pro today!</p>
+           <section id="culture">
+    <div class="culture-header">
+        <span class="culture-tag"><i class="icon-bulb">💡</i> <span data-i18n="culture-label">Mathematicians</span></span>
+    </div>
+
+    <div class="culture-cards-container">
+        <!-- 祖冲之卡片 -->
+        <div class="bio-card">
+            <div class="bio-image">
+                 <img src="img/zu.jpg" alt="Zu Chongzhi">
+            </div>
+            <div class="bio-info">
+                <h2 class="bio-name">Zu Chongzhi (祖冲之)</h2>
+                <div class="bio-meta">
+                    <p><strong><span data-i18n="meta-nation">Nationality</span>:</strong> <span data-i18n="val-cn">Ancient China</span></p>
+                    <p><strong><span data-i18n="meta-era">Era</span>:</strong> 429–500 AD</p>
+                </div>
+                <div class="bio-intro">
+                    <p><strong><span data-i18n="meta-intro">Intro</span>:</strong> <span data-i18n="culture-zh">A world-renowned mathematician and astronomer. He calculated π with extreme precision (3.1415926-3.1415927), a record that stood for over 1000 years.</span></p>
+                </div>
+            </div>
         </div>
-    </main>
+
+        <!-- 阿基米德卡片 -->
+        <div class="bio-card">
+            <div class="bio-image">
+                <img src="img/arch.jpg" alt="Archimedes">
+            </div>
+            <div class="bio-info">
+                <h2 class="bio-name">Archimedes</h2>
+                <div class="bio-meta">
+                    <p><strong><span data-i18n="meta-nation">Nationality</span>:</strong> <span data-i18n="val-gr">Ancient Greece</span></p>
+                    <p><strong><span data-i18n="meta-era">Era</span>:</strong> c. 287 – c. 212 BC</p>
+                </div>
+                <div class="bio-intro">
+                    <p><strong><span data-i18n="meta-intro">Intro</span>:</strong> <span data-i18n="culture-gr">Considered one of the greatest mathematicians of all time. He used the method of exhaustion to approximate π and laid the foundations of calculus and geometry.</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+            <!-- 7. 广告位 -->
+            <div class="ads-section">
+                <div class="external-ad">
+                    <span class="ad-tag">Sponsored</span>
+                    <div class="ad-content">
+                        <img src="https://img.icons8.com/color/48/wolfram-alpha.png" alt="ad">
+                        <p><strong>WolframAlpha:</strong> Solve complex geometry problems instantly! <a href="#">Learn More</a></p>
+                    </div>
+                </div>
+                <div class="pro-banner">
+                    <h3 data-i18n="pro-title">Upgrade to CircleMaster Pro</h3>
+                    <p data-i18n="pro-desc">Get unlimited exercises and AI PDF summaries.</p>
+                    <button class="pro-btn" data-i18n="pro-btn">Join Now</button>
+                </div>
+            </div>
+        </div> <!-- End of main-view -->
+
+      <!-- 视图 2：定理详情 (整体替换这一段) -->
+<div id="detail-view" style="display: none;">
+    <!-- 1. 精美的面包屑导航 -->
+    <nav class="breadcrumb-pro">
+        <div class="breadcrumb-content">
+            <a href="javascript:void(0)" onclick="hideDetail()" data-i18n="bc-home">Home</a>
+            <span class="sep">/</span>
+            <span data-i18n="bc-gallery">Gallery</span>
+            <span class="sep">/</span>
+            <span id="breadcrumb-theorem" class="current-page">Theorem</span>
+        </div>
+    </nav>
+
+    <div class="detail-layout">
+        <!-- 2. 左侧展示区 (增加加载状态) -->
+        <div class="visual-section">
+            <div class="detail-header-info">
+                <h1 id="detail-title"></h1>
+                <span id="detail-badge" class="badge-pro">GCSE Level</span>
+            </div>
+
+            <div class="interactive-container-pro">
+                <!-- 加载中的动画 -->
+                <div id="iframe-loader" class="loader-box">
+                    <div class="spinner"></div>
+                    <p>Loading Interactive Geometry...</p>
+                </div>
+                <div id="detail-frame-container"></div>
+            </div>
+
+            <div class="interactive-controls">
+                <button onclick="reloadIframe()" class="control-btn">🔄 Reload Demo</button>
+                <button onclick="window.print()" class="control-btn">🖨️ Print Notes</button>
+            </div>
+        </div>
+
+        <!-- 3. 右侧深度学习区 -->
+        <aside class="explanation-section">
+            <div class="glass-card">
+                <h3 class="side-title"><i class="icon">📜</i> <span data-i18n="detail-explanation-title">Definition</span></h3>
+                <p id="detail-desc" class="desc-text"></p>
+            </div>
+
+            <div class="glass-card">
+                <h3 class="side-title"><i class="icon">💡</i> <span data-i18n="side-tips">Key Takeaways</span></h3>
+                <div id="detail-properties" class="prop-list-pro"></div>
+            </div>
+
+            <!-- 增加一个广告或行动呼吁，增加真实感 -->
+            <div class="mini-ad-card">
+                <p>Confused? Ask our <strong>AI Tutor</strong> in the corner! 🤖</p>
+            </div>
+        </aside>
+    </div>
+</div>
+
+    </main> <!-- 核心内容容器结束 -->
 
     <!-- 7. AI 聊天室 -->
     <div id="chat-toggle-btn" onclick="toggleChat()">🤖</div>
@@ -125,7 +275,7 @@
         <div class="container footer-content">
             <p data-i18n="footer-copy">© 2026 Group 33. All rights reserved.</p>
             <div class="footer-links">
-                <a href="#" data-i18n="footer-data">Data Policy</a>
+                <a href="javascript:void(0)" onclick="alertDataPolicy()" data-i18n="footer-data">Data Policy</a>
                 <a href="#" data-i18n="footer-access">Accessibility</a>
                 <a href="#" data-i18n="footer-contact">Contact Us</a>
             </div>
