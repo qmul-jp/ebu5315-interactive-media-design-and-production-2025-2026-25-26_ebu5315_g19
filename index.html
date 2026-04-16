@@ -39,18 +39,14 @@
         </div>
     </header>
 
-<!-- 3. 面包屑导航 -->
-    <div class="container">
-        <nav class="breadcrumb">
-            <a href="index.html" data-i18n="bc-home">Home</a> &nbsp;>&nbsp; <span data-i18n="bc-current">Homepage</span>
-        </nav>
-    </div>
-
     <!-- 核心内容容器开始 -->
     <main class="container">
 
         <!-- 视图 1：主页内容 (默认显示) -->
         <div id="main-view">
+            <nav class="breadcrumb">
+        <a href="index.html" data-i18n="bc-home">Home</a>
+    </nav>
             <!-- 4. Hero Section -->
             <section id="hero">
                 <h1 data-i18n="hero-title">Master Circle Geometry <br><span class="highlight">Powered by AI</span></h1>
@@ -133,7 +129,7 @@
                  <img src="img/zu.jpg" alt="Zu Chongzhi">
             </div>
             <div class="bio-info">
-                <h2 class="bio-name">Zu Chongzhi (祖冲之)</h2>
+                <h2 class="bio-name" data-i18n="zu-name">Zu Chongzhi </h2>
                 <div class="bio-meta">
                     <p><strong><span data-i18n="meta-nation">Nationality</span>:</strong> <span data-i18n="val-cn">Ancient China</span></p>
                     <p><strong><span data-i18n="meta-era">Era</span>:</strong> 429–500 AD</p>
@@ -150,7 +146,7 @@
                 <img src="img/arch.jpg" alt="Archimedes">
             </div>
             <div class="bio-info">
-                <h2 class="bio-name">Archimedes</h2>
+                <h2 class="bio-name" data-i18n="arch-name">Archimedes</h2>
                 <div class="bio-meta">
                     <p><strong><span data-i18n="meta-nation">Nationality</span>:</strong> <span data-i18n="val-gr">Ancient Greece</span></p>
                     <p><strong><span data-i18n="meta-era">Era</span>:</strong> c. 287 – c. 212 BC</p>
@@ -180,58 +176,29 @@
             </div>
         </div> <!-- End of main-view -->
 
-      <!-- 视图 2：定理详情 (整体替换这一段) -->
-<div id="detail-view" style="display: none;">
-    <!-- 1. 精美的面包屑导航 -->
+  <!-- 视图 2：定理详情 -->
+    <div id="detail-view" style="display: none;">
     <nav class="breadcrumb-pro">
-        <div class="breadcrumb-content">
+        <div class="container">
             <a href="javascript:void(0)" onclick="hideDetail()" data-i18n="bc-home">Home</a>
             <span class="sep">/</span>
             <span data-i18n="bc-gallery">Gallery</span>
             <span class="sep">/</span>
-            <span id="breadcrumb-theorem" class="current-page">Theorem</span>
+            <span id="active-theorem-name" style="font-weight: bold; color: #333;">Theorem</span>
         </div>
     </nav>
 
-    <div class="detail-layout">
-        <!-- 2. 左侧展示区 (增加加载状态) -->
-        <div class="visual-section">
-            <div class="detail-header-info">
-                <h1 id="detail-title"></h1>
-                <span id="detail-badge" class="badge-pro">GCSE Level</span>
-            </div>
-
-            <div class="interactive-container-pro">
-                <!-- 加载中的动画 -->
-                <div id="iframe-loader" class="loader-box">
-                    <div class="spinner"></div>
-                    <p>Loading Interactive Geometry...</p>
-                </div>
-                <div id="detail-frame-container"></div>
-            </div>
-
-            <div class="interactive-controls">
-                <button onclick="reloadIframe()" class="control-btn">🔄 Reload Demo</button>
-                <button onclick="window.print()" class="control-btn">🖨️ Print Notes</button>
-            </div>
+        <div class="container" id="theorems-accordion-container">
+            <!-- 定理列表会自动在这里生成 -->
         </div>
 
-        <!-- 3. 右侧深度学习区 -->
-        <aside class="explanation-section">
-            <div class="glass-card">
-                <h3 class="side-title"><i class="icon">📜</i> <span data-i18n="detail-explanation-title">Definition</span></h3>
-                <p id="detail-desc" class="desc-text"></p>
-            </div>
+        <div class="container" style="text-align: center; margin: 40px 0;">
+            <button onclick="hideDetail()" class="control-btn" style="padding: 12px 30px; border-radius: 30px; background: #666; color: #fff; border: none; cursor: pointer;">← Back to Home</button>
+        </div>
+    </div>
 
-            <div class="glass-card">
-                <h3 class="side-title"><i class="icon">💡</i> <span data-i18n="side-tips">Key Takeaways</span></h3>
-                <div id="detail-properties" class="prop-list-pro"></div>
-            </div>
+    </main> <!-- 这是 main 的闭合标签，请确保它在 detail-view 后面 -->
 
-            <!-- 增加一个广告或行动呼吁，增加真实感 -->
-            <div class="mini-ad-card">
-                <p>Confused? Ask our <strong>AI Tutor</strong> in the corner! 🤖</p>
-            </div>
         </aside>
     </div>
 </div>
