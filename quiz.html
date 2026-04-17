@@ -35,26 +35,33 @@
             <a href="index.html">Home (首页)</a> &nbsp;>&nbsp; <span>Quiz</span>
         </nav>
     </div>
-     <main class="container">
+    <main class="container">
         <section class="quiz-layout">
             <div class="quiz-area">
-                <div id="circle-canvas">
-                    <p>[ Quiz Area ]</p>
-                    <input type="text" placeholder="Enter your answer">
-                </div>
+                <form id="quiz-form" autocomplete="off" onsubmit="return false;">
+                    <div id="circle-canvas" aria-live="polite">
+                        <label for="answer-input" class="visually-hidden">Answer Input</label>
+                        <p>[ Quiz Area ]</p>
+                        <input id="answer-input" type="text" placeholder="Enter your answer" aria-label="Enter your answer">
+                    </div>
+                </form>
             </div>
-
             <aside class="quiz-panel">
                 <div class="panel-card control-card">
-                    <button id="next-btn" type="button">Next</button>
-                    <button id="analysis-btn" type="button" class="secondary-btn">Analysis</button>
+                    <button id="next-btn" type="button" aria-label="Next">Next</button>
+                    <button id="analysis-btn" type="button" class="secondary-btn" aria-label="Analysis">Analysis</button>
                 </div>
             </aside>
-            <label>Level</label>
-            <Input type="radio" name="Level">Basic
-            <Input type="radio" name="Level">Normal
-            <Input type="radio" name="Level">Hard<br>
-            <button id="feedback-btn" type="button">Feedback</button>
+            <fieldset class="level-fieldset">
+                <legend>Level</legend>
+                <input type="radio" id="level-basic" name="Level" value="basic">
+                <label for="level-basic">Basic</label>
+                <input type="radio" id="level-normal" name="Level" value="normal">
+                <label for="level-normal">Normal</label>
+                <input type="radio" id="level-hard" name="Level" value="hard">
+                <label for="level-hard">Hard</label>
+            </fieldset>
+            <button id="feedback-btn" type="button" aria-label="Feedback">Feedback</button>
         </section>
     </main>
     <footer>
@@ -67,7 +74,6 @@
             </div>
         </div>
     </footer>
-
     <script src="js/quiz.js"></script>
 </body>
 </html>
