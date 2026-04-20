@@ -344,8 +344,44 @@ function adjustFontSize(d) {
     root.style.setProperty('--font-size-base', size + 'px');
 }
 
-function alertDataPolicy() {
-    alert(currentLang === 'en' ? "Data Policy: No personal data collected." : "数据政策：不收集任何个人信息。");
+// 切换隐私政策模态框
+function togglePrivacyModal(show) {
+    const modal = document.getElementById('privacy-modal');
+    if (show) {
+        // 自动根据当前语言显示内容 (假设你的语言变量是 currentLang)
+        const isZh = (typeof currentLang !== 'undefined' && currentLang === 'zh');
+        document.querySelector('.lang-en').style.display = isZh ? 'none' : 'block';
+        document.querySelector('.lang-zh').style.display = isZh ? 'block' : 'none';
+
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // 禁止背景滚动
+    } else {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+}
+
+// 触发 AI 清空确认 (绑定到垃圾桶图标)
+function showClearChatConfirm() {
+    document.getElementById('confirm-modal').style.display = 'flex';
+}
+
+function toggleConfirmModal(show) {
+    document.getElementById('confirm-modal').style.display = show ? 'flex' : 'none';
+}
+
+// 真正执行清空
+function executeClearChat() {
+    const chatBody = document.querySelector('.chat-body');
+    if (chatBody) {
+        chatBody.innerHTML = ''; // 清空内容
+        // 发送一条 AI 初始欢迎语
+        const welcome = (typeof currentLang !== 'undefined' && currentLang === 'zh')
+            ? "AI: 历史记录已清空。"
+            : "AI: Chat history cleared.";
+        chatBody.innerHTML = `<p>${welcome}</p>`;
+    }
+    toggleConfirmModal(false);
 }
 
 function confirmClearChat() { document.getElementById('confirm-modal').style.display = 'flex'; }
@@ -405,4 +441,171 @@ function hideDetail() {
     document.getElementById('main-view').style.display = 'block';
     document.getElementById('detail-view').style.display = 'none';
     window.scrollTo(0, 0);
+}
+/* =========================================
+   Version 4 核心逻辑：隐私政策、二次确认、AI 交互
+   ========================================= */
+
+// 1. 隐私政策模态框逻辑 (对应评分标准：Ethical & Transparent Data Policy)
+function togglePrivacyModal(show) {
+    const modal = document.getElementById('privacy-modal');
+    const body = document.getElementById('privacy-body');
+    if (!modal || !body) return;
+
+    if (show) {
+        const isZh = (currentLang === 'zh');
+        // 动态生成内容，确保语言同步
+        body.innerHTML = isZh ? `
+            <h2 style="color:var(--primary-blue); margin-bottom:15px;">数据隐私政策</h2>
+            <p>本网站 CircleMaster 仅用于教学演示。我们承诺：</p>
+            <ul style="padding-left:20px; line-height:1.8;">
+                <li><strong>数据安全：</strong> AI 对话为实时处理，不会在服务器上进行存储或记录。</li>
+                <li><strong>个人隐私：</strong> 我们不会收集、销售或共享任何用户个人信息。</li>
+                <li><strong>Cookies：</strong> 我们仅使用本地存储记录您的无障碍偏好（如暗黑模式）。</li>
+                <li><strong>合规联系：</strong> 2024213574@bupt.cn</li>
+            </ul>
+        ` : `
+            <h2 style="color:var(--primary-blue); margin-bottom:15px;">Data Privacy Policy</h2>
+            <p>CircleMaster is for educational purposes only. We promise:</p>
+            <ul style="padding-left:20px; line-height:1.8;">
+                <li><strong>AI Security:</strong> Conversations are processed real-time and NOT stored.</li>
+                <li><strong>Privacy:</strong> We do not collect, sell, or share any personal data.</li>
+                <li><strong>Cookies:</strong> We only use local storage to save your theme preferences.</li>
+                <li><strong>Accountability:</strong> 2024213574@bupt.cn</li>
+            </ul>
+        `;
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // 弹窗时锁定背景滚动
+    } else {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto'; // 恢复滚动
+    }
+}
+
+// 2. AI 聊天清空二次确认逻辑 (对应评分标准：Tolerance & Safety)
+function confirmClearChat() {
+    const modal = document.getElementById('confirm-modal');
+    if (modal) modal.style.display = 'flex';
+}
+
+function closeModal() {
+    const modal = document.getElementById('confirm-modal');
+    if (modal) modal.style.display = 'none';
+}
+
+function executeClear() {
+    const chatBody = document.getElementById('chat-body');
+    if (chatBody) {
+        // 清空内容并保留一个专业提示
+        const welcome = (currentLang === 'zh')
+            ? "<strong>AI:</strong> 对话记录已清空。您可以继续提问。"
+            : "<strong>AI:</strong> Chat history cleared. How can I help you again?";
+        chatBody.innerHTML = `<p>${welcome}</p>`;
+    }
+    closeModal();
+}
+
+// 3. AI 关键词检测 (检测 "Contact" 或 "联系")
+const chatInputBox = document.getElementById('chat-input');
+if(chatInputBox) {
+    chatInputBox.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && this.value.trim() !== "") {
+            const userInput = this.value.toLowerCase();
+
+            // 如果输入包含关键词，在 0.6 秒后自动回复 BUPT 邮箱
+            if (userInput.includes('contact') || userInput.includes('联系')) {
+                setTimeout(() => {
+                    const reply = (currentLang === 'zh')
+                        ? "AI: 我们的首席设计师邮箱是 2024213574@bupt.cn"
+                        : "AI: You can contact our lead designer at 2024213574@bupt.cn";
+
+                    const p = document.createElement('p');
+                    p.innerHTML = `<span style="color:var(--primary-blue); font-weight:bold;">${reply}</span>`;
+                    document.getElementById('chat-body').appendChild(p);
+
+                    // 自动滚动到底部
+                    const chatBody = document.getElementById('chat-body');
+                    chatBody.scrollTop = chatBody.scrollHeight;
+                }, 600);
+            }
+        }
+    });
+}
+
+function openFooterModal(type) {
+    const modal = document.getElementById('privacy-modal');
+    const body = document.getElementById('privacy-body');
+    if (!modal || !body) return;
+
+    const isZh = (currentLang === 'zh');
+
+    if (type === 'data') {
+        // 数据政策内容 (你之前的内容)
+        body.innerHTML = isZh ? `
+            <h2>数据隐私政策</h2>
+            <p>CircleMaster 仅用于教学演示。我们承诺：</p>
+            <ul>
+                <li><strong>数据安全：</strong> AI 对话实时处理，不存储。</li>
+                <li><strong>个人隐私：</strong> 不收集、不共享任何用户信息。</li>
+                <li><strong>联系邮箱：</strong> 2024213574@bupt.cn</li>
+            </ul>
+        ` : `
+            <h2>Data Privacy Policy</h2>
+            <p>CircleMaster is for educational purposes only. We promise:</p>
+            <ul>
+                <li><strong>AI Security:</strong> Conversations are processed real-time and NOT stored.</li>
+                <li><strong>Privacy:</strong> We do not collect or share any personal data.</li>
+                <li><strong>Accountability:</strong> 2024213574@bupt.cn</li>
+            </ul>
+        `;
+    } else if (type === 'access') {
+        // 无障碍说明 (对应评分标准：Inclusive Design)
+        body.innerHTML = isZh ? `
+            <h2>无障碍辅助说明</h2>
+            <p>我们致力于为所有人提供平等的学习机会：</p>
+            <ul>
+                <li><strong>视觉辅助：</strong> 支持黑夜模式与高对比度切换。</li>
+                <li><strong>个性化：</strong> 字体大小可自由调节。</li>
+                <li><strong>标准合规：</strong> 努力符合 Web 内容无障碍指南 (WCAG)。</li>
+            </ul>
+        ` : `
+            <h2>Accessibility Statement</h2>
+            <p>We are committed to inclusive learning for everyone:</p>
+            <ul>
+                <li><strong>Visual Aid:</strong> Supports Dark Mode and High Contrast toggles.</li>
+                <li><strong>Customization:</strong> Adjustable font sizes for clear reading.</li>
+                <li><strong>Compliance:</strong> Striving to meet WCAG accessibility standards.</li>
+            </ul>
+        `;
+    } else if (type === 'contact') {
+        // 联系我们 (对应评分标准：Ethical/Contact)
+        body.innerHTML = isZh ? `
+            <h2>联系我们</h2>
+            <p>如果您有任何疑问或反馈，请通过以下方式联系：</p>
+            <ul>
+                <li><strong>首席设计师邮箱：</strong> 2024213574@bupt.cn</li>
+                <li><strong>响应时间：</strong> 我们将在 24 小时内回复。</li>
+                <li><strong>GitHub：</strong> 欢迎在项目仓库提交 Issue。</li>
+            </ul>
+        ` : `
+            <h2>Contact Us</h2>
+            <p>For any inquiries or feedback, please reach out to us:</p>
+            <ul>
+                <li><strong>Lead Designer Email:</strong> 2024213574@bupt.cn</li>
+                <li><strong>Response Time:</strong> We will respond within 24 hours.</li>
+                <li><strong>GitHub:</strong> Feel free to raise an issue in our repository.</li>
+            </ul>
+        `;
+    }
+
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+// 记得保留关闭函数
+function togglePrivacyModal(show) {
+    if (!show) {
+        document.getElementById('privacy-modal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
 }
