@@ -197,12 +197,6 @@
         </div>
     </div>
 
-    </main> <!-- 这是 main 的闭合标签，请确保它在 detail-view 后面 -->
-
-        </aside>
-    </div>
-</div>
-
     </main> <!-- 核心内容容器结束 -->
 
     <!-- 7. AI 聊天室 -->
@@ -212,6 +206,7 @@
         <div class="chat-header">
             <span data-i18n="chat-header">Circle AI Tutor</span>
             <div style="float:right">
+                <!-- 🗑️ 绑定到确认框函数 -->
                 <button onclick="confirmClearChat()" style="background:none;border:none;color:white;cursor:pointer">🗑️</button>
                 <button onclick="toggleChat()" style="background:none;border:none;color:white;cursor:pointer">✕</button>
             </div>
@@ -224,17 +219,28 @@
         </div>
     </div>
 
-    <!-- 8. 确认弹窗 -->
-    <div id="confirm-modal" style="display: none;">
-        <div class="modal-overlay">
-            <div class="modal-content">
-                <h3 data-i18n="modal-title">Confirm?</h3>
-                <p data-i18n="modal-desc">Clear all messages?</p>
-                <div style="margin-top:20px">
-                    <button onclick="executeClear()" class="btn-danger" data-i18n="btn-confirm">Delete</button>
-                    <button onclick="closeModal()" data-i18n="btn-cancel">Cancel</button>
-                </div>
+    <!-- 8. Version 4 新增：隐私政策与二次确认弹窗 -->
+    <!-- 二次确认弹窗 -->
+    <div id="confirm-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h3 data-i18n="modal-title">Confirm?</h3>
+            <p data-i18n="modal-desc">Clear all messages?</p>
+            <div style="margin-top:20px">
+                <!-- 对接 JS 中的 executeClear 函数 -->
+                <button onclick="executeClear()" class="btn-danger" data-i18n="btn-confirm">Delete</button>
+                <button onclick="closeModal()" data-i18n="btn-cancel">Cancel</button>
             </div>
+        </div>
+    </div>
+
+    <!-- 隐私政策弹窗 -->
+    <div id="privacy-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content privacy-box">
+            <span class="close-modal" onclick="togglePrivacyModal(false)">&times;</span>
+            <div id="privacy-body">
+                <!-- 内容由 JS 根据语言动态填充 -->
+            </div>
+            <button class="learn-more" onclick="togglePrivacyModal(false)" style="margin-top:20px">OK / 确定</button>
         </div>
     </div>
 
@@ -242,9 +248,11 @@
         <div class="container footer-content">
             <p data-i18n="footer-copy">© 2026 Group 33. All rights reserved.</p>
             <div class="footer-links">
-                <a href="javascript:void(0)" onclick="alertDataPolicy()" data-i18n="footer-data">Data Policy</a>
-                <a href="#" data-i18n="footer-access">Accessibility</a>
-                <a href="#" data-i18n="footer-contact">Contact Us</a>
+                <!-- 三个链接都绑定到新函数 -->
+            <a href="javascript:void(0)" onclick="openFooterModal('data')" data-i18n="footer-data">Data Policy</a>
+            <a href="javascript:void(0)" onclick="openFooterModal('access')" data-i18n="footer-access">Accessibility</a>
+            <a href="javascript:void(0)" onclick="openFooterModal('contact')" data-i18n="footer-contact">Contact Us</a>
+
             </div>
         </div>
     </footer>

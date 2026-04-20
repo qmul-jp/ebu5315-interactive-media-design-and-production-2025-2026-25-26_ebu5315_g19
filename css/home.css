@@ -65,11 +65,65 @@ header { background: var(--card-bg); padding: 1rem 0; border-bottom: 1px solid #
     justify-content: center; align-items: center; font-size: 30px; cursor: pointer; z-index: 1000;
 }
 
-/* 聊天窗口 */
-#ai-chat-widget { position: fixed; bottom: 95px; right: 25px; width: 300px; background: white; border: 2px solid var(--primary-blue); border-radius: 10px; z-index: 1000; }
-.chat-header { background: var(--primary-blue); color: white; padding: 10px; }
-.chat-body { height: 200px; overflow-y: auto; padding: 10px; color: #333; background: #fff; }
-.chat-input input { width: 100%; border: none; padding: 10px; border-top: 1px solid #ddd; }
+/* --- 完整的 Version 4 AI 聊天框样式 (已整合深蓝配色与溢出修复) --- */
+
+#ai-chat-widget {
+    position: fixed;
+    bottom: 95px;
+    right: 25px;
+    width: 300px;
+    background: var(--card-bg);
+    border: 2px solid #0056b3; /* 深蓝色边框 */
+    border-radius: 15px;
+    overflow: hidden; /* 关键：确保里面的内容不刺出圆角 */
+    z-index: 1000;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.chat-header {
+    background: #0056b3; /* 头部深蓝色 */
+    color: white;
+    padding: 12px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-body {
+    height: 200px;
+    overflow-y: auto;
+    padding: 10px;
+    color: var(--text-color);
+    background: var(--bg-color);
+}
+
+.chat-input {
+    background: var(--card-bg);
+    border-top: 1px solid rgba(0, 86, 179, 0.2); /* 顶部细分割线 */
+}
+
+.chat-input input {
+    width: 100%;
+    border: none;
+    padding: 12px 15px;
+    background: transparent;
+    color: var(--text-color);
+    font-size: 14px;
+    display: block;
+    box-sizing: border-box;
+}
+
+/* 彻底解决点击时的黑框问题 */
+.chat-input input:focus {
+    outline: none; /* 移除默认黑框 */
+    background-color: rgba(0, 86, 179, 0.05); /* 聚焦时淡淡的蓝色背景 */
+}
+
+/* 暗黑模式同步 */
+[data-theme="dark"] #ai-chat-widget {
+    border-color: #007bff; /* 暗黑模式下用稍亮一点的蓝色，看得更清 */
+}
 
 /* V2: 确认弹窗样式 */
 #confirm-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; display: flex; align-items: center; justify-content: center; }
@@ -584,12 +638,38 @@ footer { background: var(--card-bg); padding: 2rem 0; margin-top: 50px; border-t
 }
 
 /* 布局调整：左侧图形占 45%，右侧文字占 55% */
+/* 默认（手机端）：垂直堆叠布局 */
 .accordion-item.active .accordion-content {
     display: grid;
-    grid-template-columns: 320px 1fr; /* 固定图形宽度，防止拉伸 */
+    grid-template-columns: 1fr; /* 手机端只有一列 */
     gap: 20px;
     padding: 20px;
     background: #fff;
+}
+
+/* 桌面端（屏幕宽度 > 768px）：恢复左右布局 */
+@media (min-width: 768px) {
+    .accordion-item.active .accordion-content {
+        /* 将固定 320px 改为比例，或者使用 minmax 确保不会撑破 */
+        grid-template-columns: minmax(300px, 1fr) 1.5fr;
+        align-items: center; /* 左右垂直居中对齐，更美观 */
+    }
+
+    .demo-container {
+        height: 350px; /* 桌面端可以高一点 */
+    }
+}
+
+/* 图形容器优化 */
+.demo-container {
+    background: #fdfdfd;
+    border-radius: 8px;
+    height: 250px; /* 手机端默认高度 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #f0f0f0;
+    overflow: hidden; /* 防止 SVG 溢出 */
 }
 
 /* 图形容器：增加浅灰色背景，显出边界 */
@@ -748,3 +828,120 @@ header {
 [data-a11y="high-contrast"] .info-container h3 {
     color: #ff0 !important;
 }
+/* 模态框通用遮罩 */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+}
+
+/* 隐私政策框特定样式 */
+.privacy-box {
+    max-width: 500px;
+    text-align: left !important;
+}
+
+.privacy-box ul {
+    padding-left: 20px;
+    margin: 15px 0;
+}
+
+.privacy-box li {
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px; right: 20px;
+    font-size: 28px;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.close-modal:hover { opacity: 1; color: var(--primary-blue); }
+
+/* 危险操作按钮 */
+.btn-danger {
+    background: #ff4757;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: 0.3s;
+}
+
+.btn-danger:hover {
+    background: #ff6b81;
+    box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
+}
+
+/* 暗黑模式适配 */
+[data-theme="dark"] .modal-content {
+    background: #252525;
+    border-color: #444;
+}
+
+/* 高对比度模式适配 */
+[data-a11y="high-contrast"] .modal-content {
+    background: #000 !important;
+    border: 3px solid #ff0 !important;
+    color: #ff0 !important;
+}
+[data-a11y="high-contrast"] .btn-danger {
+    border: 2px solid #ff0;
+    background: #000;
+    color: #ff0;
+}
+/* 遮罩层通用样式 */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4000;
+}
+
+.privacy-box {
+    text-align: left !important;
+    max-width: 500px;
+}
+
+/* 隐私政策内容微调 */
+#privacy-body h2 { color: var(--primary-blue); margin-bottom: 15px; }
+#privacy-body ul { padding-left: 20px; }
+#privacy-body li { margin-bottom: 10px; line-height: 1.5; }
+
+/* 暗黑模式下弹窗背景适配 */
+[data-theme="dark"] .modal-content {
+    background: #2d2d2d;
+    border-color: #444;
+}
+
+/* 高对比度模式下的危险按钮 */
+[data-a11y="high-contrast"] .btn-danger {
+    background: #000;
+    color: #ff0;
+    border: 2px solid #ff0;
+}
+
+/* 关闭按钮样式 */
+.close-modal {
+    position: absolute;
+    top: 15px; right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    opacity: 0.6;
+}
+.close-modal:hover { opacity: 1; }
