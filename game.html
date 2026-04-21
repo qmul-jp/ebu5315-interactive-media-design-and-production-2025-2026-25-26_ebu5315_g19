@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CircleMaster - Neon Tangent Striker</title>
+    <title>CircleMaster - Geometry Lab</title>
     <link rel="stylesheet" href="css/game.css">
 </head>
 <body>
-
     <div id="accessibility-bar">
         <div class="container">
             <button type="button" onclick="changeLanguage()" data-i18n="btn-lang">EN / 中</button>
@@ -42,131 +41,74 @@
 
     <div class="container">
         <nav class="breadcrumb">
-            <a href="index.html" data-i18n="bc-home">Home</a> &nbsp;>&nbsp; <span data-i18n="bc-current">Game: Neon Tangent Striker</span>
+            <a href="index.html" data-i18n="bc-home">Home</a>
+            &nbsp;>&nbsp;
+            <span data-i18n="bc-current">Game: Geometry Lab</span>
         </nav>
     </div>
 
     <main class="container">
         <section class="game-layout">
             <div class="game-area">
-                <div class="prototype-stage neon-stage">
+                <div class="prototype-stage geometry-stage">
                     <div class="stage-header">
                         <div>
-                            <h2 data-i18n="stage-title">Neon Tangent Striker</h2>
-                            <p data-i18n="stage-intro">
-                                CircleMaster now turns the tangent theorem into a timing challenge.
-                                Watch the rotating contact point, read the tangent line, and fire when it slices through the target.
-                            </p>
+                            <h2 data-i18n="stage-title">Geometry Lab</h2>
+                            <p data-i18n="stage-intro">Explore circle theorems by dragging points and observing what stays true.</p>
                         </div>
-                        <div class="stage-badge" id="stage-badge">Phase 1</div>
+                        <div class="stage-badge" data-field="mode-badge">Tangent-Radius</div>
                     </div>
 
                     <div class="mission-grid">
                         <article class="mission-card">
-                            <h3 data-i18n="mission-title">Prototype Goal</h3>
-                            <p data-i18n="mission-desc">
-                                This game page keeps the same CircleMaster shell, but replaces the old theorem-chain chamber with a more active shooting loop.
-                            </p>
+                            <h3 data-i18n="mission-title">Lab Goal</h3>
+                            <p data-i18n="mission-desc">Use the board to manipulate points and verify geometry rules visually.</p>
                             <ul class="objective-list">
-                                <li data-i18n="mission-step-1">The cyan radius and the pink tangent always meet at a right angle.</li>
-                                <li data-i18n="mission-step-2">Fire when the tangent beam passes through the outer target ring.</li>
-                                <li data-i18n="mission-step-3">Build combo, protect stability, and survive as the orbit speeds up.</li>
+                                <li data-i18n="mission-step-1">Drag highlighted points directly on the circle.</li>
+                                <li data-i18n="mission-step-2">Observe how lines, angles, and arcs update in real time.</li>
+                                <li data-i18n="mission-step-3">Use the theorem notes to explain what remains unchanged.</li>
                             </ul>
                         </article>
 
                         <article class="target-card">
-                            <h3 data-i18n="target-title">Rule Focus</h3>
-                            <div class="target-value">90°</div>
-                            <div class="target-note" data-i18n="target-note">A tangent is perpendicular to the radius at the contact point.</div>
+                            <h3 data-i18n="target-title">Current Theorem</h3>
+                            <div class="target-value" data-field="focus-value">90°</div>
+                            <div class="target-note" data-field="focus-note">A tangent is perpendicular to the radius at the contact point.</div>
                         </article>
                     </div>
 
                     <div class="arena-shell">
                         <div class="arena-hud">
                             <div class="hud-chip">
-                                <span data-i18n="hud-score">Score</span>
-                                <strong data-field="score">0</strong>
+                                <span data-i18n="hud-mode">Mode</span>
+                                <strong data-field="mode">Tangent-Radius</strong>
                             </div>
                             <div class="hud-chip">
-                                <span data-i18n="hud-combo">Combo</span>
-                                <strong data-field="combo">0</strong>
+                                <span data-i18n="hud-drag">Drag</span>
+                                <strong data-field="drag">Point T</strong>
                             </div>
                             <div class="hud-chip">
-                                <span data-i18n="hud-lives">Lives</span>
-                                <strong data-field="lives">3</strong>
+                                <span data-i18n="hud-measure">Measure</span>
+                                <strong data-field="measure">90°</strong>
                             </div>
                             <div class="hud-chip accent">
-                                <span data-i18n="hud-alignment">Alignment</span>
-                                <strong data-field="alignment">0%</strong>
+                                <span data-i18n="hud-status">Status</span>
+                                <strong data-field="status">Verified</strong>
                             </div>
                         </div>
 
                         <div class="arena-frame">
-                            <svg id="arena-svg" viewBox="0 0 640 520" aria-label="Neon Tangent Striker arena" data-i18n-aria-label="arena-aria-label" role="img">
-                                <defs>
-                                    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
-                                        <feGaussianBlur stdDeviation="6" result="blur"></feGaussianBlur>
-                                        <feMerge>
-                                            <feMergeNode in="blur"></feMergeNode>
-                                            <feMergeNode in="SourceGraphic"></feMergeNode>
-                                        </feMerge>
-                                    </filter>
-                                    <radialGradient id="coreGlow" cx="50%" cy="50%" r="60%">
-                                        <stop offset="0%" stop-color="rgba(255,255,255,0.85)"></stop>
-                                        <stop offset="40%" stop-color="rgba(0,123,255,0.24)"></stop>
-                                        <stop offset="100%" stop-color="rgba(0,123,255,0)"></stop>
-                                    </radialGradient>
-                                </defs>
-                                <rect class="arena-backdrop" x="0" y="0" width="640" height="520" rx="24"></rect>
-
-                                <g class="grid-layer" aria-hidden="true">
-                                    <circle class="grid-ring" cx="320" cy="260" r="70"></circle>
-                                    <circle class="grid-ring" cx="320" cy="260" r="120"></circle>
-                                    <circle class="grid-ring" cx="320" cy="260" r="175"></circle>
-                                    <circle class="grid-ring" cx="320" cy="260" r="235"></circle>
-                                    <line class="grid-line" x1="320" y1="24" x2="320" y2="496"></line>
-                                    <line class="grid-line" x1="84" y1="260" x2="556" y2="260"></line>
-                                    <line class="grid-line" x1="142" y1="82" x2="498" y2="438"></line>
-                                    <line class="grid-line" x1="142" y1="438" x2="498" y2="82"></line>
-                                </g>
-
-                                <g class="target-layer">
-                                    <circle id="target-warning" cx="506" cy="176" r="38"></circle>
-                                    <circle id="countdown-ring" cx="506" cy="176" r="28"></circle>
-                                    <circle id="target-ring" cx="506" cy="176" r="18"></circle>
-                                    <circle id="target-body" cx="506" cy="176" r="11"></circle>
-                                    <text id="target-timer" x="506" y="136" text-anchor="middle">4.5s</text>
-                                </g>
-
-                                <g class="core-layer">
-                                    <circle class="core-glow" cx="320" cy="260" r="160"></circle>
-                                    <circle class="core-ring" cx="320" cy="260" r="118"></circle>
-                                    <circle class="core-inner" cx="320" cy="260" r="84"></circle>
-                                    <line id="radius-line" x1="320" y1="260" x2="320" y2="142"></line>
-                                    <path id="right-angle-marker" d="M 0 0 L 0 0 L 0 0"></path>
-                                    <line id="tangent-preview" x1="320" y1="142" x2="640" y2="142"></line>
-                                    <line id="laser-beam" x1="320" y1="142" x2="320" y2="142"></line>
-                                    <circle id="contact-glow" cx="320" cy="142" r="15"></circle>
-                                    <circle id="contact-point" cx="320" cy="142" r="7"></circle>
-                                    <circle id="center-core" cx="320" cy="260" r="8"></circle>
-                                </g>
-
-                                <g class="burst-layer">
-                                    <circle id="blast-ring" cx="506" cy="176" r="8"></circle>
-                                    <circle id="blast-core" cx="506" cy="176" r="5"></circle>
-                                </g>
-                            </svg>
-
+                            <svg id="geometry-board" viewBox="0 0 640 520" role="img" data-i18n-aria-label="board-aria-label" aria-label="Interactive geometry board"></svg>
                             <div class="status-banner info arena-message" id="arena-message" data-i18n="msg-ready">
-                                Press Start Session, then fire when the tangent beam slices through the target.
+                                Drag a highlighted point to explore the theorem.
                             </div>
                         </div>
 
                         <div class="arena-actions">
-                            <button type="button" data-action="start" data-i18n="btn-start">Start Session</button>
-                            <button type="button" data-action="fire" class="accent-btn" data-i18n="btn-fire">Fire Tangent</button>
-                            <button type="button" data-action="pause" class="secondary-btn pause-btn"><span data-role="pause-label" data-i18n="btn-pause">Pause</span></button>
-                            <button type="button" data-action="restart" class="secondary-btn" data-i18n="btn-restart">Restart</button>
+                            <button type="button" data-action="reset" data-i18n="btn-reset">Reset Board</button>
+                            <button type="button" data-action="guides" class="secondary-btn" data-i18n="btn-guides">Toggle Guides</button>
+                            <button type="button" data-action="labels" class="secondary-btn" data-i18n="btn-labels">Toggle Labels</button>
+                            <button type="button" data-action="next-mode" class="accent-btn" data-i18n="btn-next">Next Theorem</button>
                         </div>
                     </div>
                 </div>
@@ -174,33 +116,43 @@
 
             <aside class="game-panel">
                 <div class="panel-card status-card">
-                    <h2 data-i18n="panel-session">Session Status</h2>
-                    <p><strong data-i18n="panel-phase">Phase:</strong> <span data-field="phase">1</span></p>
-                    <p><strong data-i18n="panel-score">Score:</strong> <span data-field="score">0</span></p>
-                    <p><strong data-i18n="panel-combo">Combo:</strong> <span data-field="combo">0</span></p>
-                    <p><strong data-i18n="panel-lives">Lives:</strong> <span data-field="lives">3</span></p>
-                    <p><strong data-i18n="panel-alignment">Alignment:</strong> <span data-field="alignment">0%</span></p>
+                    <h2 data-i18n="panel-status">Lab Status</h2>
+                    <p><strong data-i18n="status-mode-label">Mode:</strong> <span data-field="status-mode">Tangent-Radius</span></p>
+                    <p><strong data-i18n="status-drag-label">Draggable points:</strong> <span data-field="status-drag">Point T</span></p>
+                    <p><strong data-i18n="status-measure-label">Key measurement:</strong> <span data-field="status-measure">90°</span></p>
+                    <p><strong data-i18n="status-observation-label">Observation:</strong> <span data-field="status-observation">The theorem relationship is holding.</span></p>
+                    <p><strong data-i18n="status-guides-label">Guides:</strong> <span data-field="status-guides">On</span></p>
+                    <p><strong data-i18n="status-labels-label">Labels:</strong> <span data-field="status-labels">On</span></p>
                 </div>
 
                 <div class="panel-card control-card">
-                    <label data-i18n="panel-controls">Tangent Controls</label>
-                    <p class="control-helper" data-i18n="controls-helper">Desktop: press Space to fire and P to pause. Mobile: tap the arena or the Fire Tangent button.</p>
-                    <button type="button" data-action="start" data-i18n="btn-start">Start Session</button>
-                    <button type="button" data-action="fire" class="accent-btn" data-i18n="btn-fire">Fire Tangent</button>
-                    <button type="button" data-action="pause" class="secondary-btn pause-btn"><span data-role="pause-label" data-i18n="btn-pause">Pause</span></button>
-                    <button type="button" data-action="restart" class="secondary-btn" data-i18n="btn-restart">Restart</button>
+                    <h2 data-i18n="panel-controls">Lab Controls</h2>
+                    <p class="control-helper" data-i18n="controls-helper">Switch the theorem, drag highlighted points, and compare the measurements.</p>
+
+                    <div class="mode-list">
+                        <button type="button" class="mode-btn active" data-mode="tangent" data-i18n="mode-tangent">Tangent-Radius</button>
+                        <button type="button" class="mode-btn" data-mode="center-angle" data-i18n="mode-center-angle">Angle at Center</button>
+                        <button type="button" class="mode-btn" data-mode="same-arc" data-i18n="mode-same-arc">Same Arc Theorem</button>
+                        <button type="button" class="mode-btn" data-mode="semicircle" data-i18n="mode-semicircle">Semi-circle Angle</button>
+                    </div>
+
+                    <button type="button" data-action="reset" data-i18n="btn-reset">Reset Board</button>
+                    <button type="button" data-action="guides" class="secondary-btn" data-i18n="btn-guides">Toggle Guides</button>
+                    <button type="button" data-action="labels" class="secondary-btn" data-i18n="btn-labels">Toggle Labels</button>
                 </div>
 
-                <div class="panel-card status-card">
-                    <h2 data-i18n="panel-theorem">Tangent Theorem</h2>
-                    <p data-i18n="theorem-body">The cannon rotates around the circle. Each shot travels along the tangent at the contact point, while the cyan guide shows the matching radius.</p>
-                    <p><strong data-i18n="play-tip-label">Play tip:</strong> <span data-i18n="play-tip-body">Do not aim at the centre of the target. Wait until the beam just grazes the circle and passes through the outer lock.</span></p>
+                <div class="panel-card theorem-card-panel">
+                    <h2 data-i18n="panel-theorem">Theorem Notes</h2>
+                    <p class="theorem-mode-tag" data-field="theorem-mode">Tangent-Radius</p>
+                    <p><strong data-i18n="theorem-definition-label">Definition:</strong> <span data-field="theorem-statement">A tangent is perpendicular to the radius at the contact point.</span></p>
+                    <p><strong data-i18n="theorem-explanation-label">Why it matters:</strong> <span data-field="theorem-explanation">The right angle is preserved wherever the contact point moves.</span></p>
+                    <p><strong data-i18n="theorem-hint-label">Try this:</strong> <span data-field="theorem-hint">Drag point T all the way around the circle and watch the marker stay at 90°.</span></p>
                 </div>
 
                 <div class="panel-card log-card">
-                    <h2 data-i18n="panel-log">Combat Log</h2>
+                    <h2 data-i18n="panel-log">Observation Log</h2>
                     <div class="log-box" id="log-box">
-                        <div class="log-empty" data-i18n="log-empty">No rounds played yet.</div>
+                        <div class="log-empty" data-i18n="log-empty">No observations yet.</div>
                     </div>
                 </div>
             </aside>
@@ -210,10 +162,10 @@
     <div id="ai-chat-widget">
         <div class="chat-header" data-i18n="chat-header">Circle AI Tutor</div>
         <div class="chat-body">
-            <p data-chat-welcome><strong data-i18n="chat-ai">AI:</strong> <span data-i18n="chat-welcome">Welcome to Neon Tangent Striker. Ask for a hint, the tangent rule, or contact help.</span></p>
+            <p data-chat-welcome><strong data-i18n="chat-ai">AI:</strong> <span data-i18n="chat-welcome">Welcome to the Geometry Lab. Ask for a hint, a tangent reminder, or a center-angle explanation.</span></p>
         </div>
         <div class="chat-input">
-            <input type="text" placeholder="Ask about tangent timing..." data-i18n-placeholder="chat-placeholder">
+            <input type="text" placeholder="Ask about a circle theorem..." data-i18n-placeholder="chat-placeholder">
         </div>
     </div>
 
