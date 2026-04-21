@@ -244,12 +244,18 @@ main.container {
 .stage-badge,
 .theorem-mode-tag {
     align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 196px;
+    min-height: 42px;
     background: rgba(255, 255, 255, 0.78);
     color: var(--primary-blue-deep);
     border: 1px solid rgba(58, 123, 213, 0.18);
     border-radius: 999px;
     padding: 8px 14px;
     font-weight: 700;
+    text-align: center;
     white-space: nowrap;
 }
 
@@ -273,6 +279,12 @@ main.container {
     border: 1px solid rgba(208, 218, 232, 0.9);
     border-radius: 24px;
     box-shadow: 0 10px 24px rgba(18, 36, 67, 0.06);
+}
+
+.mission-card,
+.target-card,
+.panel-card {
+    min-height: 100%;
 }
 
 [data-theme="dark"] .mission-card,
@@ -317,6 +329,23 @@ main.container {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    min-height: 276px;
+}
+
+.target-value {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--primary-blue-deep);
+}
+
+.target-note {
+    min-height: 78px;
+    display: flex;
+    align-items: flex-start;
 }
 
 .task-divider {
@@ -340,6 +369,7 @@ main.container {
     font-size: 1.05rem;
     font-weight: 700;
     line-height: 1.55;
+    min-height: 3.3em;
 }
 
 .task-progress-row {
@@ -350,6 +380,8 @@ main.container {
     font-size: 0.92rem;
     font-weight: 700;
     line-height: 1.5;
+    min-height: 2.9em;
+    align-items: flex-start;
 }
 
 .task-progress-bar {
@@ -371,30 +403,56 @@ main.container {
 
 .arena-hud {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: 1fr;
     gap: 12px;
     margin-bottom: 14px;
 }
 
 .hud-chip {
-    padding: 14px 16px;
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
+    padding: 16px 18px;
+    display: grid;
+    grid-template-columns: minmax(92px, 160px) minmax(0, 1fr);
+    gap: 16px;
     align-items: center;
+    min-height: 72px;
 }
 
 .hud-chip span {
     color: var(--muted-text);
     font-size: 0.92rem;
     line-height: 1.45;
+    align-self: center;
+    font-weight: 700;
+    letter-spacing: 0.02em;
 }
 
 .hud-chip strong {
     color: var(--text-color);
     font-size: 1rem;
-    text-align: right;
-    line-height: 1.4;
+    text-align: left;
+    line-height: 1.45;
+    min-width: 0;
+    overflow: visible;
+    overflow-wrap: anywhere;
+    display: block;
+    min-height: 0;
+    max-height: none;
+}
+
+.hud-chip[data-field],
+.hud-chip:has([data-field="measure"]),
+.hud-chip:has([data-field="status"]),
+.hud-chip:has([data-field="drag"]),
+.hud-chip:has([data-field="mode"]) {
+    contain: layout;
+}
+
+.hud-chip strong[data-field="measure"] {
+    font-size: 0.98rem;
+}
+
+.hud-chip strong[data-field="status"] {
+    justify-self: stretch;
 }
 
 .hud-chip.accent {
@@ -446,6 +504,13 @@ main.container {
     fill: none;
     stroke: var(--board-circle);
     stroke-width: 3;
+}
+
+.snap-zone {
+    fill: none;
+    stroke: rgba(58, 123, 213, 0.14);
+    stroke-width: 1.5;
+    stroke-dasharray: 5 10;
 }
 
 .board-diameter {
@@ -555,6 +620,12 @@ main.container {
     fill: var(--point-fill);
 }
 
+.point-drag.off-circle {
+    fill: #ffffff;
+    stroke: var(--tangent-color);
+    stroke-width: 3.5;
+}
+
 .drag-hit {
     fill: transparent;
     cursor: grab;
@@ -562,6 +633,18 @@ main.container {
 
 .drag-hit:active {
     cursor: grabbing;
+}
+
+.snap-guide {
+    stroke: rgba(239, 107, 107, 0.58);
+    stroke-width: 2.5;
+    stroke-dasharray: 6 8;
+}
+
+.snap-target {
+    fill: rgba(239, 107, 107, 0.1);
+    stroke: rgba(239, 107, 107, 0.7);
+    stroke-width: 2;
 }
 
 .center-point {
@@ -604,6 +687,7 @@ main.container {
 .mission-status-card {
     position: relative;
     overflow: hidden;
+    min-height: 368px;
 }
 
 .mission-status-card::after {
@@ -618,11 +702,20 @@ main.container {
     pointer-events: none;
 }
 
+.theorem-card-panel {
+    min-height: 260px;
+}
+
+.log-card {
+    min-height: 336px;
+}
+
 .status-card p,
 .theorem-card-panel p {
     margin: 12px 0 0;
     color: var(--muted-text);
     line-height: 1.65;
+    min-height: 2.8em;
 }
 
 .status-card p:first-of-type,
@@ -707,6 +800,7 @@ main.container {
 
 .log-box {
     max-height: 270px;
+    min-height: 246px;
     overflow-y: auto;
     padding-right: 4px;
 }
@@ -841,6 +935,38 @@ footer {
     .mission-card,
     .target-card {
         padding: 22px;
+    }
+
+    .task-card,
+    .mission-status-card,
+    .theorem-card-panel,
+    .log-card,
+    .log-box,
+    .hud-chip,
+    .stage-badge,
+    .theorem-mode-tag,
+    .status-card p,
+    .theorem-card-panel p,
+    .target-note,
+    .task-title,
+    .task-progress-row {
+        min-height: 0;
+    }
+
+    .arena-hud {
+        grid-auto-rows: auto;
+    }
+
+    .hud-chip,
+    .hud-chip strong {
+        height: auto;
+        max-height: none;
+    }
+
+    .hud-chip {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        align-items: start;
     }
 
     .hud-chip {

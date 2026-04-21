@@ -13,12 +13,12 @@ const translations = {
         'bc-current': 'Game: Geometry Lab',
         'page-title': 'CircleMaster - Geometry Lab',
         'stage-title': 'Geometry Lab',
-        'stage-intro': 'Explore circle theorems by dragging points and observing what stays true.',
+        'stage-intro': 'Explore circle theorems by dragging points on and near the circle to see what stays true.',
         'mission-title': 'Lab Goal',
-        'mission-desc': 'Use the board to manipulate points and verify geometry rules visually.',
-        'mission-step-1': 'Drag highlighted points directly on the circle.',
-        'mission-step-2': 'Observe how lines, angles, and arcs update in real time.',
-        'mission-step-3': 'Use the theorem notes to explain what remains unchanged.',
+        'mission-desc': 'Use the board to manipulate points and test when geometry rules really hold.',
+        'mission-step-1': 'Drag highlighted points around the circle and feel them snap back onto the circumference.',
+        'mission-step-2': 'Pull a point slightly off the circle to see which theorem relationship starts to drift.',
+        'mission-step-3': 'Bring the point back near the circle and explain why the invariant returns.',
         'target-title': 'Current Theorem',
         'hud-mode': 'Mode',
         'hud-drag': 'Drag',
@@ -70,21 +70,28 @@ const translations = {
         'toggle-off': 'Off',
         'status-verified': 'Verified',
         'status-exploring': 'Exploring',
+        'status-off-circle': 'Off Circle',
+        'snap-state-snapped': 'back on the circle',
+        'snap-state-off': 'off the circle',
         'focus-right-angle': '90°',
         'focus-double-angle': '2:1',
         'focus-equal': 'Equal',
         'measure-tangent': 'OT ⟂ tangent = 90°',
+        'measure-tangent-off': 'Point T is {distance} away from the circle',
         'measure-center-angle': '∠AOB = {central}, ∠ACB = {inscribed}',
         'measure-same-arc': '∠ACB = {angleC}, ∠ADB = {angleD}',
         'measure-semicircle': '∠APB = {angle}',
         'equation-tangent': 'OT is perpendicular to the tangent at T.',
+        'equation-tangent-off': 'T must return to the circumference before this point can define a tangent contact.',
         'equation-center-angle': 'The central angle stays twice the inscribed angle.',
         'equation-same-arc': '{angleC} = {angleD}',
         'equation-semicircle': '∠APB remains {angle}',
+        'equation-off-circle': 'This circle theorem is guaranteed only when the draggable point lies on the circumference.',
         'obs-tangent': 'The radius and tangent keep a right angle as T moves.',
         'obs-center-angle': 'The central angle stays twice the circumference angle.',
         'obs-same-arc': 'Both circumference angles keep the same measure from arc AB.',
         'obs-semicircle': 'Any point on the semicircle forms a right angle with the diameter.',
+        'obs-off-circle': 'This point is off the circumference, so the circle theorem is no longer guaranteed.',
         'theorem-tangent-definition': 'A tangent is perpendicular to the radius at the contact point.',
         'theorem-tangent-explanation': 'The right angle is preserved wherever the contact point moves around the circle.',
         'theorem-tangent-hint': 'Drag point T around the circumference and watch the tangent line rotate with it.',
@@ -114,6 +121,8 @@ const translations = {
         'msg-reset': 'Board reset. The geometry is ready again.',
         'msg-dragging': 'Dragging {point}. Watch the relationship stay true.',
         'msg-verified': 'The theorem relationship still holds.',
+        'msg-off-circle': '{point} is off the circle, so the theorem is no longer guaranteed.',
+        'msg-snapped': '{point} snapped back onto the circle. The theorem relationship returns.',
         'msg-task-complete': 'Stage {stage} complete. Move on to the next target.',
         'msg-mode-complete': 'All three stages cleared in this theorem mode.',
         'msg-guides-on': 'Guide grid is visible.',
@@ -127,6 +136,7 @@ const translations = {
         'log-labels-title': 'Label display changed',
         'log-task-title': 'Task cleared',
         'log-mode-complete-title': 'Mode cleared',
+        'log-snap-title': 'Snap detected',
         'log-tangent-intro': 'Tangent-Radius mode loaded. Drag T to see OT stay perpendicular to the tangent.',
         'log-center-intro': 'Angle at Center mode loaded. Compare ∠AOB with ∠ACB.',
         'log-same-arc-intro': 'Same Arc mode loaded. Drag C and D while both stand on arc AB.',
@@ -140,6 +150,8 @@ const translations = {
         'log-guides-off': 'Guide grid turned off to focus on the theorem lines.',
         'log-labels-on': 'Point labels turned on.',
         'log-labels-off': 'Point labels turned off.',
+        'log-snap-body': '{point} is {state}.',
+        'log-off-circle-body': '{point} moved off the circumference, so the theorem relationship is no longer guaranteed.',
         'log-task-body': 'Stage {stage} cleared: {task}.',
         'log-mode-complete-body': '{mode} now has all three stages complete.',
         'board-aria-label': 'Interactive circle geometry board',
@@ -174,12 +186,12 @@ const translations = {
         'bc-current': '游戏：圆几何实验室',
         'page-title': 'CircleMaster - 圆几何实验室',
         'stage-title': '圆几何实验室',
-        'stage-intro': '通过拖动点并观察保持不变的关系，探索圆几何定理。',
+        'stage-intro': '通过在圆上以及圆附近拖动点，观察哪些圆几何关系会保持不变。',
         'mission-title': '实验目标',
-        'mission-desc': '使用画板移动点，并用可视化方式验证圆几何规则。',
-        'mission-step-1': '直接拖动圆上的高亮点。',
-        'mission-step-2': '观察直线、角度和弧如何实时更新。',
-        'mission-step-3': '用定理说明解释哪些关系保持不变。',
+        'mission-desc': '使用画板移动点，并测试几何规则究竟在什么条件下成立。',
+        'mission-step-1': '拖动高亮点，感受它在靠近圆周时自动吸附回圆上。',
+        'mission-step-2': '把点稍微拉离圆周，观察哪些定理关系开始偏离。',
+        'mission-step-3': '再把点拖回圆附近，并解释为什么不变量又恢复了。',
         'target-title': '当前定理',
         'hud-mode': '模式',
         'hud-drag': '拖动',
@@ -231,21 +243,28 @@ const translations = {
         'toggle-off': '关闭',
         'status-verified': '已验证',
         'status-exploring': '探索中',
+        'status-off-circle': '离开圆周',
+        'snap-state-snapped': '回到圆周上',
+        'snap-state-off': '离开圆周',
         'focus-right-angle': '90°',
         'focus-double-angle': '2:1',
         'focus-equal': '相等',
         'measure-tangent': 'OT ⟂ 切线 = 90°',
+        'measure-tangent-off': '点 T 距离圆周还有 {distance}',
         'measure-center-angle': '∠AOB = {central}，∠ACB = {inscribed}',
         'measure-same-arc': '∠ACB = {angleC}，∠ADB = {angleD}',
         'measure-semicircle': '∠APB = {angle}',
         'equation-tangent': 'OT 在 T 点垂直于切线。',
+        'equation-tangent-off': '只有当 T 回到圆周上时，这个点才能重新定义切点与切线。',
         'equation-center-angle': '圆心角始终是圆周角的两倍。',
         'equation-same-arc': '{angleC} = {angleD}',
         'equation-semicircle': '∠APB 保持为 {angle}',
+        'equation-off-circle': '只有当可拖动点位于圆周上时，这个圆定理关系才有保证。',
         'obs-tangent': '当 T 移动时，半径和切线始终保持直角。',
         'obs-center-angle': '圆心角始终是同弧圆周角的两倍。',
         'obs-same-arc': '两个圆周角都由弧 AB 张成，因此保持相等。',
         'obs-semicircle': '半圆上的任意点都会和直径形成直角。',
+        'obs-off-circle': '这个点已经离开圆周，所以圆定理关系不再一定成立。',
         'theorem-tangent-definition': '切线在接触点处垂直于半径。',
         'theorem-tangent-explanation': '无论接触点沿圆移动到哪里，这个直角关系都会保留。',
         'theorem-tangent-hint': '沿圆周拖动点 T，观察切线如何随之旋转。',
@@ -275,6 +294,8 @@ const translations = {
         'msg-reset': '画板已重置，几何图形已准备好。',
         'msg-dragging': '正在拖动{point}。观察关系如何保持不变。',
         'msg-verified': '定理关系仍然成立。',
+        'msg-off-circle': '{point} 已经离开圆周，所以定理关系不再一定成立。',
+        'msg-snapped': '{point} 已吸附回圆周上，定理关系重新恢复。',
         'msg-task-complete': '第 {stage} 阶段已完成，继续下一个目标。',
         'msg-mode-complete': '这个定理模式的三个阶段都已完成。',
         'msg-guides-on': '辅助网格已显示。',
@@ -288,6 +309,7 @@ const translations = {
         'log-labels-title': '标签显示已改变',
         'log-task-title': '任务完成',
         'log-mode-complete-title': '模式完成',
+        'log-snap-title': '吸附发生',
         'log-tangent-intro': '切线-半径模式已载入。拖动 T，观察 OT 如何始终垂直于切线。',
         'log-center-intro': '圆心角模式已载入。比较 ∠AOB 与 ∠ACB。',
         'log-same-arc-intro': '同弧模式已载入。拖动 C 和 D，观察它们如何同时对应弧 AB。',
@@ -301,6 +323,8 @@ const translations = {
         'log-guides-off': '辅助网格已关闭，以便聚焦定理线条。',
         'log-labels-on': '点标签已打开。',
         'log-labels-off': '点标签已关闭。',
+        'log-snap-body': '{point} 现在处于“{state}”状态。',
+        'log-off-circle-body': '{point} 已经离开圆周，所以定理关系不再一定成立。',
         'log-task-body': '第 {stage} 阶段已完成：{task}。',
         'log-mode-complete-body': '{mode} 的三个阶段都已完成。',
         'board-aria-label': '交互式圆几何画板',
@@ -328,6 +352,8 @@ let currentFontSize = 16;
 let soundEnabled = true;
 
 const TAU = Math.PI * 2;
+const SNAP_DISTANCE = 26;
+const FREE_DRAG_PADDING = 52;
 const BOARD = {
     cx: 320,
     cy: 260,
@@ -345,6 +371,7 @@ const boardState = {
     showLabels: true,
     draggingPoint: null,
     pointerId: null,
+    dragStartedSnapped: true,
     currentStatus: {
         type: 'info',
         key: 'msg-ready',
@@ -370,18 +397,18 @@ const chatBody = document.querySelector('#ai-chat-widget .chat-body');
 function createInitialModeStates() {
     return {
         tangent: {
-            tAngle: -0.92
+            T: createPointStateFromAngle(-0.92)
         },
         'center-angle': {
-            bAngle: -0.52,
-            cAngle: 1.56
+            B: createPointStateFromAngle(-0.52),
+            C: createPointStateFromAngle(1.56)
         },
         'same-arc': {
-            cAngle: 0.96,
-            dAngle: 2.05
+            C: createPointStateFromAngle(0.96),
+            D: createPointStateFromAngle(2.05)
         },
         semicircle: {
-            pAngle: Math.PI * 1.5
+            P: createPointStateFromAngle(Math.PI * 1.5)
         }
     };
 }
@@ -513,6 +540,74 @@ function pointOnCircle(angle, radius = BOARD.radius) {
         x: BOARD.cx + Math.cos(angle) * radius,
         y: BOARD.cy + Math.sin(angle) * radius
     };
+}
+
+function createPointStateFromAngle(angle) {
+    return {
+        angle: normalizeAngle(angle),
+        distance: BOARD.radius,
+        snapped: true
+    };
+}
+
+function clampDistanceFromCenter(distance) {
+    return clamp(distance, BOARD.radius - FREE_DRAG_PADDING, BOARD.radius + FREE_DRAG_PADDING);
+}
+
+function projectPointState(pointState) {
+    return pointOnCircle(pointState.angle, pointState.distance);
+}
+
+function circleDifference(distance) {
+    return Math.abs(distance - BOARD.radius);
+}
+
+function isPointSnapped(pointState) {
+    return circleDifference(pointState.distance) <= 0.1;
+}
+
+function normalizeDragPoint(point, constraints = {}) {
+    const vector = {
+        x: point.x - BOARD.cx,
+        y: point.y - BOARD.cy
+    };
+    const rawDistance = Math.hypot(vector.x, vector.y);
+    const safeDistance = rawDistance || BOARD.radius;
+    const angle = constraints.angleSanitizer ? constraints.angleSanitizer(angleFromPoint(point)) : normalizeAngle(angleFromPoint(point));
+    const distance = clampDistanceFromCenter(safeDistance);
+    const shouldSnap = !constraints.allowFreeMove || circleDifference(distance) <= SNAP_DISTANCE;
+
+    return {
+        angle,
+        distance: shouldSnap ? BOARD.radius : distance,
+        snapped: shouldSnap
+    };
+}
+
+function syncPointState(pointState) {
+    pointState.angle = normalizeAngle(pointState.angle);
+    pointState.distance = clampDistanceFromCenter(pointState.distance);
+    pointState.snapped = isPointSnapped(pointState);
+    return pointState;
+}
+
+function setPointStateFromDrag(pointState, dragPoint, constraints = {}) {
+    const next = normalizeDragPoint(dragPoint, {
+        allowFreeMove: true,
+        ...constraints
+    });
+    pointState.angle = next.angle;
+    pointState.distance = next.distance;
+    pointState.snapped = next.snapped;
+    return pointState;
+}
+
+function offCirclePointIds(modeState, pointIds) {
+    return pointIds.filter((pointId) => !isPointSnapped(modeState[pointId]));
+}
+
+function distanceText(pointState) {
+    return `${Math.round(circleDifference(pointState.distance))} px`;
 }
 
 function angleFromPoint(point) {
@@ -693,12 +788,12 @@ function lineMarkup(pointA, pointB, className) {
     return `<line class="${className}" x1="${fmt(pointA.x)}" y1="${fmt(pointA.y)}" x2="${fmt(pointB.x)}" y2="${fmt(pointB.y)}"></line>`;
 }
 
-function pointMarkup(name, point, draggable = false, center = false) {
+function pointMarkup(name, point, draggable = false, center = false, snapped = true) {
     if (center) {
         return `<circle class="center-point" cx="${fmt(point.x)}" cy="${fmt(point.y)}" r="6"></circle>`;
     }
 
-    const visibleClass = draggable ? 'point-drag' : 'point-fixed';
+    const visibleClass = draggable ? `point-drag${snapped ? '' : ' off-circle'}` : 'point-fixed';
     const hit = draggable ? `<circle class="drag-hit" cx="${fmt(point.x)}" cy="${fmt(point.y)}" r="20" data-point-id="${name}"></circle>` : '';
     const data = draggable ? `data-point-id="${name}"` : '';
 
@@ -707,6 +802,20 @@ function pointMarkup(name, point, draggable = false, center = false) {
             ${hit}
             <circle class="${visibleClass}" cx="${fmt(point.x)}" cy="${fmt(point.y)}" r="${draggable ? 8 : 6}" ${data}></circle>
         </g>
+    `;
+}
+
+function snapGuideMarkup(pointState) {
+    if (isPointSnapped(pointState)) {
+        return '';
+    }
+
+    const actual = projectPointState(pointState);
+    const target = pointOnCircle(pointState.angle);
+
+    return `
+        <line class="snap-guide" x1="${fmt(actual.x)}" y1="${fmt(actual.y)}" x2="${fmt(target.x)}" y2="${fmt(target.y)}"></line>
+        <circle class="snap-target" cx="${fmt(target.x)}" cy="${fmt(target.y)}" r="11"></circle>
     `;
 }
 
@@ -748,25 +857,32 @@ function boardScaffold(content) {
         <rect class="board-backdrop" x="0" y="0" width="640" height="520" rx="28"></rect>
         ${guideMarkup()}
         <circle class="board-circle" cx="320" cy="260" r="168"></circle>
+        <circle class="snap-zone" cx="320" cy="260" r="${BOARD.radius - SNAP_DISTANCE}"></circle>
+        <circle class="snap-zone" cx="320" cy="260" r="${BOARD.radius + SNAP_DISTANCE}"></circle>
         ${content}
     `;
 }
 
 function sanitizeCenterState(state) {
-    state.bAngle = keepSeparated(state.bAngle, CENTER_A_ANGLE);
-    state.cAngle = constrainOutsideMinorArc(state.cAngle, CENTER_A_ANGLE, state.bAngle);
-    state.cAngle = keepAwayFromAngles(state.cAngle, [CENTER_A_ANGLE, state.bAngle], 0.3);
+    state.B.angle = keepSeparated(state.B.angle, CENTER_A_ANGLE);
+    state.C.angle = constrainOutsideMinorArc(state.C.angle, CENTER_A_ANGLE, state.B.angle);
+    state.C.angle = keepAwayFromAngles(state.C.angle, [CENTER_A_ANGLE, state.B.angle], 0.3);
+    syncPointState(state.B);
+    syncPointState(state.C);
 }
 
 function sanitizeSameArcState(state) {
-    state.cAngle = constrainOutsideMinorArc(state.cAngle, SAME_A_ANGLE, SAME_B_ANGLE);
-    state.dAngle = constrainOutsideMinorArc(state.dAngle, SAME_A_ANGLE, SAME_B_ANGLE);
-    state.cAngle = keepAwayFromAngles(state.cAngle, [SAME_A_ANGLE, SAME_B_ANGLE], 0.28);
-    state.dAngle = keepAwayFromAngles(state.dAngle, [SAME_A_ANGLE, SAME_B_ANGLE, state.cAngle], 0.28);
+    state.C.angle = constrainOutsideMinorArc(state.C.angle, SAME_A_ANGLE, SAME_B_ANGLE);
+    state.D.angle = constrainOutsideMinorArc(state.D.angle, SAME_A_ANGLE, SAME_B_ANGLE);
+    state.C.angle = keepAwayFromAngles(state.C.angle, [SAME_A_ANGLE, SAME_B_ANGLE], 0.28);
+    state.D.angle = keepAwayFromAngles(state.D.angle, [SAME_A_ANGLE, SAME_B_ANGLE, state.C.angle], 0.28);
+    syncPointState(state.C);
+    syncPointState(state.D);
 }
 
 function sanitizeSemicircleState(state) {
-    state.pAngle = constrainUpperSemicircle(state.pAngle);
+    state.P.angle = constrainUpperSemicircle(state.P.angle);
+    syncPointState(state.P);
 }
 
 function currentStageIndex(modeId = boardState.currentMode) {
@@ -807,34 +923,40 @@ const modeConfigs = {
         logDragKey: 'log-tangent-drag',
         draggable: ['T'],
         tasks: [
-            { key: 'task-tangent-1', check: (state) => state.tAngle > 4.7 && state.tAngle < 5.95 },
-            { key: 'task-tangent-2', check: (state) => state.tAngle > 1.8 && state.tAngle < 3.35 },
-            { key: 'task-tangent-3', check: (state) => angleNearTarget(state.tAngle, Math.PI * 1.5, 0.26) }
+            { key: 'task-tangent-1', check: (state) => isPointSnapped(state.T) && state.T.angle > 4.7 && state.T.angle < 5.95 },
+            { key: 'task-tangent-2', check: (state) => isPointSnapped(state.T) && state.T.angle > 1.8 && state.T.angle < 3.35 },
+            { key: 'task-tangent-3', check: (state) => isPointSnapped(state.T) && angleNearTarget(state.T.angle, Math.PI * 1.5, 0.26) }
         ],
-        updateDrag(state, pointId, angle) {
+        updateDrag(state, pointId, _, point) {
             if (pointId === 'T') {
-                state.tAngle = normalizeAngle(angle);
+                setPointStateFromDrag(state.T, point);
             }
         },
         getDerived(state) {
+            syncPointState(state.T);
             const O = centerPoint();
-            const T = pointOnCircle(state.tAngle);
+            const T = projectPointState(state.T);
+            const tangentContact = pointOnCircle(state.T.angle);
             const tangentVector = {
-                x: -Math.sin(state.tAngle),
-                y: Math.cos(state.tAngle)
+                x: -Math.sin(state.T.angle),
+                y: Math.cos(state.T.angle)
             };
-            const tangentStart = add(T, scale(tangentVector, -BOARD.tangentLength));
-            const tangentEnd = add(T, scale(tangentVector, BOARD.tangentLength));
-            const tangentReference = add(T, scale(tangentVector, 72));
+            const tangentStart = add(tangentContact, scale(tangentVector, -BOARD.tangentLength));
+            const tangentEnd = add(tangentContact, scale(tangentVector, BOARD.tangentLength));
+            const tangentReference = add(tangentContact, scale(tangentVector, 72));
+            const snapped = isPointSnapped(state.T);
 
             return {
-                points: { O, T },
+                points: { O, T, tangentContact },
                 tangentStart,
                 tangentEnd,
                 tangentReference,
-                measurement: t('measure-tangent'),
-                equation: t('equation-tangent'),
-                observation: t('obs-tangent'),
+                offCirclePoints: offCirclePointIds(state, ['T']),
+                measurement: snapped
+                    ? t('measure-tangent')
+                    : t('measure-tangent-off', { distance: distanceText(state.T) }),
+                equation: snapped ? t('equation-tangent') : t('equation-tangent-off'),
+                observation: snapped ? t('obs-tangent') : t('obs-off-circle'),
                 logVars: {}
             };
         },
@@ -843,9 +965,10 @@ const modeConfigs = {
             return boardScaffold(`
                 ${lineMarkup(derived.tangentStart, derived.tangentEnd, 'geom-line-tangent')}
                 ${lineMarkup(O, T, 'geom-line-radius')}
-                ${rightAngleMarker(T, O, derived.tangentReference, 24)}
+                ${snapGuideMarkup(getCurrentModeState().T)}
+                ${isPointSnapped(getCurrentModeState().T) ? rightAngleMarker(derived.points.tangentContact, O, derived.tangentReference, 24) : ''}
                 ${pointMarkup('O', O, false, true)}
-                ${pointMarkup('T', T, true)}
+                ${pointMarkup('T', T, true, false, isPointSnapped(getCurrentModeState().T))}
                 ${labelMarkup('O', O, 12, -12)}
                 ${labelMarkup('T', T, 14, -14)}
                 ${equationMarkup(derived.measurement)}
@@ -870,12 +993,12 @@ const modeConfigs = {
             { key: 'task-center-3', check: (_, derived) => parseFloat(derived.logVars.central) > 140 && ratioWithin(parseFloat(derived.logVars.central) / Math.max(parseFloat(derived.logVars.inscribed), 1), 1.95, 2.05) }
         ],
         sanitize: sanitizeCenterState,
-        updateDrag(state, pointId, angle) {
+        updateDrag(state, pointId, _, point) {
             if (pointId === 'B') {
-                state.bAngle = normalizeAngle(angle);
+                setPointStateFromDrag(state.B, point);
             }
             if (pointId === 'C') {
-                state.cAngle = normalizeAngle(angle);
+                setPointStateFromDrag(state.C, point);
             }
             sanitizeCenterState(state);
         },
@@ -883,12 +1006,14 @@ const modeConfigs = {
             sanitizeCenterState(state);
             const O = centerPoint();
             const A = pointOnCircle(CENTER_A_ANGLE);
-            const B = pointOnCircle(state.bAngle);
-            const C = pointOnCircle(state.cAngle);
+            const B = projectPointState(state.B);
+            const C = projectPointState(state.C);
             const central = angleAt(O, A, B);
             const inscribed = angleAt(C, A, B);
             const centralText = formatDeg(central);
             const inscribedText = formatDeg(inscribed);
+            const offCirclePoints = offCirclePointIds(state, ['B', 'C']);
+            const snapped = offCirclePoints.length === 0;
 
             return {
                 points: { O, A, B, C },
@@ -896,9 +1021,12 @@ const modeConfigs = {
                     central: centralText,
                     inscribed: inscribedText
                 },
+                offCirclePoints,
                 measurement: t('measure-center-angle', { central: centralText, inscribed: inscribedText }),
-                equation: t('equation-center-angle', { central: centralText, inscribed: inscribedText }),
-                observation: t('obs-center-angle'),
+                equation: snapped
+                    ? t('equation-center-angle', { central: centralText, inscribed: inscribedText })
+                    : t('equation-off-circle'),
+                observation: snapped ? t('obs-center-angle') : t('obs-off-circle'),
                 logVars: {
                     central: centralText,
                     inscribed: inscribedText
@@ -906,26 +1034,29 @@ const modeConfigs = {
             };
         },
         render(derived) {
+            const modeState = getCurrentModeState();
             const { O, A, B, C } = derived.points;
             return boardScaffold(`
-                <path class="geom-arc-highlight" d="${circleArc(CENTER_A_ANGLE, getCurrentModeState().bAngle)}"></path>
+                <path class="geom-arc-highlight" d="${circleArc(CENTER_A_ANGLE, modeState.B.angle)}"></path>
                 ${lineMarkup(O, A, 'geom-line-radius')}
                 ${lineMarkup(O, B, 'geom-line-radius')}
                 ${lineMarkup(A, B, 'geom-line-secondary')}
                 ${lineMarkup(C, A, 'geom-line-chord')}
                 ${lineMarkup(C, B, 'geom-line-chord')}
+                ${snapGuideMarkup(modeState.B)}
+                ${snapGuideMarkup(modeState.C)}
                 ${angleMarker(O, A, B, 52, 'geom-angle', derived.angles.central)}
                 ${angleMarker(C, A, B, 42, 'geom-angle-secondary', derived.angles.inscribed)}
                 ${pointMarkup('O', O, false, true)}
                 ${pointMarkup('A', A)}
-                ${pointMarkup('B', B, true)}
-                ${pointMarkup('C', C, true)}
+                ${pointMarkup('B', B, true, false, isPointSnapped(modeState.B))}
+                ${pointMarkup('C', C, true, false, isPointSnapped(modeState.C))}
                 ${labelMarkup('O', O, 12, -12)}
                 ${labelMarkup('A', A, -30, -12)}
                 ${labelMarkup('B', B, 12, -12)}
                 ${labelMarkup('C', C, 12, 22)}
-                ${equationMarkup(derived.equation)}
-                ${captionMarkup(derived.observation)}
+                ${equationMarkup(derived.measurement)}
+                ${captionMarkup(derived.equation)}
             `);
         }
     },
@@ -946,12 +1077,12 @@ const modeConfigs = {
             { key: 'task-same-arc-3', check: (_, derived) => Math.abs(derived.points.C.x - derived.points.D.x) > 110 && Math.abs(parseFloat(derived.logVars.angleC) - parseFloat(derived.logVars.angleD)) < 0.8 }
         ],
         sanitize: sanitizeSameArcState,
-        updateDrag(state, pointId, angle) {
+        updateDrag(state, pointId, _, point) {
             if (pointId === 'C') {
-                state.cAngle = normalizeAngle(angle);
+                setPointStateFromDrag(state.C, point);
             }
             if (pointId === 'D') {
-                state.dAngle = normalizeAngle(angle);
+                setPointStateFromDrag(state.D, point);
             }
             sanitizeSameArcState(state);
         },
@@ -959,17 +1090,20 @@ const modeConfigs = {
             sanitizeSameArcState(state);
             const A = pointOnCircle(SAME_A_ANGLE);
             const B = pointOnCircle(SAME_B_ANGLE);
-            const C = pointOnCircle(state.cAngle);
-            const D = pointOnCircle(state.dAngle);
+            const C = projectPointState(state.C);
+            const D = projectPointState(state.D);
             const angleC = formatDeg(angleAt(C, A, B));
             const angleD = formatDeg(angleAt(D, A, B));
+            const offCirclePoints = offCirclePointIds(state, ['C', 'D']);
+            const snapped = offCirclePoints.length === 0;
 
             return {
                 points: { A, B, C, D },
                 angles: { angleC, angleD },
+                offCirclePoints,
                 measurement: t('measure-same-arc', { angleC, angleD }),
-                equation: t('equation-same-arc', { angleC, angleD }),
-                observation: t('obs-same-arc'),
+                equation: snapped ? t('equation-same-arc', { angleC, angleD }) : t('equation-off-circle'),
+                observation: snapped ? t('obs-same-arc') : t('obs-off-circle'),
                 logVars: {
                     angleC,
                     angleD
@@ -977,6 +1111,7 @@ const modeConfigs = {
             };
         },
         render(derived) {
+            const modeState = getCurrentModeState();
             const { A, B, C, D } = derived.points;
             return boardScaffold(`
                 <path class="geom-arc-highlight" d="${circleArc(SAME_A_ANGLE, SAME_B_ANGLE)}"></path>
@@ -985,18 +1120,20 @@ const modeConfigs = {
                 ${lineMarkup(C, B, 'geom-line-chord')}
                 ${lineMarkup(D, A, 'geom-line-radius')}
                 ${lineMarkup(D, B, 'geom-line-radius')}
+                ${snapGuideMarkup(modeState.C)}
+                ${snapGuideMarkup(modeState.D)}
                 ${angleMarker(C, A, B, 38, 'geom-angle', derived.angles.angleC)}
                 ${angleMarker(D, A, B, 38, 'geom-angle-secondary', derived.angles.angleD)}
                 ${pointMarkup('A', A)}
                 ${pointMarkup('B', B)}
-                ${pointMarkup('C', C, true)}
-                ${pointMarkup('D', D, true)}
+                ${pointMarkup('C', C, true, false, isPointSnapped(modeState.C))}
+                ${pointMarkup('D', D, true, false, isPointSnapped(modeState.D))}
                 ${labelMarkup('A', A, -30, -12)}
                 ${labelMarkup('B', B, 12, -12)}
                 ${labelMarkup('C', C, 12, 24)}
                 ${labelMarkup('D', D, -34, 22)}
-                ${equationMarkup(derived.equation)}
-                ${captionMarkup(derived.observation)}
+                ${equationMarkup(derived.measurement)}
+                ${captionMarkup(derived.equation)}
             `);
         }
     },
@@ -1012,50 +1149,58 @@ const modeConfigs = {
         logDragKey: 'log-semicircle-drag',
         draggable: ['P'],
         tasks: [
-            { key: 'task-semicircle-1', check: (state, derived) => state.pAngle > Math.PI && state.pAngle < Math.PI * 1.34 && parseFloat(derived.logVars.angle) >= 89 && parseFloat(derived.logVars.angle) <= 91 },
-            { key: 'task-semicircle-2', check: (state, derived) => state.pAngle > Math.PI * 1.66 && state.pAngle < TAU && parseFloat(derived.logVars.angle) >= 89 && parseFloat(derived.logVars.angle) <= 91 },
-            { key: 'task-semicircle-3', check: (state, derived) => angleNearTarget(state.pAngle, Math.PI * 1.5, 0.24) && parseFloat(derived.logVars.angle) >= 89 && parseFloat(derived.logVars.angle) <= 91 }
+            { key: 'task-semicircle-1', check: (state, derived) => state.P.angle > Math.PI && state.P.angle < Math.PI * 1.34 && parseFloat(derived.logVars.angle) >= 89 && parseFloat(derived.logVars.angle) <= 91 },
+            { key: 'task-semicircle-2', check: (state, derived) => state.P.angle > Math.PI * 1.66 && state.P.angle < TAU && parseFloat(derived.logVars.angle) >= 89 && parseFloat(derived.logVars.angle) <= 91 },
+            { key: 'task-semicircle-3', check: (state, derived) => angleNearTarget(state.P.angle, Math.PI * 1.5, 0.24) && parseFloat(derived.logVars.angle) >= 89 && parseFloat(derived.logVars.angle) <= 91 }
         ],
         sanitize: sanitizeSemicircleState,
-        updateDrag(state, pointId, angle) {
+        updateDrag(state, pointId, _, point) {
             if (pointId === 'P') {
-                state.pAngle = constrainUpperSemicircle(angle);
+                setPointStateFromDrag(state.P, point, {
+                    angleSanitizer: constrainUpperSemicircle
+                });
             }
+            sanitizeSemicircleState(state);
         },
         getDerived(state) {
             sanitizeSemicircleState(state);
             const A = pointOnCircle(Math.PI);
             const B = pointOnCircle(0);
-            const P = pointOnCircle(state.pAngle);
+            const P = projectPointState(state.P);
             const angle = formatDeg(angleAt(P, A, B));
+            const offCirclePoints = offCirclePointIds(state, ['P']);
+            const snapped = offCirclePoints.length === 0;
 
             return {
                 points: { A, B, P },
                 angle,
+                offCirclePoints,
                 measurement: t('measure-semicircle', { angle }),
-                equation: t('equation-semicircle', { angle }),
-                observation: t('obs-semicircle'),
+                equation: snapped ? t('equation-semicircle', { angle }) : t('equation-off-circle'),
+                observation: snapped ? t('obs-semicircle') : t('obs-off-circle'),
                 logVars: {
                     angle
                 }
             };
         },
         render(derived) {
+            const modeState = getCurrentModeState();
             const { A, B, P } = derived.points;
             return boardScaffold(`
                 <path class="geom-arc-highlight" d="${describeArc(BOARD.cx, BOARD.cy, BOARD.radius, Math.PI, Math.PI)}"></path>
                 ${lineMarkup(A, B, 'board-diameter')}
                 ${lineMarkup(P, A, 'geom-line-chord')}
                 ${lineMarkup(P, B, 'geom-line-chord')}
-                ${rightAngleMarker(P, A, B, 22)}
+                ${snapGuideMarkup(modeState.P)}
+                ${isPointSnapped(modeState.P) ? rightAngleMarker(P, A, B, 22) : ''}
                 ${pointMarkup('A', A)}
                 ${pointMarkup('B', B)}
-                ${pointMarkup('P', P, true)}
+                ${pointMarkup('P', P, true, false, isPointSnapped(modeState.P))}
                 ${labelMarkup('A', A, -30, 4)}
                 ${labelMarkup('B', B, 14, 4)}
                 ${labelMarkup('P', P, 12, -14)}
-                ${equationMarkup(derived.equation)}
-                ${captionMarkup(derived.observation)}
+                ${equationMarkup(derived.measurement)}
+                ${captionMarkup(derived.equation)}
             `);
         }
     }
@@ -1101,27 +1246,43 @@ function evaluateCurrentTask(modeId, derived) {
     if (stageIndex >= config.tasks.length) {
         return false;
     }
+    if (derived.offCirclePoints && derived.offCirclePoints.length > 0) {
+        return false;
+    }
     return config.tasks[stageIndex].check(boardState.modeStates[modeId], derived);
+}
+
+function currentInteractionStatus(derived) {
+    if (boardState.draggingPoint) {
+        return t('status-exploring');
+    }
+    if (derived.offCirclePoints && derived.offCirclePoints.length > 0) {
+        return t('status-off-circle');
+    }
+    return taskProgressText();
+}
+
+function currentTaskLabel() {
+    return isModeComplete() ? t('task-progress-complete') : t(getCurrentTask().key);
 }
 
 function updateDynamicFields(config, derived) {
     const modeTitle = t(config.titleKey);
-    const currentTask = getCurrentTask();
-    const dragging = boardState.draggingPoint ? t('status-exploring') : taskProgressText();
+    const interactionStatus = currentInteractionStatus(derived);
 
     setField('mode-badge', modeTitle);
     setField('focus-value', t(config.focusValueKey));
     setField('focus-note', t(config.definitionKey));
-    setField('task-title', t(currentTask.key));
+    setField('task-title', currentTaskLabel());
     setField('task-progress', currentStageLabel());
-    setField('task-state', taskProgressText());
+    setField('task-state', interactionStatus);
     setField('mode', modeTitle);
     setField('drag', t(config.dragKey));
     setField('measure', derived.measurement);
     setField('hud-stage', currentStageLabel());
-    setField('status', dragging);
+    setField('status', interactionStatus);
     setField('status-mode', modeTitle);
-    setField('status-task', t(currentTask.key));
+    setField('status-task', currentTaskLabel());
     setField('status-stage', currentStageLabel());
     setField('status-drag', t(config.dragKey));
     setField('status-measure', derived.measurement);
@@ -1202,6 +1363,7 @@ function switchMode(modeId) {
     boardState.currentMode = modeId;
     boardState.draggingPoint = null;
     boardState.pointerId = null;
+    boardState.dragStartedSnapped = true;
     setStatus('info', 'msg-mode-switched');
     renderBoard();
     pushLog('log-mode-title', getCurrentModeConfig().logIntroKey);
@@ -1213,6 +1375,7 @@ function resetBoard() {
     boardState.missionProgress[boardState.currentMode] = 0;
     boardState.draggingPoint = null;
     boardState.pointerId = null;
+    boardState.dragStartedSnapped = true;
     renderBoard();
     setStatus('info', 'msg-reset');
     pushLog('log-reset-title', 'log-reset-body');
@@ -1223,6 +1386,7 @@ function resetAllProgress() {
     boardState.missionProgress = createInitialMissionProgress();
     boardState.draggingPoint = null;
     boardState.pointerId = null;
+    boardState.dragStartedSnapped = true;
 }
 
 function completeCurrentTask() {
@@ -1296,10 +1460,15 @@ function updateDragFromEvent(event) {
     const config = getCurrentModeConfig();
     const modeState = getCurrentModeState();
     const point = svgPointFromEvent(event);
-    const angle = angleFromPoint(point);
 
-    config.updateDrag(modeState, boardState.draggingPoint, angle, point);
-    renderBoard();
+    config.updateDrag(modeState, boardState.draggingPoint, null, point);
+    const derived = renderBoard();
+
+    if (derived.offCirclePoints && derived.offCirclePoints.includes(boardState.draggingPoint)) {
+        setStatus('error', 'msg-off-circle', { point: pointName(boardState.draggingPoint) });
+    } else {
+        setStatus('info', 'msg-dragging', { point: pointName(boardState.draggingPoint) });
+    }
 }
 
 function finishDrag(event) {
@@ -1309,27 +1478,51 @@ function finishDrag(event) {
 
     updateDragFromEvent(event);
     const movedPoint = boardState.draggingPoint;
+    const modeId = boardState.currentMode;
+    const modeState = getCurrentModeState();
+    const endedSnapped = isPointSnapped(modeState[movedPoint]);
+    const startedSnapped = boardState.dragStartedSnapped;
+
     boardState.draggingPoint = null;
     boardState.pointerId = null;
+    boardState.dragStartedSnapped = true;
 
     if (geometryBoard && geometryBoard.hasPointerCapture && geometryBoard.hasPointerCapture(event.pointerId)) {
         geometryBoard.releasePointerCapture(event.pointerId);
     }
 
     const derived = renderBoard();
-    const modeId = boardState.currentMode;
 
     pushLog('log-drag-title', getCurrentModeConfig().logDragKey, {
         point: pointName(movedPoint),
         ...derived.logVars
     });
 
+    if (startedSnapped !== endedSnapped) {
+        pushLog('log-snap-title', 'log-snap-body', {
+            point: pointName(movedPoint),
+            state: t(endedSnapped ? 'snap-state-snapped' : 'snap-state-off')
+        });
+    }
+
+    if (!endedSnapped) {
+        pushLog('log-snap-title', 'log-off-circle-body', { point: pointName(movedPoint) });
+        setStatus('error', 'msg-off-circle', { point: pointName(movedPoint) });
+        return;
+    }
+
+    if (!startedSnapped && endedSnapped) {
+        setStatus('success', 'msg-snapped', { point: pointName(movedPoint) });
+    }
+
     if (evaluateCurrentTask(modeId, derived)) {
         completeCurrentTask();
         return;
     }
 
-    setStatus('success', 'msg-verified');
+    if (startedSnapped || endedSnapped) {
+        setStatus('success', startedSnapped ? 'msg-verified' : 'msg-snapped', { point: pointName(movedPoint) });
+    }
 }
 
 function setupPointerEvents() {
@@ -1346,13 +1539,13 @@ function setupPointerEvents() {
         event.preventDefault();
         boardState.draggingPoint = pointId;
         boardState.pointerId = event.pointerId;
+        boardState.dragStartedSnapped = isPointSnapped(getCurrentModeState()[pointId]);
 
         if (geometryBoard.setPointerCapture) {
             geometryBoard.setPointerCapture(event.pointerId);
         }
 
         updateDragFromEvent(event);
-        setStatus('info', 'msg-dragging', { point: pointName(pointId) });
     });
 
     geometryBoard.addEventListener('pointermove', (event) => {
