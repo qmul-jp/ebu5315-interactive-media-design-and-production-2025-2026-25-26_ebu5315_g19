@@ -23,12 +23,20 @@ const translations = {
         'hud-mode': 'Mode',
         'hud-drag': 'Drag',
         'hud-measure': 'Measure',
+        'hud-stage': 'Stage',
         'hud-status': 'Status',
+        'task-current-label': 'Current Task',
+        'task-progress-incomplete': 'In Progress',
+        'task-progress-complete': 'Complete',
+        'task-stage-format': 'Stage {current} / {total}',
         'panel-status': 'Lab Status',
         'status-mode-label': 'Mode:',
+        'status-task-label': 'Current task:',
+        'status-stage-label': 'Stage:',
         'status-drag-label': 'Draggable points:',
         'status-measure-label': 'Key measurement:',
         'status-observation-label': 'Observation:',
+        'status-progress-label': 'Task progress:',
         'status-guides-label': 'Guides:',
         'status-labels-label': 'Labels:',
         'panel-controls': 'Lab Controls',
@@ -89,11 +97,25 @@ const translations = {
         'theorem-semicircle-definition': 'The angle in a semicircle is always a right angle.',
         'theorem-semicircle-explanation': 'When AB is a diameter, every point P on the semicircle creates ∠APB = 90°.',
         'theorem-semicircle-hint': 'Drag P along the upper arc and check the right-angle marker.',
+        'task-tangent-1': 'Move T into the upper-right arc.',
+        'task-tangent-2': 'Now move T into the lower-left arc.',
+        'task-tangent-3': 'Finish by placing T near the very top of the circle.',
+        'task-center-1': 'Drag B until the central angle is greater than 120°.',
+        'task-center-2': 'Now move C and keep the inscribed angle close to half of the central angle.',
+        'task-center-3': 'Finish with a wide arc and keep the 2:1 relationship visible.',
+        'task-same-arc-1': 'Move C to the lower-right side while keeping the angle equal to D.',
+        'task-same-arc-2': 'Now drag D toward the lower-left side and keep both angles equal.',
+        'task-same-arc-3': 'Finish with C and D separated, still standing on the same arc AB.',
+        'task-semicircle-1': 'Move P toward the left side of the semicircle.',
+        'task-semicircle-2': 'Now move P toward the right side and keep a right angle.',
+        'task-semicircle-3': 'Finish with P near the top while preserving 90°.',
         'msg-ready': 'Drag a highlighted point to explore the theorem.',
         'msg-mode-switched': 'Theorem mode changed. Explore the new relationship.',
         'msg-reset': 'Board reset. The geometry is ready again.',
         'msg-dragging': 'Dragging {point}. Watch the relationship stay true.',
         'msg-verified': 'The theorem relationship still holds.',
+        'msg-task-complete': 'Stage {stage} complete. Move on to the next target.',
+        'msg-mode-complete': 'All three stages cleared in this theorem mode.',
         'msg-guides-on': 'Guide grid is visible.',
         'msg-guides-off': 'Guide grid is hidden.',
         'msg-labels-on': 'Point labels are visible.',
@@ -103,6 +125,8 @@ const translations = {
         'log-drag-title': 'Point moved',
         'log-guides-title': 'Guide display changed',
         'log-labels-title': 'Label display changed',
+        'log-task-title': 'Task cleared',
+        'log-mode-complete-title': 'Mode cleared',
         'log-tangent-intro': 'Tangent-Radius mode loaded. Drag T to see OT stay perpendicular to the tangent.',
         'log-center-intro': 'Angle at Center mode loaded. Compare ∠AOB with ∠ACB.',
         'log-same-arc-intro': 'Same Arc mode loaded. Drag C and D while both stand on arc AB.',
@@ -116,6 +140,8 @@ const translations = {
         'log-guides-off': 'Guide grid turned off to focus on the theorem lines.',
         'log-labels-on': 'Point labels turned on.',
         'log-labels-off': 'Point labels turned off.',
+        'log-task-body': 'Stage {stage} cleared: {task}.',
+        'log-mode-complete-body': '{mode} now has all three stages complete.',
         'board-aria-label': 'Interactive circle geometry board',
         'chat-header': 'Circle AI Tutor',
         'chat-ai': 'AI:',
@@ -158,12 +184,20 @@ const translations = {
         'hud-mode': '模式',
         'hud-drag': '拖动',
         'hud-measure': '测量',
+        'hud-stage': '阶段',
         'hud-status': '状态',
+        'task-current-label': '当前任务',
+        'task-progress-incomplete': '进行中',
+        'task-progress-complete': '已完成',
+        'task-stage-format': '阶段 {current} / {total}',
         'panel-status': '实验状态',
         'status-mode-label': '模式：',
+        'status-task-label': '当前任务：',
+        'status-stage-label': '阶段：',
         'status-drag-label': '可拖动点：',
         'status-measure-label': '关键测量：',
         'status-observation-label': '观察：',
+        'status-progress-label': '任务进度：',
         'status-guides-label': '辅助线：',
         'status-labels-label': '标签：',
         'panel-controls': '实验控制',
@@ -224,11 +258,25 @@ const translations = {
         'theorem-semicircle-definition': '半圆中的圆周角总是直角。',
         'theorem-semicircle-explanation': '当 AB 是直径时，半圆上的任意点 P 都会形成 ∠APB = 90°。',
         'theorem-semicircle-hint': '沿上半圆拖动 P，并检查直角标记。',
+        'task-tangent-1': '先把 T 移到圆的右上弧段。',
+        'task-tangent-2': '现在把 T 移到左下弧段。',
+        'task-tangent-3': '最后把 T 放到接近圆顶的位置。',
+        'task-center-1': '拖动 B，让圆心角大于 120°。',
+        'task-center-2': '再移动 C，并让圆周角接近圆心角的一半。',
+        'task-center-3': '最后保持宽弧，并继续让 2:1 关系清晰可见。',
+        'task-same-arc-1': '把 C 移到右下区域，同时保持与 D 的角相等。',
+        'task-same-arc-2': '现在把 D 拖到左下区域，并继续保持两角相等。',
+        'task-same-arc-3': '最后让 C 和 D 分开，但仍保持同弧所对角相等。',
+        'task-semicircle-1': '先把 P 移向半圆左侧。',
+        'task-semicircle-2': '再把 P 移向右侧，同时保持直角。',
+        'task-semicircle-3': '最后把 P 放到靠近顶部的位置，并保持 90°。',
         'msg-ready': '拖动高亮点来探索这个定理。',
         'msg-mode-switched': '定理模式已切换。请探索新的关系。',
         'msg-reset': '画板已重置，几何图形已准备好。',
         'msg-dragging': '正在拖动{point}。观察关系如何保持不变。',
         'msg-verified': '定理关系仍然成立。',
+        'msg-task-complete': '第 {stage} 阶段已完成，继续下一个目标。',
+        'msg-mode-complete': '这个定理模式的三个阶段都已完成。',
         'msg-guides-on': '辅助网格已显示。',
         'msg-guides-off': '辅助网格已隐藏。',
         'msg-labels-on': '点标签已显示。',
@@ -238,6 +286,8 @@ const translations = {
         'log-drag-title': '点已移动',
         'log-guides-title': '辅助线显示已改变',
         'log-labels-title': '标签显示已改变',
+        'log-task-title': '任务完成',
+        'log-mode-complete-title': '模式完成',
         'log-tangent-intro': '切线-半径模式已载入。拖动 T，观察 OT 如何始终垂直于切线。',
         'log-center-intro': '圆心角模式已载入。比较 ∠AOB 与 ∠ACB。',
         'log-same-arc-intro': '同弧模式已载入。拖动 C 和 D，观察它们如何同时对应弧 AB。',
@@ -251,6 +301,8 @@ const translations = {
         'log-guides-off': '辅助网格已关闭，以便聚焦定理线条。',
         'log-labels-on': '点标签已打开。',
         'log-labels-off': '点标签已关闭。',
+        'log-task-body': '第 {stage} 阶段已完成：{task}。',
+        'log-mode-complete-body': '{mode} 的三个阶段都已完成。',
         'board-aria-label': '交互式圆几何画板',
         'chat-header': 'AI 几何导师',
         'chat-ai': 'AI：',
@@ -299,6 +351,7 @@ const boardState = {
         vars: {}
     },
     modeStates: createInitialModeStates(),
+    missionProgress: createInitialMissionProgress(),
     logEntries: []
 };
 
@@ -308,6 +361,7 @@ const arenaMessage = document.getElementById('arena-message');
 const logBox = document.getElementById('log-box');
 const modeButtons = Array.from(document.querySelectorAll('[data-mode]'));
 const actionButtons = Array.from(document.querySelectorAll('[data-action]'));
+const taskProgressBar = document.querySelector('[data-field="task-bar"]');
 const themeBtn = document.getElementById('theme-btn');
 const audioBtn = document.getElementById('audio-btn');
 const chatInput = document.querySelector('#ai-chat-widget input');
@@ -329,6 +383,15 @@ function createInitialModeStates() {
         semicircle: {
             pAngle: Math.PI * 1.5
         }
+    };
+}
+
+function createInitialMissionProgress() {
+    return {
+        tangent: 0,
+        'center-angle': 0,
+        'same-arc': 0,
+        semicircle: 0
     };
 }
 
@@ -402,6 +465,7 @@ function changeLanguage() {
     applyStaticTranslations();
     renderBoard();
     renderLog();
+    refreshChatWelcome();
 }
 
 function setField(name, value) {
@@ -506,11 +570,6 @@ function getMinorArc(angleA, angleB) {
         delta: TAU - forward,
         end: normalizeAngle(angleA)
     };
-}
-
-function isAngleOnArc(angle, start, delta) {
-    const diff = positiveDiff(start, angle);
-    return diff >= 0 && diff <= delta;
 }
 
 function constrainOutsideMinorArc(angle, angleA, angleB, padding = 0.24) {
@@ -710,6 +769,31 @@ function sanitizeSemicircleState(state) {
     state.pAngle = constrainUpperSemicircle(state.pAngle);
 }
 
+function currentStageIndex(modeId = boardState.currentMode) {
+    return boardState.missionProgress[modeId] || 0;
+}
+
+function missionStageCount(modeId = boardState.currentMode) {
+    return modeConfigs[modeId].tasks.length;
+}
+
+function isModeComplete(modeId = boardState.currentMode) {
+    return currentStageIndex(modeId) >= missionStageCount(modeId);
+}
+
+function getCurrentTask(modeId = boardState.currentMode) {
+    const config = modeConfigs[modeId];
+    return config.tasks[Math.min(currentStageIndex(modeId), config.tasks.length - 1)];
+}
+
+function ratioWithin(value, min, max) {
+    return value >= min && value <= max;
+}
+
+function angleNearTarget(angle, target, tolerance) {
+    return Math.abs(signedDiff(target, angle)) <= tolerance;
+}
+
 const modeConfigs = {
     tangent: {
         titleKey: 'mode-tangent',
@@ -722,6 +806,11 @@ const modeConfigs = {
         logIntroKey: 'log-tangent-intro',
         logDragKey: 'log-tangent-drag',
         draggable: ['T'],
+        tasks: [
+            { key: 'task-tangent-1', check: (state) => state.tAngle > 4.7 && state.tAngle < 5.95 },
+            { key: 'task-tangent-2', check: (state) => state.tAngle > 1.8 && state.tAngle < 3.35 },
+            { key: 'task-tangent-3', check: (state) => angleNearTarget(state.tAngle, Math.PI * 1.5, 0.26) }
+        ],
         updateDrag(state, pointId, angle) {
             if (pointId === 'T') {
                 state.tAngle = normalizeAngle(angle);
@@ -775,6 +864,11 @@ const modeConfigs = {
         logIntroKey: 'log-center-intro',
         logDragKey: 'log-center-drag',
         draggable: ['B', 'C'],
+        tasks: [
+            { key: 'task-center-1', check: (_, derived) => parseFloat(derived.logVars.central) > 120 },
+            { key: 'task-center-2', check: (_, derived) => ratioWithin(parseFloat(derived.logVars.central) / Math.max(parseFloat(derived.logVars.inscribed), 1), 1.95, 2.05) && parseFloat(derived.logVars.inscribed) > 35 },
+            { key: 'task-center-3', check: (_, derived) => parseFloat(derived.logVars.central) > 140 && ratioWithin(parseFloat(derived.logVars.central) / Math.max(parseFloat(derived.logVars.inscribed), 1), 1.95, 2.05) }
+        ],
         sanitize: sanitizeCenterState,
         updateDrag(state, pointId, angle) {
             if (pointId === 'B') {
@@ -846,6 +940,11 @@ const modeConfigs = {
         logIntroKey: 'log-same-arc-intro',
         logDragKey: 'log-same-arc-drag',
         draggable: ['C', 'D'],
+        tasks: [
+            { key: 'task-same-arc-1', check: (_, derived) => derived.points.C.x > BOARD.cx + 70 && Math.abs(parseFloat(derived.logVars.angleC) - parseFloat(derived.logVars.angleD)) < 0.6 },
+            { key: 'task-same-arc-2', check: (_, derived) => derived.points.D.x < BOARD.cx - 70 && Math.abs(parseFloat(derived.logVars.angleC) - parseFloat(derived.logVars.angleD)) < 0.6 },
+            { key: 'task-same-arc-3', check: (_, derived) => Math.abs(derived.points.C.x - derived.points.D.x) > 110 && Math.abs(parseFloat(derived.logVars.angleC) - parseFloat(derived.logVars.angleD)) < 0.8 }
+        ],
         sanitize: sanitizeSameArcState,
         updateDrag(state, pointId, angle) {
             if (pointId === 'C') {
@@ -912,6 +1011,11 @@ const modeConfigs = {
         logIntroKey: 'log-semicircle-intro',
         logDragKey: 'log-semicircle-drag',
         draggable: ['P'],
+        tasks: [
+            { key: 'task-semicircle-1', check: (state, derived) => state.pAngle > Math.PI && state.pAngle < Math.PI * 1.34 && parseFloat(derived.logVars.angle) >= 89 && parseFloat(derived.logVars.angle) <= 91 },
+            { key: 'task-semicircle-2', check: (state, derived) => state.pAngle > Math.PI * 1.66 && state.pAngle < TAU && parseFloat(derived.logVars.angle) >= 89 && parseFloat(derived.logVars.angle) <= 91 },
+            { key: 'task-semicircle-3', check: (state, derived) => angleNearTarget(state.pAngle, Math.PI * 1.5, 0.24) && parseFloat(derived.logVars.angle) >= 89 && parseFloat(derived.logVars.angle) <= 91 }
+        ],
         sanitize: sanitizeSemicircleState,
         updateDrag(state, pointId, angle) {
             if (pointId === 'P') {
@@ -974,27 +1078,65 @@ function getCurrentDerived() {
     return config.getDerived(modeState);
 }
 
+function currentStageLabel(modeId = boardState.currentMode) {
+    const completed = currentStageIndex(modeId);
+    const total = missionStageCount(modeId);
+    return t('task-stage-format', {
+        current: Math.min(completed + 1, total),
+        total
+    });
+}
+
+function taskProgressText(modeId = boardState.currentMode) {
+    return t(isModeComplete(modeId) ? 'task-progress-complete' : 'task-progress-incomplete');
+}
+
+function taskProgressWidth(modeId = boardState.currentMode) {
+    return `${(currentStageIndex(modeId) / missionStageCount(modeId)) * 100}%`;
+}
+
+function evaluateCurrentTask(modeId, derived) {
+    const config = modeConfigs[modeId];
+    const stageIndex = currentStageIndex(modeId);
+    if (stageIndex >= config.tasks.length) {
+        return false;
+    }
+    return config.tasks[stageIndex].check(boardState.modeStates[modeId], derived);
+}
+
 function updateDynamicFields(config, derived) {
     const modeTitle = t(config.titleKey);
-    const dragging = boardState.draggingPoint ? t('status-exploring') : t('status-verified');
+    const currentTask = getCurrentTask();
+    const dragging = boardState.draggingPoint ? t('status-exploring') : taskProgressText();
 
     setField('mode-badge', modeTitle);
     setField('focus-value', t(config.focusValueKey));
     setField('focus-note', t(config.definitionKey));
+    setField('task-title', t(currentTask.key));
+    setField('task-progress', currentStageLabel());
+    setField('task-state', taskProgressText());
     setField('mode', modeTitle);
     setField('drag', t(config.dragKey));
     setField('measure', derived.measurement);
+    setField('hud-stage', currentStageLabel());
     setField('status', dragging);
     setField('status-mode', modeTitle);
+    setField('status-task', t(currentTask.key));
+    setField('status-stage', currentStageLabel());
     setField('status-drag', t(config.dragKey));
     setField('status-measure', derived.measurement);
     setField('status-observation', derived.observation);
+    setField('status-progress', taskProgressText());
     setField('status-guides', t(boardState.showGuides ? 'toggle-on' : 'toggle-off'));
     setField('status-labels', t(boardState.showLabels ? 'toggle-on' : 'toggle-off'));
     setField('theorem-mode', modeTitle);
     setField('theorem-statement', t(config.definitionKey));
     setField('theorem-explanation', t(config.explanationKey));
     setField('theorem-hint', t(config.hintKey));
+
+    if (taskProgressBar) {
+        taskProgressBar.style.width = taskProgressWidth();
+    }
 }
 
 function updateModeButtons() {
@@ -1068,11 +1210,45 @@ function switchMode(modeId) {
 function resetBoard() {
     const freshStates = createInitialModeStates();
     boardState.modeStates[boardState.currentMode] = freshStates[boardState.currentMode];
+    boardState.missionProgress[boardState.currentMode] = 0;
     boardState.draggingPoint = null;
     boardState.pointerId = null;
     renderBoard();
     setStatus('info', 'msg-reset');
     pushLog('log-reset-title', 'log-reset-body');
+}
+
+function resetAllProgress() {
+    boardState.modeStates = createInitialModeStates();
+    boardState.missionProgress = createInitialMissionProgress();
+    boardState.draggingPoint = null;
+    boardState.pointerId = null;
+}
+
+function completeCurrentTask() {
+    const modeId = boardState.currentMode;
+    const stageNumber = currentStageIndex(modeId) + 1;
+    const task = getCurrentTask(modeId);
+
+    boardState.missionProgress[modeId] += 1;
+    renderBoard();
+
+    pushLog('log-task-title', 'log-task-body', {
+        stage: stageNumber,
+        task: t(task.key)
+    });
+
+    if (isModeComplete(modeId)) {
+        setStatus('success', 'msg-mode-complete');
+        pushLog('log-mode-complete-title', 'log-mode-complete-body', {
+            mode: t(modeConfigs[modeId].titleKey)
+        });
+        return;
+    }
+
+    setStatus('success', 'msg-task-complete', {
+        stage: stageNumber
+    });
 }
 
 function toggleGuides() {
@@ -1141,11 +1317,19 @@ function finishDrag(event) {
     }
 
     const derived = renderBoard();
-    setStatus('success', 'msg-verified');
+    const modeId = boardState.currentMode;
+
     pushLog('log-drag-title', getCurrentModeConfig().logDragKey, {
         point: pointName(movedPoint),
         ...derived.logVars
     });
+
+    if (evaluateCurrentTask(modeId, derived)) {
+        completeCurrentTask();
+        return;
+    }
+
+    setStatus('success', 'msg-verified');
 }
 
 function setupPointerEvents() {
@@ -1283,6 +1467,7 @@ if (audioBtn) {
 }
 
 function initializeLab() {
+    resetAllProgress();
     applyStaticTranslations();
     setupActions();
     setupPointerEvents();
