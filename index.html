@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CircleMaster - Interactive Geometry Learning</title>
+    <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
@@ -11,14 +12,17 @@
     <!-- 1. 顶部无障碍工具条 -->
     <div id="accessibility-bar">
         <div class="container">
-            <button onclick="changeLanguage()" data-i18n="btn-lang">EN / 中</button>
-            <button onclick="toggleContrast()" data-i18n="btn-contrast">👁️ Contrast</button>
-            <button onclick="adjustFontSize(1)">A+</button>
-            <button onclick="adjustFontSize(-1)">A-</button>
-            <button id="theme-btn" data-i18n="btn-theme">🌙 Dark Mode</button>
-            <!-- 声音按钮：图标和文字分开，防止被覆盖 -->
-            <button id="audio-btn" onclick="toggleSound()">
-                <span id="sound-icon">🔊</span> <span data-i18n="btn-sound">Sound</span>
+            <button type="button" onclick="changeLanguage()" data-i18n="btn-lang">EN / 中</button>
+            <button type="button" onclick="toggleContrast()" data-i18n="btn-contrast">Contrast</button>
+            <button type="button" onclick="adjustFontSize(1)">A+</button>
+            <button type="button" onclick="adjustFontSize(-1)">A-</button>
+            <button id="theme-btn" type="button">
+                <span id="theme-icon">🌙</span>
+                <span id="theme-label">Dark Mode</span>
+            </button>
+            <button id="audio-btn" type="button">
+                <span id="audio-icon">🔊</span>
+                <span id="audio-label">Sound On</span>
             </button>
         </div>
     </div>
@@ -29,7 +33,11 @@
             <a href="index.html" class="logo">
                 <span class="logo-icon">C</span> <span data-i18n="logo-text">CircleMaster</span>
             </a>
-            <nav>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="home-site-nav" data-nav-toggle>
+                <span class="nav-toggle-icon">☰</span>
+                <span data-nav-toggle-label>Menu</span>
+            </button>
+            <nav id="home-site-nav" class="site-nav" data-site-nav>
                 <ul class="nav-links">
                     <li><a href="index.html" class="active" data-i18n="nav-home">Home</a></li>
                     <li><a href="game.html" data-i18n="nav-game">Game</a></li>
@@ -44,9 +52,11 @@
 
         <!-- 视图 1：主页内容 (默认显示) -->
         <div id="main-view">
-            <nav class="breadcrumb">
-        <a href="index.html" data-i18n="bc-home">Home</a>
-    </nav>
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <a href="index.html" data-i18n="bc-home">Home</a>
+                <span class="breadcrumb-separator" aria-hidden="true">&gt;</span>
+                <span data-i18n="bc-current-home">Overview</span>
+            </nav>
             <!-- 4. Hero Section -->
             <section id="hero">
                 <h1 data-i18n="hero-title">Master Circle Geometry <br><span class="highlight">Powered by AI</span></h1>
@@ -177,23 +187,21 @@
         </div> <!-- End of main-view -->
 
   <!-- 视图 2：定理详情 -->
-    <div id="detail-view" style="display: none;">
-    <nav class="breadcrumb-pro">
-        <div class="container">
+    <div id="detail-view" hidden>
+        <nav class="breadcrumb" aria-label="Breadcrumb">
             <a href="javascript:void(0)" onclick="hideDetail()" data-i18n="bc-home">Home</a>
-            <span class="sep">/</span>
+            <span class="breadcrumb-separator" aria-hidden="true">&gt;</span>
             <span data-i18n="bc-gallery">Gallery</span>
-            <span class="sep">/</span>
-            <span id="active-theorem-name" style="font-weight: bold; color: #333;">Theorem</span>
-        </div>
-    </nav>
+            <span class="breadcrumb-separator" aria-hidden="true">&gt;</span>
+            <span id="active-theorem-name" class="breadcrumb-current">Theorem</span>
+        </nav>
 
         <div class="container" id="theorems-accordion-container">
             <!-- 定理列表会自动在这里生成 -->
         </div>
 
-        <div class="container" style="text-align: center; margin: 40px 0;">
-            <button onclick="hideDetail()" class="control-btn" style="padding: 12px 30px; border-radius: 30px; background: #666; color: #fff; border: none; cursor: pointer;">← Back to Home</button>
+        <div class="container detail-back-row">
+            <button type="button" onclick="hideDetail()" class="control-btn detail-back-button" data-i18n="btn-back">← Back to Home</button>
         </div>
     </div>
 
@@ -202,13 +210,12 @@
     <!-- 7. AI 聊天室 -->
     <div id="chat-toggle-btn" onclick="toggleChat()">🤖</div>
 
-    <div id="ai-chat-widget" style="display: none;">
+    <div id="ai-chat-widget" hidden>
         <div class="chat-header">
             <span data-i18n="chat-header">Circle AI Tutor</span>
-            <div style="float:right">
-                <!-- 🗑️ 绑定到确认框函数 -->
-                <button onclick="confirmClearChat()" style="background:none;border:none;color:white;cursor:pointer">🗑️</button>
-                <button onclick="toggleChat()" style="background:none;border:none;color:white;cursor:pointer">✕</button>
+            <div class="chat-actions">
+                <button type="button" class="chat-icon-btn" onclick="confirmClearChat()" aria-label="Clear chat">🗑️</button>
+                <button type="button" class="chat-icon-btn" onclick="toggleChat()" aria-label="Close chat">✕</button>
             </div>
         </div>
         <div class="chat-body" id="chat-body">
@@ -221,38 +228,35 @@
 
     <!-- 8. Version 4 新增：隐私政策与二次确认弹窗 -->
     <!-- 二次确认弹窗 -->
-    <div id="confirm-modal" class="modal-overlay" style="display: none;">
+    <div id="confirm-modal" class="modal-overlay" hidden>
         <div class="modal-content">
             <h3 data-i18n="modal-title">Confirm?</h3>
             <p data-i18n="modal-desc">Clear all messages?</p>
-            <div style="margin-top:20px">
-                <!-- 对接 JS 中的 executeClear 函数 -->
+            <div class="modal-actions">
                 <button onclick="executeClear()" class="btn-danger" data-i18n="btn-confirm">Delete</button>
-                <button onclick="closeModal()" data-i18n="btn-cancel">Cancel</button>
+                <button onclick="closeModal()" class="modal-close-btn" data-i18n="btn-cancel">Cancel</button>
             </div>
         </div>
     </div>
 
     <!-- 隐私政策弹窗 -->
-    <div id="privacy-modal" class="modal-overlay" style="display: none;">
+    <div id="privacy-modal" class="modal-overlay" hidden>
         <div class="modal-content privacy-box">
-            <span class="close-modal" onclick="togglePrivacyModal(false)">&times;</span>
+            <button type="button" class="close-modal" onclick="togglePrivacyModal(false)" aria-label="Close dialog">&times;</button>
             <div id="privacy-body">
                 <!-- 内容由 JS 根据语言动态填充 -->
             </div>
-            <button class="learn-more" onclick="togglePrivacyModal(false)" style="margin-top:20px">OK / 确定</button>
+            <button class="modal-close-btn" onclick="togglePrivacyModal(false)">OK / 确定</button>
         </div>
     </div>
 
     <footer>
         <div class="container footer-content">
-            <p data-i18n="footer-copy">© 2026 Group 33. All rights reserved.</p>
+            <p data-i18n="footer-copy">© 2026 25/26_EBU5315_G19. All rights reserved.</p>
             <div class="footer-links">
-                <!-- 三个链接都绑定到新函数 -->
-            <a href="javascript:void(0)" onclick="openFooterModal('data')" data-i18n="footer-data">Data Policy</a>
-            <a href="javascript:void(0)" onclick="openFooterModal('access')" data-i18n="footer-access">Accessibility</a>
-            <a href="javascript:void(0)" onclick="openFooterModal('contact')" data-i18n="footer-contact">Contact Us</a>
-
+                <a href="javascript:void(0)" onclick="openFooterModal('data')" data-i18n="footer-data">Data Policy</a>
+                <a href="javascript:void(0)" onclick="openFooterModal('access')" data-i18n="footer-access">Accessibility</a>
+                <a href="javascript:void(0)" onclick="openFooterModal('contact')" data-i18n="footer-contact">Contact Us</a>
             </div>
         </div>
     </footer>
