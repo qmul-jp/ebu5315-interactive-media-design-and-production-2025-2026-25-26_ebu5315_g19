@@ -1,6 +1,7 @@
 const translations = {
     en: {
         'btn-lang': 'EN / 中',
+        'btn-contrast': 'Contrast',
         'theme-dark': 'Dark Mode',
         'theme-light': 'Light Mode',
         'audio-on': 'Sound On',
@@ -167,13 +168,16 @@ const translations = {
         'chat-reply-same-arc': 'Angles standing on the same arc share the same measure, even when their points move.',
         'chat-reply-semicircle': 'A diameter creates a semicircle, and any point on that semicircle forms a 90° angle.',
         'chat-reply-default': 'Pick a theorem mode, drag a blue point, and watch the measurement panel explain the invariant.',
-        'footer-copy': '© 2026 Group 33. All rights reserved.',
+        'nav-toggle-label': 'Menu',
+        'modal-close': 'OK',
+        'footer-copy': '© 2026 25/26_EBU5315_G19. All rights reserved.',
         'footer-data': 'Data Policy',
         'footer-access': 'Accessibility',
         'footer-contact': 'Contact Us'
     },
     zh: {
         'btn-lang': '中 / EN',
+        'btn-contrast': '对比度',
         'theme-dark': '黑夜模式',
         'theme-light': '明亮模式',
         'audio-on': '声音开启',
@@ -340,7 +344,9 @@ const translations = {
         'chat-reply-same-arc': '同弧所对的角相等，即使对应点移动，角度也会保持一致。',
         'chat-reply-semicircle': '直径形成半圆，半圆上的任意点都会构成 90° 圆周角。',
         'chat-reply-default': '请选择一个定理模式，拖动蓝色点，并观察测量面板中的不变量。',
-        'footer-copy': '© 2026 第33组。保留所有权利。',
+        'nav-toggle-label': '菜单',
+        'modal-close': '确定',
+        'footer-copy': '© 2026 25/26_EBU5315_G19. 保留所有权利。',
         'footer-data': '数据政策',
         'footer-access': '无障碍声明',
         'footer-contact': '联系我们'
@@ -350,6 +356,7 @@ const translations = {
 let currentLang = 'en';
 let currentFontSize = 16;
 let soundEnabled = true;
+let currentFooterModalType = null;
 
 const TAU = Math.PI * 2;
 const SNAP_DISTANCE = 26;
@@ -475,16 +482,170 @@ function applyStaticTranslations() {
         node.setAttribute('aria-label', t(key));
     });
 
+    const navToggleLabel = document.querySelector('[data-nav-toggle-label]');
+    if (navToggleLabel) {
+        navToggleLabel.textContent = t('nav-toggle-label');
+    }
+
+    const privacyCloseButton = document.querySelector('#privacy-modal .modal-close-btn');
+    if (privacyCloseButton) {
+        privacyCloseButton.textContent = t('modal-close');
+    }
+
     updateThemeButton();
     updateAudioButton();
+
+    if (currentFooterModalType) {
+        const privacyModal = document.getElementById('privacy-modal');
+        const privacyBody = document.getElementById('privacy-body');
+        if (privacyModal && !privacyModal.hidden && privacyBody) {
+            privacyBody.innerHTML = footerModalContent(currentFooterModalType);
+        }
+    }
+
     applyStatus();
 }
 
 function adjustFontSize(delta) {
     currentFontSize += delta * 2;
     if (currentFontSize < 12) currentFontSize = 12;
-    if (currentFontSize > 30) currentFontSize = 30;
+    if (currentFontSize > 26) currentFontSize = 26;
     document.documentElement.style.setProperty('--font-size-base', `${currentFontSize}px`);
+}
+
+function toggleContrast() {
+    const isHighContrast = document.documentElement.getAttribute('data-a11y') === 'high-contrast';
+    if (isHighContrast) {
+        document.documentElement.removeAttribute('data-a11y');
+    } else {
+        document.documentElement.setAttribute('data-a11y', 'high-contrast');
+    }
+}
+
+function setNavOpen(isOpen) {
+    const navToggle = document.querySelector('[data-nav-toggle]');
+    const siteNav = document.querySelector('[data-site-nav]');
+    if (!navToggle || !siteNav) return;
+
+    siteNav.classList.toggle('is-open', isOpen);
+    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+}
+
+function syncBodyLock() {
+    const privacyModal = document.getElementById('privacy-modal');
+    document.body.style.overflow = privacyModal && !privacyModal.hidden ? 'hidden' : '';
+}
+
+function footerModalContent(type) {
+    if (currentLang === 'zh') {
+        if (type === 'data') {
+            return `
+                <h2>数据政策</h2>
+                <p>CircleMaster 仅用于教学演示。我们承诺以透明、最小化的方式处理站点偏好和交互内容。</p>
+                <ul>
+                    <li><strong>实时处理：</strong> 页面内 AI 提示和交互内容仅在当前浏览器会话中使用。</li>
+                    <li><strong>个人信息：</strong> 我们不会在站点中主动收集、出售或共享你的个人信息。</li>
+                    <li><strong>联系方式：</strong> 如需反馈，请发送邮件至 2024213571@bupt.cn。</li>
+                </ul>
+                <div class="preference-note"><strong>偏好说明：</strong> 主题、字体和无障碍设置由浏览器当前页面即时应用。</div>
+            `;
+        }
+        if (type === 'access') {
+            return `
+                <h2>无障碍说明</h2>
+                <p>我们希望 Home、Game、Quiz 三页都提供一致且可理解的学习体验。</p>
+                <ul>
+                    <li><strong>视觉支持：</strong> 支持黑夜模式、高对比度和字体缩放。</li>
+                    <li><strong>结构一致：</strong> 统一导航、面包屑和页脚，降低跨页切换成本。</li>
+                    <li><strong>持续改进：</strong> 如发现可读性或操作问题，欢迎联系团队反馈。</li>
+                </ul>
+            `;
+        }
+        return `
+            <h2>联系我们</h2>
+            <p>如果你对课程内容、设计实现或无障碍细节有建议，欢迎联系我们。</p>
+            <ul>
+                <li><strong>项目反馈：</strong> 可通过仓库 Issue 或邮件提交问题。</li>
+                <li><strong>响应方式：</strong> 我们会根据课程项目节奏尽快回复。</li>
+            </ul>
+        `;
+    }
+
+    if (type === 'data') {
+        return `
+            <h2>Data Policy</h2>
+            <p>CircleMaster is an educational prototype. We keep site messaging and preference handling simple and transparent.</p>
+            <ul>
+                <li><strong>Session-first behaviour:</strong> AI hints and page interactions stay within the current browser session.</li>
+                <li><strong>Personal data:</strong> We do not intentionally collect, sell, or share personal user data through this site.</li>
+                <li><strong>Contact:</strong> Reach the team at 2024213571@bupt.cn for questions or concerns.</li>
+            </ul>
+            <div class="preference-note"><strong>Preference note:</strong> Theme, font size, and accessibility controls apply directly in the browser for the current page.</div>
+        `;
+    }
+    if (type === 'access') {
+        return `
+            <h2>Accessibility Statement</h2>
+            <p>We aim to keep Home, Game, and Quiz visually consistent and easier to navigate for all learners.</p>
+            <ul>
+                <li><strong>Visual support:</strong> Dark mode, high contrast, and font scaling are available from the shared toolbar.</li>
+                <li><strong>Consistent structure:</strong> Navigation, breadcrumbs, and footer behaviour are aligned across pages.</li>
+                <li><strong>Feedback welcome:</strong> Please contact the team if a control is unclear or difficult to use.</li>
+            </ul>
+        `;
+    }
+    return `
+        <h2>Contact Us</h2>
+        <p>If you have feedback about the content, design, or accessibility details, please get in touch.</p>
+        <ul>
+            <li><strong>Project feedback:</strong> You can also raise an issue in the project repository.</li>
+            <li><strong>Response style:</strong> We will reply as quickly as the course project schedule allows.</li>
+        </ul>
+    `;
+}
+
+function openFooterModal(type) {
+    const privacyModal = document.getElementById('privacy-modal');
+    const privacyBody = document.getElementById('privacy-body');
+    if (!privacyModal || !privacyBody) return;
+
+    currentFooterModalType = type;
+    privacyBody.innerHTML = footerModalContent(type);
+    privacyModal.hidden = false;
+    setNavOpen(false);
+    syncBodyLock();
+}
+
+function togglePrivacyModal(show) {
+    const privacyModal = document.getElementById('privacy-modal');
+    if (!privacyModal) return;
+
+    privacyModal.hidden = !show;
+    if (!show) {
+        currentFooterModalType = null;
+    }
+    syncBodyLock();
+}
+
+function setupNavToggle() {
+    const navToggle = document.querySelector('[data-nav-toggle]');
+    const siteNav = document.querySelector('[data-site-nav]');
+    if (!navToggle || !siteNav) return;
+
+    navToggle.addEventListener('click', () => {
+        const isOpen = !siteNav.classList.contains('is-open');
+        setNavOpen(isOpen);
+    });
+
+    siteNav.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => setNavOpen(false));
+    });
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 760) {
+            setNavOpen(false);
+        }
+    });
 }
 
 function changeLanguage() {
@@ -1659,12 +1820,27 @@ if (audioBtn) {
     });
 }
 
+const gamePrivacyModal = document.getElementById('privacy-modal');
+if (gamePrivacyModal) {
+    gamePrivacyModal.hidden = true;
+}
+syncBodyLock();
+
+applyStaticTranslations();
+setupNavToggle();
+
+window.changeLanguage = changeLanguage;
+window.toggleContrast = toggleContrast;
+window.adjustFontSize = adjustFontSize;
+window.openFooterModal = openFooterModal;
+window.togglePrivacyModal = togglePrivacyModal;
+
 function initializeLab() {
     resetAllProgress();
-    applyStaticTranslations();
     setupActions();
     setupPointerEvents();
     setupChat();
+    applyStaticTranslations();
     renderBoard();
     pushLog('log-mode-title', getCurrentModeConfig().logIntroKey);
     refreshChatWelcome();

@@ -1,102 +1,100 @@
-// js/quiz.js
-(function(){
+(function () {
     "use strict";
 
-    // ---------- 中英文题库 ----------
     const questionBank = {
         zh: {
             basic: [
-                { 
-                    question: "若圆的半径为 5，直径是多少？", 
+                {
+                    question: "若圆的半径为 5，直径是多少？",
                     answer: "10",
                     analysis: "直径 = 2 × 半径，所以 2 × 5 = 10。"
                 },
-                { 
-                    question: "半径为 7 的圆，周长约为？(π≈3.14)", 
+                {
+                    question: "半径为 7 的圆，周长约为？(π≈3.14)",
                     answer: "43.96",
                     analysis: "周长 = 2πr = 2 × 3.14 × 7 = 43.96"
                 },
-                { 
-                    question: "一个圆的直径是 12，半径是？", 
+                {
+                    question: "一个圆的直径是 12，半径是？",
                     answer: "6",
                     analysis: "半径 = 直径 ÷ 2 = 6"
                 },
-                { 
-                    question: "圆的半径是 3，面积是多少？(π≈3.14)", 
+                {
+                    question: "圆的半径是 3，面积是多少？(π≈3.14)",
                     answer: "28.26",
                     analysis: "面积 = πr² = 3.14 × 9 = 28.26"
                 },
-                { 
-                    question: "直径为 10 的圆，周长是多少？(π≈3.14)", 
+                {
+                    question: "直径为 10 的圆，周长是多少？(π≈3.14)",
                     answer: "31.4",
                     analysis: "周长 = πd = 3.14 × 10 = 31.4"
                 },
-                { 
-                    question: "半径为 2 的圆，直径是多少？", 
+                {
+                    question: "半径为 2 的圆，直径是多少？",
                     answer: "4",
                     analysis: "直径 = 2 × 半径 = 2 × 2 = 4"
                 }
             ],
             normal: [
-                { 
-                    question: "半径为 4 的圆面积是多少？(π≈3.14)", 
+                {
+                    question: "半径为 4 的圆面积是多少？(π≈3.14)",
                     answer: "50.24",
                     analysis: "面积 = πr² = 3.14 × 16 = 50.24"
                 },
-                { 
-                    question: "周长 31.4 的圆，半径大约是多少？(π≈3.14)", 
+                {
+                    question: "周长 31.4 的圆，半径大约是多少？(π≈3.14)",
                     answer: "5",
                     analysis: "C=2πr => 31.4=2×3.14×r => r=5"
                 },
-                { 
-                    question: "一个扇形圆心角90°，半径6，弧长是多少？(π≈3.14)", 
+                {
+                    question: "一个扇形圆心角90°，半径6，弧长是多少？(π≈3.14)",
                     answer: "9.42",
                     analysis: "弧长 = (90/360)×2π×6 = 0.25×37.68 = 9.42"
                 },
-                { 
-                    question: "半径为 8 的圆面积是多少？(π≈3.14)", 
+                {
+                    question: "半径为 8 的圆面积是多少？(π≈3.14)",
                     answer: "200.96",
                     analysis: "面积 = πr² = 3.14 × 64 = 200.96"
                 },
-                { 
-                    question: "周长 62.8 的圆，半径是多少？(π≈3.14)", 
+                {
+                    question: "周长 62.8 的圆，半径是多少？(π≈3.14)",
                     answer: "10",
                     analysis: "C=2πr => 62.8=2×3.14×r => r=10"
                 },
-                { 
-                    question: "扇形圆心角120°，半径5，弧长是多少？(π≈3.14)", 
+                {
+                    question: "扇形圆心角120°，半径5，弧长是多少？(π≈3.14)",
                     answer: "10.47",
                     analysis: "弧长 = (120/360)×2π×5 = (1/3)×31.4 = 10.47"
                 }
             ],
             hard: [
-                { 
-                    question: "圆环外半径8，内半径3，求圆环面积。(π≈3.14)", 
+                {
+                    question: "圆环外半径8，内半径3，求圆环面积。(π≈3.14)",
                     answer: "172.7",
                     analysis: "S = π(R² - r²) = 3.14×(64-9)=3.14×55=172.7"
                 },
-                { 
-                    question: "已知扇形面积15.7，半径5，求圆心角度数(π≈3.14)", 
+                {
+                    question: "已知扇形面积15.7，半径5，求圆心角度数(π≈3.14)",
                     answer: "72",
                     analysis: "扇形面积=(n/360)×πr² => 15.7=(n/360)×78.5 => n=72"
                 },
-                { 
-                    question: "两个同心圆，外圆半径10，内圆半径6，圆环面积是多少？(π≈3.14)", 
+                {
+                    question: "两个同心圆，外圆半径10，内圆半径6，圆环面积是多少？(π≈3.14)",
                     answer: "219.8",
                     analysis: "S = π(R² - r²) = 3.14×(100-36)=3.14×64=219.8"
                 },
-                { 
-                    question: "扇形面积50.24，半径8，圆心角是多少度？(π≈3.14)", 
+                {
+                    question: "扇形面积50.24，半径8，圆心角是多少度？(π≈3.14)",
                     answer: "90",
                     analysis: "扇形面积=(n/360)×πr² => 50.24=(n/360)×200.96 => n=90"
                 },
-                { 
-                    question: "圆环外径16，内径10，圆环面积是多少？(π≈3.14)", 
+                {
+                    question: "圆环外径16，内径10，圆环面积是多少？(π≈3.14)",
                     answer: "141.3",
                     analysis: "外半径=8，内半径=5，S=π(64-25)=3.14×39=141.3"
                 },
-                { 
-                    question: "已知弧长18.84，半径6，圆心角是多少度？(π≈3.14)", 
+                {
+                    question: "已知弧长18.84，半径6，圆心角是多少度？(π≈3.14)",
                     answer: "180",
                     analysis: "弧长=(n/360)×2πr => 18.84=(n/360)×37.68 => n=180"
                 }
@@ -104,97 +102,97 @@
         },
         en: {
             basic: [
-                { 
-                    question: "If the radius of a circle is 5, what is the diameter?", 
+                {
+                    question: "If the radius of a circle is 5, what is the diameter?",
                     answer: "10",
                     analysis: "Diameter = 2 × radius, so 2 × 5 = 10."
                 },
-                { 
-                    question: "A circle has a radius of 7. What is its circumference? (π≈3.14)", 
+                {
+                    question: "A circle has a radius of 7. What is its circumference? (π≈3.14)",
                     answer: "43.96",
                     analysis: "Circumference = 2πr = 2 × 3.14 × 7 = 43.96"
                 },
-                { 
-                    question: "A circle has a diameter of 12. What is the radius?", 
+                {
+                    question: "A circle has a diameter of 12. What is the radius?",
                     answer: "6",
                     analysis: "Radius = diameter ÷ 2 = 6"
                 },
-                { 
-                    question: "What is the area of a circle with radius 3? (π≈3.14)", 
+                {
+                    question: "What is the area of a circle with radius 3? (π≈3.14)",
                     answer: "28.26",
                     analysis: "Area = πr² = 3.14 × 9 = 28.26"
                 },
-                { 
-                    question: "What is the circumference of a circle with diameter 10? (π≈3.14)", 
+                {
+                    question: "What is the circumference of a circle with diameter 10? (π≈3.14)",
                     answer: "31.4",
                     analysis: "Circumference = πd = 3.14 × 10 = 31.4"
                 },
-                { 
-                    question: "What is the diameter of a circle with radius 2?", 
+                {
+                    question: "What is the diameter of a circle with radius 2?",
                     answer: "4",
                     analysis: "Diameter = 2 × radius = 2 × 2 = 4"
                 }
             ],
             normal: [
-                { 
-                    question: "What is the area of a circle with radius 4? (π≈3.14)", 
+                {
+                    question: "What is the area of a circle with radius 4? (π≈3.14)",
                     answer: "50.24",
                     analysis: "Area = πr² = 3.14 × 16 = 50.24"
                 },
-                { 
-                    question: "A circle has a circumference of 31.4. What is its radius? (π≈3.14)", 
+                {
+                    question: "A circle has a circumference of 31.4. What is its radius? (π≈3.14)",
                     answer: "5",
                     analysis: "C=2πr => 31.4=2×3.14×r => r=5"
                 },
-                { 
-                    question: "A sector has a central angle of 90° and radius 6. What is the arc length? (π≈3.14)", 
+                {
+                    question: "A sector has a central angle of 90° and radius 6. What is the arc length? (π≈3.14)",
                     answer: "9.42",
                     analysis: "Arc length = (90/360)×2π×6 = 0.25×37.68 = 9.42"
                 },
-                { 
-                    question: "What is the area of a circle with radius 8? (π≈3.14)", 
+                {
+                    question: "What is the area of a circle with radius 8? (π≈3.14)",
                     answer: "200.96",
                     analysis: "Area = πr² = 3.14 × 64 = 200.96"
                 },
-                { 
-                    question: "A circle has a circumference of 62.8. What is its radius? (π≈3.14)", 
+                {
+                    question: "A circle has a circumference of 62.8. What is its radius? (π≈3.14)",
                     answer: "10",
                     analysis: "C=2πr => 62.8=2×3.14×r => r=10"
                 },
-                { 
-                    question: "A sector has a central angle of 120° and radius 5. What is the arc length? (π≈3.14)", 
+                {
+                    question: "A sector has a central angle of 120° and radius 5. What is the arc length? (π≈3.14)",
                     answer: "10.47",
                     analysis: "Arc length = (120/360)×2π×5 = (1/3)×31.4 = 10.47"
                 }
             ],
             hard: [
-                { 
-                    question: "A ring has an outer radius of 8 and an inner radius of 3. What is the area? (π≈3.14)", 
+                {
+                    question: "A ring has an outer radius of 8 and an inner radius of 3. What is the area? (π≈3.14)",
                     answer: "172.7",
                     analysis: "S = π(R² - r²) = 3.14×(64-9)=3.14×55=172.7"
                 },
-                { 
-                    question: "A sector has an area of 15.7 and radius 5. What is the central angle? (π≈3.14)", 
+                {
+                    question: "A sector has an area of 15.7 and radius 5. What is the central angle? (π≈3.14)",
                     answer: "72",
                     analysis: "Sector area=(n/360)×πr² => 15.7=(n/360)×78.5 => n=72"
                 },
-                { 
-                    question: "Two concentric circles have outer radius 10 and inner radius 6. What is the ring area? (π≈3.14)", 
+                {
+                    question: "Two concentric circles have outer radius 10 and inner radius 6. What is the ring area? (π≈3.14)",
                     answer: "219.8",
                     analysis: "S = π(R² - r²) = 3.14×(100-36)=3.14×64=219.8"
                 },
-                { 
-                    question: "A sector has an area of 50.24 and radius 8. What is the central angle? (π≈3.14)", 
+                {
+                    question: "A sector has an area of 50.24 and radius 8. What is the central angle? (π≈3.14)",
                     answer: "90",
                     analysis: "Sector area=(n/360)×πr² => 50.24=(n/360)×200.96 => n=90"
                 },
-                { 
-                    question: "A ring has outer diameter 16 and inner diameter 10. What is the area? (π≈3.14)", 
+                {
+                    question: "A ring has outer diameter 16 and inner diameter 10. What is the area? (π≈3.14)",
                     answer: "141.3",
                     analysis: "Outer radius=8, inner radius=5, S=π(64-25)=3.14×39=141.3"
                 },
-                { 
-                    question: "An arc has length 18.84 and radius 6. What is the central angle? (π≈3.14)", 
+                {
+                    question: "An arc has length 18.84 and radius 6. What is the central angle? (π≈3.14)",
                     answer: "180",
                     analysis: "Arc length=(n/360)×2πr => 18.84=(n/360)×37.68 => n=180"
                 }
@@ -202,297 +200,565 @@
         }
     };
 
-    // DOM 元素
+    const translations = {
+        en: {
+            'btn-lang': 'EN / 中',
+            'btn-contrast': 'Contrast',
+            'logo-text': 'CircleMaster',
+            'nav-home': 'Home',
+            'nav-game': 'Game',
+            'nav-quiz': 'Quiz',
+            'bc-home': 'Home',
+            'bc-current': 'Quiz',
+            'page-title': 'CircleMaster - Interactive Geometry Learning',
+            'theme-dark': 'Dark Mode',
+            'theme-light': 'Light Mode',
+            'audio-on': 'Sound On',
+            'audio-off': 'Sound Off',
+            'nav-toggle-label': 'Menu',
+            'modal-close': 'OK',
+            'footer-copy': '© 2026 25/26_EBU5315_G19. All rights reserved.',
+            'footer-data': 'Data Policy',
+            'footer-access': 'Accessibility',
+            'footer-contact': 'Contact Us',
+            'level-legend': 'Level',
+            'level-basic': 'Basic',
+            'level-normal': 'Normal',
+            'level-hard': 'Hard',
+            'btn-next': 'Next',
+            'btn-analysis': 'Analysis',
+            'btn-feedback': 'Feedback',
+            'answer-placeholder': 'Enter your answer',
+            'answer-aria': 'Enter your answer',
+            'quiz-empty': '[ Quiz Area ]',
+            'quiz-no-questions': 'No questions available right now.',
+            'feedback-no-question': 'No question available for feedback.',
+            'feedback-empty': 'Please enter an answer first, then check feedback.',
+            'feedback-correct': 'Correct! Keep it up.',
+            'feedback-wrong': 'Incorrect. Correct answer: {answer}',
+            'analysis-text': 'Analysis: {analysis}',
+            'chat-reply-contact': 'You can reach the team at 2024213571@bupt.cn.',
+            'chat-reply-default': 'Use the shared footer links for policies, accessibility details, and contact information.'
+        },
+        zh: {
+            'btn-lang': '中 / EN',
+            'btn-contrast': '对比度',
+            'logo-text': '圆几何大师',
+            'nav-home': '首页',
+            'nav-game': '游戏',
+            'nav-quiz': '测验',
+            'bc-home': '首页',
+            'bc-current': '测验',
+            'page-title': 'CircleMaster - 圆几何互动学习',
+            'theme-dark': '黑夜模式',
+            'theme-light': '明亮模式',
+            'audio-on': '声音开启',
+            'audio-off': '声音关闭',
+            'nav-toggle-label': '菜单',
+            'modal-close': '确定',
+            'footer-copy': '© 2026 25/26_EBU5315_G19. 保留所有权利。',
+            'footer-data': '数据政策',
+            'footer-access': '无障碍说明',
+            'footer-contact': '联系我们',
+            'level-legend': '难度',
+            'level-basic': '基础',
+            'level-normal': '进阶',
+            'level-hard': '挑战',
+            'btn-next': '下一题',
+            'btn-analysis': '解析',
+            'btn-feedback': '反馈',
+            'answer-placeholder': '请输入你的答案',
+            'answer-aria': '请输入你的答案',
+            'quiz-empty': '[ 测验区 ]',
+            'quiz-no-questions': '当前暂无题目。',
+            'feedback-no-question': '当前没有可反馈的题目。',
+            'feedback-empty': '请先输入答案，然后再查看反馈。',
+            'feedback-correct': '你答对了，继续保持。',
+            'feedback-wrong': '答案不对，正确答案是：{answer}',
+            'analysis-text': '解析：{analysis}',
+            'chat-reply-contact': '你可以通过 2024213571@bupt.cn 联系团队。',
+            'chat-reply-default': '你可以通过页脚的共享链接查看数据政策、无障碍说明和联系方式。'
+        }
+    };
+
+    const state = {
+        currentLang: 'en',
+        currentLevel: 'basic',
+        currentQuestions: [],
+        currentIndex: 0,
+        currentQuestionObj: null,
+        soundEnabled: true,
+        currentFontSize: 16,
+        currentFooterModalType: null
+    };
+
     const canvasDiv = document.getElementById('circle-canvas');
-    const questionPara = canvasDiv.querySelector('p') || document.createElement('p');
-    const answerInput = canvasDiv.querySelector('input');
+    const questionPara = canvasDiv ? (canvasDiv.querySelector('p') || document.createElement('p')) : null;
+    const answerInput = document.getElementById('answer-input');
     const nextBtn = document.getElementById('next-btn');
     const analysisBtn = document.getElementById('analysis-btn');
     const feedbackBtn = document.getElementById('feedback-btn');
-    const levelRadios = document.querySelectorAll('input[name="Level"]');
+    const levelRadios = Array.from(document.querySelectorAll('input[name="Level"]'));
     const themeBtn = document.getElementById('theme-btn');
     const audioBtn = document.getElementById('audio-btn');
+    const privacyModal = document.getElementById('privacy-modal');
+    const privacyBody = document.getElementById('privacy-body');
 
-    // 状态变量
-    let currentLang = 'zh'; // zh / en
-    let currentLevel = 'basic';       // basic / normal / hard
-    let currentQuestions = [];
-    let currentIndex = 0;
-    let currentQuestionObj = null;
-    let lastAnswerCorrect = false;
-    let soundEnabled = true;          // 默认开启音效
-    let isDarkMode = false;           // 默认亮模式
-    let fontSizeLevel = 0;            // 字体大小级别: -2 到 2
-
-    // 初始化: 确保画布里段落存在
-    if (!canvasDiv.querySelector('p')) {
-        const p = document.createElement('p');
-        p.textContent = '[ Quiz Area ]';
-        canvasDiv.insertBefore(p, answerInput);
+    if (canvasDiv && questionPara && !questionPara.parentNode) {
+        canvasDiv.insertBefore(questionPara, answerInput || null);
     }
 
-    // 加载对应等级题库
-    function loadQuestionsByLevel(level) {
-        if (!questionBank[currentLang]) return [];
-        if (level === 'basic') return [...questionBank[currentLang].basic];
-        if (level === 'normal') return [...questionBank[currentLang].normal];
-        if (level === 'hard') return [...questionBank[currentLang].hard];
-        return [...questionBank[currentLang].basic];
-    }
-
-    // 更新界面显示题目
-    function displayQuestion(qObj) {
-        if (!qObj) return;
-        const displayP = canvasDiv.querySelector('p');
-        displayP.textContent = qObj.question;
-        answerInput.value = '';
-        // 移除之前的反馈信息 (如果有动态插入的反馈元素)
-        const oldFeedback = canvasDiv.querySelector('.answer-feedback');
-        if (oldFeedback) oldFeedback.remove();
-        const oldAnalysis = canvasDiv.querySelector('.analysis-text');
-        if (oldAnalysis) oldAnalysis.remove();
-    }
-
-    // 刷新当前题目 (根据level和index)
-    function refreshQuestion() {
-        if (!currentQuestions.length) {
-            currentQuestions = loadQuestionsByLevel(currentLevel);
-            currentIndex = 0;
-        }
-        if (currentQuestions.length > 0) {
-            currentQuestionObj = currentQuestions[currentIndex % currentQuestions.length];
-            displayQuestion(currentQuestionObj);
-        } else {
-            canvasDiv.querySelector('p').textContent = '暂无题目，请选择题库';
-        }
-    }
-
-    // 切换等级
-    function setLevel(level) {
-        currentLevel = level;
-        currentQuestions = loadQuestionsByLevel(level);
-        currentIndex = 0;
-        refreshQuestion();
-        // 播放切换音效（可选）
-        playSound('switch');
-    }
-
-    // 等级监听
-    levelRadios.forEach(radio => {
-        radio.addEventListener('change', (e) => {
-            if (e.target.checked) {
-                const levelKey = e.target.value || 'basic';
-                setLevel(levelKey);
-            }
+    function t(key, vars = {}) {
+        const table = translations[state.currentLang] || translations.en;
+        let output = table[key] || translations.en[key] || key;
+        Object.keys(vars).forEach((name) => {
+            output = output.replace(`{${name}}`, vars[name]);
         });
-    });
-
-    // 默认选中Basic (若没有checked属性)
-    const defaultRadio = Array.from(levelRadios).find(r => r.parentElement?.innerText.includes('Basic') || r.parentElement?.innerText.includes('基础')) || levelRadios[0];
-    if (defaultRadio) defaultRadio.checked = true;
-    setLevel('basic');
-
-    // 主题切换函数
-    window.toggleTheme = function() {
-        isDarkMode = !isDarkMode;
-        document.body.classList.toggle('dark-mode', isDarkMode);
-        updateUILanguage(); // 更新所有界面文字，包括按钮
-    };
-
-    // 字体大小调整函数
-    window.adjustFontSize = function(delta) {
-        fontSizeLevel += delta;
-        fontSizeLevel = Math.max(-2, Math.min(2, fontSizeLevel)); // 限制在 -2 到 2
-        const baseSize = 16; // 基准字体大小
-        const newSize = baseSize + fontSizeLevel * 2; // 每次增减 2px
-        document.body.style.fontSize = newSize + 'px';
-    };
-
-    // 音效切换函数
-    window.toggleSound = function() {
-        soundEnabled = !soundEnabled;
-        updateUILanguage(); // 更新按钮文字
-    };
-
-    // Feedback 显示函数
-    function showFeedback() {
-        let feedbackDiv = canvasDiv.querySelector('.answer-feedback');
-        if (!feedbackDiv) {
-            feedbackDiv = document.createElement('div');
-            feedbackDiv.className = 'answer-feedback';
-            canvasDiv.appendChild(feedbackDiv);
-        }
-
-        if (!currentQuestionObj) {
-            feedbackDiv.textContent = currentLang === 'zh' ? '当前没有题目可反馈。' : 'No question available for feedback.';
-            feedbackDiv.style.color = 'var(--warning-color)';
-            return;
-        }
-
-        const userAnswer = answerInput.value.trim();
-        if (!userAnswer) {
-            feedbackDiv.textContent = currentLang === 'zh' ? '请先输入答案，然后再查看反馈。' : 'Please enter an answer first, then check feedback.';
-            feedbackDiv.style.color = 'var(--warning-color)';
-            return;
-        }
-
-        const correctAnswer = currentQuestionObj.answer;
-        const isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase();
-        if (isCorrect) {
-            feedbackDiv.textContent = currentLang === 'zh' ? '你答对了！继续保持。' : 'Correct! Keep it up.';
-            feedbackDiv.style.color = 'var(--success-color)';
-        } else {
-            feedbackDiv.textContent = currentLang === 'zh' ? `答案不对，正确答案是：${correctAnswer}` : `Incorrect. Correct answer: ${correctAnswer}`;
-            feedbackDiv.style.color = 'var(--error-color)';
-        }
-        lastAnswerCorrect = isCorrect;
+        return output;
     }
 
-    // 按钮事件监听
-    themeBtn.addEventListener('click', toggleTheme);
-    audioBtn.addEventListener('click', toggleSound);
-    nextBtn.addEventListener('click', nextQuestion);
-    analysisBtn.addEventListener('click', showAnalysis);
-    feedbackBtn.addEventListener('click', showFeedback);
+    function updateThemeButton() {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        const themeIcon = document.getElementById('theme-icon');
+        const themeLabel = document.getElementById('theme-label');
 
-    // 初始化界面文字
-    updateUILanguage();
-
-    // 语言切换函数
-    window.changeLanguage = function() {
-        currentLang = (currentLang === 'zh') ? 'en' : 'zh';
-        // 切换题库
-        currentQuestions = loadQuestionsByLevel(currentLevel);
-        currentIndex = 0;
-        refreshQuestion();
-        // 切换界面文字
-        updateUILanguage();
-    };
-
-    // 更新界面文字
-    function updateUILanguage() {
-        // 题目输入框 placeholder
-        answerInput.placeholder = currentLang === 'zh' ? '请输入你的答案' : 'Enter your answer';
-        // Next/Analysis/Feedback 按钮
-        nextBtn.textContent = currentLang === 'zh' ? '下一题' : 'Next';
-        analysisBtn.textContent = currentLang === 'zh' ? '解析' : 'Analysis';
-        feedbackBtn.textContent = currentLang === 'zh' ? '反馈' : 'Feedback';
-        // Level 单选框
-        const levelLabels = document.querySelectorAll('label[for^="level-"]');
-        const levelTexts = currentLang === 'zh' ? ['基础', '进阶', '挑战'] : ['Basic', 'Normal', 'Hard'];
-        levelLabels.forEach((label, i) => { label.textContent = levelTexts[i]; });
-        // Level 标题
-        const legend = document.querySelector('.level-fieldset legend');
-        if (legend) legend.textContent = currentLang === 'zh' ? '难度' : 'Level';
-        // Quiz Area
-        const quizAreaP = canvasDiv.querySelector('p');
-        if (quizAreaP && (!currentQuestionObj)) quizAreaP.textContent = currentLang === 'zh' ? '[ 测验区 ]' : '[ Quiz Area ]';
-        // 面包屑
-        const breadcrumb = document.querySelector('.breadcrumb');
-        if (breadcrumb) {
-            breadcrumb.innerHTML = currentLang === 'zh' ? '<a href="index.html">首页 (Home)</a> &nbsp;>&nbsp; <span>测验</span>' : '<a href="index.html">Home (首页)</a> &nbsp;>&nbsp; <span>Quiz</span>';
+        if (themeIcon) {
+            themeIcon.textContent = isDark ? '☀️' : '🌙';
         }
-        // 页脚
-        const footerLinks = document.querySelectorAll('.footer-links a');
-        if (footerLinks.length === 3) {
-            footerLinks[0].textContent = currentLang === 'zh' ? '数据隐私政策' : 'Data Policy';
-            footerLinks[1].textContent = currentLang === 'zh' ? '无障碍声明' : 'Accessibility';
-            footerLinks[2].textContent = currentLang === 'zh' ? '联系我们' : 'Contact Us';
+        if (themeLabel) {
+            themeLabel.textContent = isDark ? t('theme-light') : t('theme-dark');
         }
-        // 更新按钮文字
-        themeBtn.textContent = isDarkMode ? (currentLang === 'zh' ? '☀️ 亮模式' : '☀️ Light Mode') : (currentLang === 'zh' ? '🌙 暗模式' : '🌙 Dark Mode');
-        audioBtn.textContent = soundEnabled ? (currentLang === 'zh' ? '🔊 音效' : '🔊 Sound') : (currentLang === 'zh' ? '🔇 静音' : '🔇 Muted');
     }
 
-    // 答案检查与反馈
-    function checkAnswer() {
-        if (!currentQuestionObj) return false;
-        const userAnswer = answerInput.value.trim();
-        const correctAnswer = currentQuestionObj.answer;
-        // 简单比较 (忽略大小写与空格)
-        const isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase();
-        
-        // 显示即时反馈
-        let feedbackDiv = canvasDiv.querySelector('.answer-feedback');
-        if (!feedbackDiv) {
-            feedbackDiv = document.createElement('div');
-            feedbackDiv.className = 'answer-feedback';
-            canvasDiv.appendChild(feedbackDiv);
+    function updateAudioButton() {
+        const audioIcon = document.getElementById('audio-icon');
+        const audioLabel = document.getElementById('audio-label');
+
+        if (audioIcon) {
+            audioIcon.textContent = state.soundEnabled ? '🔊' : '🔇';
         }
-        if (isCorrect) {
-            feedbackDiv.textContent = '✅ 正确！很棒！';
-            feedbackDiv.style.color = 'var(--success-color)';
-            playSound('correct');
-        } else {
-            feedbackDiv.textContent = `❌ 答案错误，再试试看 (正确: ${correctAnswer})`;
-            feedbackDiv.style.color = 'var(--error-color)';
-            playSound('wrong');
+        if (audioLabel) {
+            audioLabel.textContent = state.soundEnabled ? t('audio-on') : t('audio-off');
         }
-        lastAnswerCorrect = isCorrect;
-        return isCorrect;
     }
 
-    // 显示解析
-    function showAnalysis() {
-        if (!currentQuestionObj) return;
-        // 先检查答案, 但也可以不依赖检查
-        let analysisDiv = canvasDiv.querySelector('.analysis-text');
-        if (!analysisDiv) {
-            analysisDiv = document.createElement('div');
-            analysisDiv.className = 'analysis-text';
-            canvasDiv.appendChild(analysisDiv);
-        }
-        analysisDiv.textContent = `📘 解析: ${currentQuestionObj.analysis}`;
+    function setNavOpen(isOpen) {
+        const navToggle = document.querySelector('[data-nav-toggle]');
+        const siteNav = document.querySelector('[data-site-nav]');
+        if (!navToggle || !siteNav) return;
+
+        siteNav.classList.toggle('is-open', isOpen);
+        navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     }
 
-    // 下一题
-    function nextQuestion() {
-        if (!currentQuestions.length) {
-            setLevel(currentLevel);
-            return;
+    function syncBodyLock() {
+        document.body.style.overflow = privacyModal && !privacyModal.hidden ? 'hidden' : '';
+    }
+
+    function feedbackColor(type) {
+        if (type === 'success') return '#247245';
+        if (type === 'error') return '#a53a2f';
+        return 'var(--text-color)';
+    }
+
+    function removeDynamicMessages() {
+        if (!canvasDiv) return;
+        const feedback = canvasDiv.querySelector('.answer-feedback');
+        const analysis = canvasDiv.querySelector('.analysis-text');
+        if (feedback) feedback.remove();
+        if (analysis) analysis.remove();
+    }
+
+    function ensureFeedbackNode() {
+        if (!canvasDiv) return null;
+        let feedback = canvasDiv.querySelector('.answer-feedback');
+        if (!feedback) {
+            feedback = document.createElement('div');
+            feedback.className = 'answer-feedback';
+            canvasDiv.appendChild(feedback);
         }
-        // 可选：先检查当前答案？但为了流畅，直接下一题；也可以自动检查一下。
-        if (answerInput.value.trim() !== '') {
-            checkAnswer();   // 显示反馈但不阻止
+        return feedback;
+    }
+
+    function ensureAnalysisNode() {
+        if (!canvasDiv) return null;
+        let analysis = canvasDiv.querySelector('.analysis-text');
+        if (!analysis) {
+            analysis = document.createElement('div');
+            analysis.className = 'analysis-text';
+            canvasDiv.appendChild(analysis);
         }
-        // 移动到下一题
-        currentIndex = (currentIndex + 1) % currentQuestions.length;
-        currentQuestionObj = currentQuestions[currentIndex];
-        displayQuestion(currentQuestionObj);
+        return analysis;
+    }
+
+    function loadQuestionsByLevel(level) {
+        const bank = questionBank[state.currentLang] || questionBank.en;
+        return [...(bank[level] || bank.basic)];
+    }
+
+    function displayQuestion(questionObject) {
+        if (!questionPara) return;
+
+        questionPara.textContent = questionObject ? questionObject.question : t('quiz-no-questions');
+        if (answerInput) {
+            answerInput.value = '';
+        }
+        removeDynamicMessages();
+    }
+
+    function syncQuestions(resetIndex) {
+        state.currentQuestions = loadQuestionsByLevel(state.currentLevel);
+        if (resetIndex) {
+            state.currentIndex = 0;
+        }
+        if (state.currentIndex >= state.currentQuestions.length) {
+            state.currentIndex = 0;
+        }
+        state.currentQuestionObj = state.currentQuestions[state.currentIndex] || null;
+        displayQuestion(state.currentQuestionObj);
+    }
+
+    function setLevel(level) {
+        state.currentLevel = level;
+        syncQuestions(true);
         playSound('switch');
     }
 
-    // 简单音效 (使用Web Audio或Audio)
+    function normalizedAnswer(value) {
+        return String(value || '').trim().toLowerCase();
+    }
+
+    function isCurrentAnswerCorrect() {
+        if (!state.currentQuestionObj || !answerInput) return false;
+        return normalizedAnswer(answerInput.value) === normalizedAnswer(state.currentQuestionObj.answer);
+    }
+
+    function showFeedback() {
+        const feedback = ensureFeedbackNode();
+        if (!feedback) return;
+
+        if (!state.currentQuestionObj) {
+            feedback.textContent = t('feedback-no-question');
+            feedback.style.color = feedbackColor('error');
+            return;
+        }
+
+        const userAnswer = answerInput ? answerInput.value.trim() : '';
+        if (!userAnswer) {
+            feedback.textContent = t('feedback-empty');
+            feedback.style.color = feedbackColor('error');
+            return;
+        }
+
+        if (isCurrentAnswerCorrect()) {
+            feedback.textContent = t('feedback-correct');
+            feedback.style.color = feedbackColor('success');
+            playSound('correct');
+            return;
+        }
+
+        feedback.textContent = t('feedback-wrong', { answer: state.currentQuestionObj.answer });
+        feedback.style.color = feedbackColor('error');
+        playSound('wrong');
+    }
+
+    function showAnalysis() {
+        const analysis = ensureAnalysisNode();
+        if (!analysis || !state.currentQuestionObj) return;
+        analysis.textContent = t('analysis-text', { analysis: state.currentQuestionObj.analysis });
+    }
+
+    function nextQuestion() {
+        if (!state.currentQuestions.length) {
+            syncQuestions(true);
+            return;
+        }
+
+        if (answerInput && answerInput.value.trim() !== '') {
+            playSound(isCurrentAnswerCorrect() ? 'correct' : 'wrong');
+        } else {
+            playSound('switch');
+        }
+
+        state.currentIndex = (state.currentIndex + 1) % state.currentQuestions.length;
+        state.currentQuestionObj = state.currentQuestions[state.currentIndex] || null;
+        displayQuestion(state.currentQuestionObj);
+    }
+
     function playSound(type) {
-        if (!soundEnabled) return;
+        if (!state.soundEnabled) return;
+
         try {
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            let frequency = 440; // 默认 A4
-            let duration = 0.2;
+            const AudioContextCtor = window.AudioContext || window['webkitAudioContext'];
+            if (!AudioContextCtor) return;
+
+            const audioContext = new AudioContextCtor();
+            const oscillator = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+            oscillator.connect(gain);
+            gain.connect(audioContext.destination);
+
+            let frequency = 330;
+            let duration = 0.12;
+
             if (type === 'correct') {
-                frequency = 523; // C5
-                duration = 0.3;
+                frequency = 523;
+                duration = 0.28;
             } else if (type === 'wrong') {
-                frequency = 220; // A3
-                duration = 0.5;
-            } else if (type === 'switch') {
-                frequency = 330; // E4
-                duration = 0.1;
+                frequency = 220;
+                duration = 0.4;
             }
-            osc.frequency.setValueAtTime(frequency, audioCtx.currentTime);
-            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            osc.start();
-            osc.stop(audioCtx.currentTime + duration);
-        } catch (e) {
+
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+            gain.gain.setValueAtTime(0.08, audioContext.currentTime);
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + duration);
+        } catch (error) {
             console.log('Audio not supported');
         }
     }
 
+    function footerModalContent(type) {
+        if (state.currentLang === 'zh') {
+            if (type === 'data') {
+                return `
+                    <h2>数据政策</h2>
+                    <p>CircleMaster 仅用于教学演示。我们承诺以透明、最小化的方式处理站点偏好和交互内容。</p>
+                    <ul>
+                        <li><strong>实时处理：</strong> 页面内 AI 提示和交互内容仅在当前浏览器会话中使用。</li>
+                        <li><strong>个人信息：</strong> 我们不会在站点中主动收集、出售或共享你的个人信息。</li>
+                        <li><strong>联系方式：</strong> 如需反馈，请发送邮件至 2024213571@bupt.cn。</li>
+                    </ul>
+                    <div class="preference-note"><strong>偏好说明：</strong> 主题、字体和无障碍设置由浏览器当前页面即时应用。</div>
+                `;
+            }
+            if (type === 'access') {
+                return `
+                    <h2>无障碍说明</h2>
+                    <p>我们希望 Home、Game、Quiz 三页都提供一致且可理解的学习体验。</p>
+                    <ul>
+                        <li><strong>视觉支持：</strong> 支持黑夜模式、高对比度和字体缩放。</li>
+                        <li><strong>结构一致：</strong> 统一导航、面包屑和页脚，降低跨页切换成本。</li>
+                        <li><strong>持续改进：</strong> 如发现可读性或操作问题，欢迎联系团队反馈。</li>
+                    </ul>
+                `;
+            }
+            return `
+                <h2>联系我们</h2>
+                <p>如果你对课程内容、设计实现或无障碍细节有建议，欢迎联系我们。</p>
+                <ul>
+                    <li><strong>项目反馈：</strong> 可通过仓库 Issue 或邮件提交问题。</li>
+                    <li><strong>响应方式：</strong> 我们会根据课程项目节奏尽快回复。</li>
+                </ul>
+            `;
+        }
+
+        if (type === 'data') {
+            return `
+                <h2>Data Policy</h2>
+                <p>CircleMaster is an educational prototype. We keep site messaging and preference handling simple and transparent.</p>
+                <ul>
+                    <li><strong>Session-first behaviour:</strong> AI hints and page interactions stay within the current browser session.</li>
+                    <li><strong>Personal data:</strong> We do not intentionally collect, sell, or share personal user data through this site.</li>
+                    <li><strong>Contact:</strong> Reach the team at 2024213571@bupt.cn for questions or concerns.</li>
+                </ul>
+                <div class="preference-note"><strong>Preference note:</strong> Theme, font size, and accessibility controls apply directly in the browser for the current page.</div>
+            `;
+        }
+        if (type === 'access') {
+            return `
+                <h2>Accessibility Statement</h2>
+                <p>We aim to keep Home, Game, and Quiz visually consistent and easier to navigate for all learners.</p>
+                <ul>
+                    <li><strong>Visual support:</strong> Dark mode, high contrast, and font scaling are available from the shared toolbar.</li>
+                    <li><strong>Consistent structure:</strong> Navigation, breadcrumbs, and footer behaviour are aligned across pages.</li>
+                    <li><strong>Feedback welcome:</strong> Please contact the team if a control is unclear or difficult to use.</li>
+                </ul>
+            `;
+        }
+        return `
+            <h2>Contact Us</h2>
+            <p>If you have feedback about the content, design, or accessibility details, please get in touch.</p>
+            <ul>
+                <li><strong>Project feedback:</strong> You can also raise an issue in the project repository.</li>
+                <li><strong>Response style:</strong> We will reply as quickly as the course project schedule allows.</li>
+            </ul>
+        `;
+    }
+
+    function openFooterModal(type) {
+        if (!privacyModal || !privacyBody) return;
+
+        state.currentFooterModalType = type;
+        privacyBody.innerHTML = footerModalContent(type);
+        privacyModal.hidden = false;
+        setNavOpen(false);
+        syncBodyLock();
+    }
+
+    function togglePrivacyModal(show) {
+        if (!privacyModal) return;
+
+        privacyModal.hidden = !show;
+        if (!show) {
+            state.currentFooterModalType = null;
+        }
+        syncBodyLock();
+    }
+
+    function applyStaticTranslations() {
+        document.documentElement.lang = state.currentLang;
+        document.title = t('page-title');
+
+        document.querySelectorAll('[data-i18n]').forEach((node) => {
+            const key = node.getAttribute('data-i18n');
+            node.textContent = t(key);
+        });
+
+        const navToggleLabel = document.querySelector('[data-nav-toggle-label]');
+        if (navToggleLabel) {
+            navToggleLabel.textContent = t('nav-toggle-label');
+        }
+
+        const privacyCloseButton = document.querySelector('#privacy-modal .modal-close-btn');
+        if (privacyCloseButton) {
+            privacyCloseButton.textContent = t('modal-close');
+        }
+
+        const levelLegend = document.querySelector('.level-fieldset legend');
+        if (levelLegend) {
+            levelLegend.textContent = t('level-legend');
+        }
+
+        const levelLabelMap = {
+            'level-basic': 'level-basic',
+            'level-normal': 'level-normal',
+            'level-hard': 'level-hard'
+        };
+        Object.keys(levelLabelMap).forEach((id) => {
+            const label = document.querySelector(`label[for="${id}"]`);
+            if (label) {
+                label.textContent = t(levelLabelMap[id]);
+            }
+        });
+
+        if (answerInput) {
+            answerInput.placeholder = t('answer-placeholder');
+            answerInput.setAttribute('aria-label', t('answer-aria'));
+        }
+
+        if (nextBtn) nextBtn.textContent = t('btn-next');
+        if (analysisBtn) analysisBtn.textContent = t('btn-analysis');
+        if (feedbackBtn) feedbackBtn.textContent = t('btn-feedback');
+
+        updateThemeButton();
+        updateAudioButton();
+
+        if (state.currentFooterModalType && privacyModal && !privacyModal.hidden && privacyBody) {
+            privacyBody.innerHTML = footerModalContent(state.currentFooterModalType);
+        }
+    }
+
+    function changeLanguage() {
+        state.currentLang = state.currentLang === 'en' ? 'zh' : 'en';
+        applyStaticTranslations();
+        syncQuestions(false);
+    }
+
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        document.documentElement.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+        updateThemeButton();
+    }
+
+    function toggleContrast() {
+        const isHighContrast = document.documentElement.getAttribute('data-a11y') === 'high-contrast';
+        if (isHighContrast) {
+            document.documentElement.removeAttribute('data-a11y');
+        } else {
+            document.documentElement.setAttribute('data-a11y', 'high-contrast');
+        }
+    }
+
+    function adjustFontSize(delta) {
+        state.currentFontSize = Math.min(Math.max(state.currentFontSize + (delta * 2), 12), 26);
+        document.documentElement.style.setProperty('--font-size-base', `${state.currentFontSize}px`);
+    }
+
+    function toggleSound() {
+        state.soundEnabled = !state.soundEnabled;
+        updateAudioButton();
+    }
+
+    function setupNavToggle() {
+        const navToggle = document.querySelector('[data-nav-toggle]');
+        const siteNav = document.querySelector('[data-site-nav]');
+        if (!navToggle || !siteNav) return;
+
+        navToggle.addEventListener('click', () => {
+            const isOpen = !siteNav.classList.contains('is-open');
+            setNavOpen(isOpen);
+        });
+
+        siteNav.querySelectorAll('a').forEach((link) => {
+            link.addEventListener('click', () => setNavOpen(false));
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 760) {
+                setNavOpen(false);
+            }
+        });
+    }
+
+    function setupLevelControls() {
+        levelRadios.forEach((radio) => {
+            radio.addEventListener('change', (event) => {
+                if (event.target.checked) {
+                    setLevel(event.target.value || 'basic');
+                }
+            });
+        });
+
+        const basicRadio = document.getElementById('level-basic');
+        if (basicRadio) {
+            basicRadio.checked = true;
+        }
+    }
+
+    if (themeBtn) {
+        themeBtn.addEventListener('click', toggleTheme);
+    }
+
+    if (audioBtn) {
+        audioBtn.addEventListener('click', toggleSound);
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', nextQuestion);
+    }
+
+    if (analysisBtn) {
+        analysisBtn.addEventListener('click', showAnalysis);
+    }
+
+    if (feedbackBtn) {
+        feedbackBtn.addEventListener('click', showFeedback);
+    }
+
+    setupLevelControls();
+    setupNavToggle();
+    if (privacyModal) {
+        privacyModal.hidden = true;
+    }
+    syncBodyLock();
+    state.currentFontSize = parseInt(window.getComputedStyle(document.documentElement).getPropertyValue('--font-size-base'), 10) || 16;
+    applyStaticTranslations();
+    syncQuestions(true);
+
+    window.changeLanguage = changeLanguage;
+    window.toggleContrast = toggleContrast;
+    window.adjustFontSize = adjustFontSize;
+    window.openFooterModal = openFooterModal;
+    window.togglePrivacyModal = togglePrivacyModal;
 })();
