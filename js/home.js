@@ -371,12 +371,28 @@ function toggleAccordion(id) {
     }
 }
 
+// --- 全站大脑：页面加载时立即同步对比度和主题 ---
+(function syncGlobalSettings() {
+    // 检查并应用对比度
+    if (localStorage.getItem('high-contrast') === 'true') {
+        document.documentElement.setAttribute('data-a11y', 'high-contrast');
+    }
+    // 检查并应用黑夜模式 (顺便也同步了)
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+})();
+
+// --- 统一的切换函数 (确保每个页面的 Contrast 按钮都能调用它) ---
 function toggleContrast() {
     const isHighContrast = document.documentElement.getAttribute('data-a11y') === 'high-contrast';
     if (isHighContrast) {
         document.documentElement.removeAttribute('data-a11y');
+        localStorage.setItem('high-contrast', 'false');
     } else {
         document.documentElement.setAttribute('data-a11y', 'high-contrast');
+        localStorage.setItem('high-contrast', 'true');
     }
 }
 
@@ -590,3 +606,35 @@ window.closeModal = closeModal;
 window.executeClear = executeClear;
 window.openFooterModal = openFooterModal;
 window.togglePrivacyModal = togglePrivacyModal;
+
+// 页面加载时，检查本地存储并应用高对比度
+(function() {
+    const savedContrast = localStorage.getItem('high-contrast');
+    if (savedContrast === 'true') {
+        document.documentElement.setAttribute('data-a11y', 'high-contrast');
+    }
+
+    // 同理，黑夜模式也可以同步
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+})();
+
+// 修改原有的 toggleTheme 也要加入保存逻辑
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme); // 保存黑夜模式状态
+    updateThemeButton();
+}
+
+// 页面一加载就检查之前的 Contrast 设置
+(function() {
+    const savedContrast = localStorage.getItem('high-contrast');
+    if (savedContrast === 'true') {
+        document.documentElement.setAttribute('data-a11y', 'high-contrast');
+    }
+})();
+

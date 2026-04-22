@@ -671,14 +671,30 @@
         updateThemeButton();
     }
 
-    function toggleContrast() {
-        const isHighContrast = document.documentElement.getAttribute('data-a11y') === 'high-contrast';
-        if (isHighContrast) {
-            document.documentElement.removeAttribute('data-a11y');
-        } else {
-            document.documentElement.setAttribute('data-a11y', 'high-contrast');
-        }
+// --- 全站大脑：页面加载时立即同步对比度和主题 ---
+(function syncGlobalSettings() {
+    // 检查并应用对比度
+    if (localStorage.getItem('high-contrast') === 'true') {
+        document.documentElement.setAttribute('data-a11y', 'high-contrast');
     }
+    // 检查并应用黑夜模式 (顺便也同步了)
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+})();
+
+// --- 统一的切换函数 (确保每个页面的 Contrast 按钮都能调用它) ---
+function toggleContrast() {
+    const isHighContrast = document.documentElement.getAttribute('data-a11y') === 'high-contrast';
+    if (isHighContrast) {
+        document.documentElement.removeAttribute('data-a11y');
+        localStorage.setItem('high-contrast', 'false');
+    } else {
+        document.documentElement.setAttribute('data-a11y', 'high-contrast');
+        localStorage.setItem('high-contrast', 'true');
+    }
+}
 
     function adjustFontSize(delta) {
         state.currentFontSize = Math.min(Math.max(state.currentFontSize + (delta * 2), 12), 26);
@@ -761,4 +777,12 @@
     window.adjustFontSize = adjustFontSize;
     window.openFooterModal = openFooterModal;
     window.togglePrivacyModal = togglePrivacyModal;
+})();
+
+// 页面一加载就检查之前的 Contrast 设置
+(function() {
+    const savedContrast = localStorage.getItem('high-contrast');
+    if (savedContrast === 'true') {
+        document.documentElement.setAttribute('data-a11y', 'high-contrast');
+    }
 })();

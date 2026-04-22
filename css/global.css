@@ -34,21 +34,107 @@
     --shadow: 0 16px 36px rgba(0, 0, 0, 0.28);
 }
 
+/* =========================================
+   终极版：黄紫黑高对比度方案 (核能级覆盖)
+   ========================================= */
+
 [data-a11y="high-contrast"] {
-    --primary-color: #ffff00;
-    --primary-hover: #ffffff;
-    --primary-blue: #ffff00;
-    --primary-blue-deep: #ffffff;
-    --bg-color: #000000;
-    --text-color: #ffffff;
-    --muted-text: #f5f58a;
-    --card-bg: #000000;
-    --header-bg: #000000;
-    --footer-bg: #000000;
-    --footer-text: #ffffff;
-    --border-color: #ffff00;
-    --secondary-bg: #000000;
-    --shadow: none;
+    /* 定义核心配色变量 */
+    --primary-color: #ffff00 !important;
+    --primary-blue: #ffff00 !important;
+    --accent-purple: #bf00ff !important; /* 亮紫色 */
+    --bg-color: #000000 !important;
+    --text-color: #ffffff !important;   /* 正文用白色保证清晰度 */
+    --card-bg: #000000 !important;
+    --header-bg: #000000 !important;
+    --footer-bg: #000000 !important;
+    --border-color: #ffff00 !important; /* 默认边框黄色 */
+    --shadow: none !important;
+}
+
+/* 1. 【核心：背景全部刷黑】强行覆盖 Game/Quiz 的所有灰色块 */
+[data-a11y="high-contrast"] body,
+[data-a11y="high-contrast"] main,
+[data-a11y="high-contrast"] section,
+[data-a11y="high-contrast"] div:not(#accessibility-bar),
+[data-a11y="high-contrast"] aside,
+[data-a11y="high-contrast"] article,
+[data-a11y="high-contrast"] .lab-status,
+[data-a11y="high-contrast"] .lab-goal,
+[data-a11y="high-contrast"] .current-theorem,
+[data-a11y="high-contrast"] .info-container,
+[data-a11y="high-contrast"] .demo-container,
+[data-a11y="high-contrast"] .level-selector,
+[data-a11y="high-contrast"] .question-area,
+[data-a11y="high-contrast"] .quiz-main {
+    background-color: #000000 !important;
+    background-image: none !important;
+    border: 1px solid #ffff00 !important;
+    color: #ffffff !important;
+}
+
+/* 2. 【重点：紫色边框勾勒】让你的卡片和模态框具有高级感 */
+[data-a11y="high-contrast"] .theorem-card,
+[data-a11y="high-contrast"] .accordion-item,
+[data-a11y="high-contrast"] .bio-card,
+[data-a11y="high-contrast"] .modal-content,
+[data-a11y="high-contrast"] .privacy-box,
+[data-a11y="high-contrast"] #ai-chat-widget {
+    border: 3px solid #bf00ff !important; /* 紫色粗边框 */
+    background: #000 !important;
+}
+
+/* 3. 【手风琴特效】激活状态头部变黄底黑字 */
+[data-a11y="high-contrast"] .accordion-header {
+    background: #000 !important;
+    color: #ffff00 !important;
+    border-bottom: 2px solid #bf00ff !important;
+}
+[data-a11y="high-contrast"] .accordion-item.active .accordion-header {
+    background: #ffff00 !important;
+    color: #000000 !important;
+}
+
+/* 4. 【交互组件】按钮全部统一为 黄底黑字+紫边 */
+[data-a11y="high-contrast"] button,
+[data-a11y="high-contrast"] .pro-btn,
+[data-a11y="high-contrast"] .btn-danger,
+[data-a11y="high-contrast"] .control-btn,
+[data-a11y="high-contrast"] .learn-more {
+    background: #ffff00 !important;
+    color: #000000 !important;
+    border: 2px solid #bf00ff !important;
+    font-weight: 900 !important;
+    opacity: 1 !important;
+}
+
+/* 5. 【文字细节】 */
+[data-a11y="high-contrast"] .highlight,
+[data-a11y="high-contrast"] h3,
+[data-a11y="high-contrast"] .bio-name {
+    color: #ffff00 !important; /* 标题和高亮用黄色 */
+}
+[data-a11y="high-contrast"] p,
+[data-a11y="high-contrast"] li,
+[data-a11y="high-contrast"] span:not(.badge) {
+    color: #ffffff !important; /* 正文用白色 */
+}
+
+/* 6. 【特定修正：清除输入框】 */
+[data-a11y="high-contrast"] input[type="text"],
+[data-a11y="high-contrast"] input[type="number"],
+[data-a11y="high-contrast"] .chat-input input {
+    background: #000 !important;
+    border: 2px solid #bf00ff !important;
+    color: #ffff00 !important;
+}
+
+/* 7. 【SVG 几何图形修复】 */
+[data-a11y="high-contrast"] svg * {
+    stroke: #ffffff !important; /* 线条变白 */
+}
+[data-a11y="high-contrast"] svg text {
+    fill: #ffff00 !important; /* 图形内文字变黄 */
 }
 
 * {
