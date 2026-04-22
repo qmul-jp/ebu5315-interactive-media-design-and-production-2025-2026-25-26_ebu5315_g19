@@ -538,6 +538,11 @@ function toggleContrast() {
     }
 }
 
+// 全站同步：进入页面时检查对比度设置
+if (localStorage.getItem('high-contrast') === 'true') {
+    document.documentElement.setAttribute('data-a11y', 'high-contrast');
+}
+
 function setNavOpen(isOpen) {
     const navToggle = document.querySelector('[data-nav-toggle]');
     const siteNav = document.querySelector('[data-site-nav]');

@@ -38,95 +38,77 @@
    终极版：黄紫黑高对比度方案 (核能级覆盖)
    ========================================= */
 
+/* =========================================
+   Version 3.5.b: 精简版高对比度 (黄紫黑方案)
+   ========================================= */
+
 [data-a11y="high-contrast"] {
-    /* 定义核心配色变量 */
-    --primary-color: #ffff00 !important;
-    --primary-blue: #ffff00 !important;
-    --accent-purple: #bf00ff !important; /* 亮紫色 */
+    --primary-color: #ffcc00 !important;  /* 橙黄色 */
+    --primary-blue: #ffcc00 !important;
+    --accent-purple: #bf00ff !important;  /* 亮紫色 */
     --bg-color: #000000 !important;
-    --text-color: #ffffff !important;   /* 正文用白色保证清晰度 */
+    --text-color: #ffffff !important;
     --card-bg: #000000 !important;
     --header-bg: #000000 !important;
     --footer-bg: #000000 !important;
-    --border-color: #ffff00 !important; /* 默认边框黄色 */
+    --border-color: #ffcc00 !important;
     --shadow: none !important;
 }
 
-/* 1. 【核心：背景全部刷黑】强行覆盖 Game/Quiz 的所有灰色块 */
-[data-a11y="high-contrast"] body,
-[data-a11y="high-contrast"] main,
+/* 1. 【核心：删掉多余框框】取消结构性容器的边框和底色 */
+[data-a11y="high-contrast"] div,
 [data-a11y="high-contrast"] section,
-[data-a11y="high-contrast"] div:not(#accessibility-bar),
-[data-a11y="high-contrast"] aside,
-[data-a11y="high-contrast"] article,
-[data-a11y="high-contrast"] .lab-status,
-[data-a11y="high-contrast"] .lab-goal,
-[data-a11y="high-contrast"] .current-theorem,
-[data-a11y="high-contrast"] .info-container,
-[data-a11y="high-contrast"] .demo-container,
-[data-a11y="high-contrast"] .level-selector,
-[data-a11y="high-contrast"] .question-area,
-[data-a11y="high-contrast"] .quiz-main {
-    background-color: #000000 !important;
-    background-image: none !important;
-    border: 1px solid #ffff00 !important;
-    color: #ffffff !important;
+[data-a11y="high-contrast"] main,
+[data-a11y="high-contrast"] .container,
+[data-a11y="high-contrast"] .header-content {
+    background-color: transparent !important;
+    border: none !important; /* 核心：删掉那些讨厌的线条 */
+    box-shadow: none !important;
 }
 
-/* 2. 【重点：紫色边框勾勒】让你的卡片和模态框具有高级感 */
+/* 2. 【核心：彩色字转橙黄】高对比度下不使用渐变 */
+[data-a11y="high-contrast"] .section-title,
+[data-a11y="high-contrast"] .highlight {
+    background: none !important;
+    -webkit-text-fill-color: #ffcc00 !important; /* 强制变橙黄色 */
+    color: #ffcc00 !important;
+    font-weight: 900 !important;
+}
+
+/* 3. 【精准留边】只给真正的卡片组件留边框 */
 [data-a11y="high-contrast"] .theorem-card,
-[data-a11y="high-contrast"] .accordion-item,
 [data-a11y="high-contrast"] .bio-card,
-[data-a11y="high-contrast"] .modal-content,
-[data-a11y="high-contrast"] .privacy-box,
-[data-a11y="high-contrast"] #ai-chat-widget {
-    border: 3px solid #bf00ff !important; /* 紫色粗边框 */
-    background: #000 !important;
+[data-a11y="high-contrast"] .accordion-item,
+[data-a11y="high-contrast"] #ai-chat-widget,
+[data-a11y="high-contrast"] .video-container {
+    background-color: #000000 !important;
+    border: 2px solid #bf00ff !important; /* 紫色主边框，很有质感 */
+    border-radius: 15px !important;
+    padding: 20px !important;
 }
 
-/* 3. 【手风琴特效】激活状态头部变黄底黑字 */
-[data-a11y="high-contrast"] .accordion-header {
-    background: #000 !important;
-    color: #ffff00 !important;
-    border-bottom: 2px solid #bf00ff !important;
-}
-[data-a11y="high-contrast"] .accordion-item.active .accordion-header {
-    background: #ffff00 !important;
-    color: #000000 !important;
-}
-
-/* 4. 【交互组件】按钮全部统一为 黄底黑字+紫边 */
-[data-a11y="high-contrast"] button,
+/* 4. 按钮：亮黄底黑字 */
+[data-a11y="high-contrast"] button:not(.close-modal),
 [data-a11y="high-contrast"] .pro-btn,
 [data-a11y="high-contrast"] .btn-danger,
-[data-a11y="high-contrast"] .control-btn,
 [data-a11y="high-contrast"] .learn-more {
-    background: #ffff00 !important;
+    background: #ffcc00 !important;
     color: #000000 !important;
-    border: 2px solid #bf00ff !important;
-    font-weight: 900 !important;
+    border: 2px solid #ffffff !important;
     opacity: 1 !important;
 }
 
-/* 5. 【文字细节】 */
-[data-a11y="high-contrast"] .highlight,
-[data-a11y="high-contrast"] h3,
-[data-a11y="high-contrast"] .bio-name {
-    color: #ffff00 !important; /* 标题和高亮用黄色 */
-}
+/* 5. 修正文字颜色 */
 [data-a11y="high-contrast"] p,
-[data-a11y="high-contrast"] li,
-[data-a11y="high-contrast"] span:not(.badge) {
-    color: #ffffff !important; /* 正文用白色 */
+[data-a11y="high-contrast"] span,
+[data-a11y="high-contrast"] h3,
+[data-a11y="high-contrast"] li {
+    color: #ffffff !important;
 }
 
-/* 6. 【特定修正：清除输入框】 */
-[data-a11y="high-contrast"] input[type="text"],
-[data-a11y="high-contrast"] input[type="number"],
-[data-a11y="high-contrast"] .chat-input input {
-    background: #000 !important;
-    border: 2px solid #bf00ff !important;
-    color: #ffff00 !important;
+/* 6. 图形线条变白 */
+[data-a11y="high-contrast"] svg * {
+    stroke: #ffffff !important;
 }
 
 /* 7. 【SVG 几何图形修复】 */
@@ -135,6 +117,70 @@
 }
 [data-a11y="high-contrast"] svg text {
     fill: #ffff00 !important; /* 图形内文字变黄 */
+}
+
+[data-a11y="high-contrast"] .theorem-card,
+[data-a11y="high-contrast"] .accordion-item,
+[data-a11y="high-contrast"] .accordion-content,
+[data-a11y="high-contrast"] .demo-container,
+[data-a11y="high-contrast"] .info-container {
+    background-color: #000 !important;
+    background-image: none !important; /* 关键：必须关掉同伴加的渐变色，底色才会变纯黑 */
+    color: #ffffff !important;
+}
+
+/* 确保页眉和工具栏在高对比度下是不透明的黑底 */
+[data-a11y="high-contrast"] header,
+[data-a11y="high-contrast"] #accessibility-bar {
+    background-color: #000 !important;
+    border-bottom: 2px solid #ffcc00 !important; /* 给页眉加一条明显的黄色底线 */
+    opacity: 1 !important;
+}
+
+/* 详情页内部标题变黄色 */
+[data-a11y="high-contrast"] .info-container h3 {
+    color: #ffcc00 !important;
+    border-bottom: 1px solid #bf00ff !important; /* 配一个紫色的细底线 */
+    padding-bottom: 5px;
+}
+
+/* 核心要点的小方块边框变黄色 */
+[data-a11y="high-contrast"] .property-item {
+    border-color: #ffcc00 !important;
+    color: #ffffff !important;
+}
+
+/* 面包屑导航的当前位置变黄色 */
+[data-a11y="high-contrast"] .breadcrumb #active-theorem-name {
+    color: #ffcc00 !important;
+}
+
+/* 精准把 Game 和 Quiz 的灰色块变黑，并加上你的紫色边框 */
+[data-a11y="high-contrast"] .lab-goal,
+[data-a11y="high-contrast"] .lab-status,
+[data-a11y="high-contrast"] .current-theorem,
+[data-a11y="high-contrast"] .quiz-main,
+[data-a11y="high-contrast"] .level-selector {
+    background-color: #000 !important;
+    background-image: none !important; /* 必须去掉背景图/渐变 */
+    border: 2px solid #bf00ff !important; /* 统一成你喜欢的紫色边框 */
+    color: #ffffff !important;
+}
+/* 把所有卡片的小标题统一变黄，增加活力 */
+[data-a11y="high-contrast"] h3 {
+    color: #ffcc00 !important;
+}
+/* 精准修正：强制无障碍工具栏按钮内的文字和图标为黑色 */
+[data-a11y="high-contrast"] #accessibility-bar button,
+[data-a11y="high-contrast"] #accessibility-bar button span {
+    color: #000000 !important;
+}
+
+/* 如果有图标也确保是黑色 */
+[data-a11y="high-contrast"] #accessibility-bar button i,
+[data-a11y="high-contrast"] #accessibility-bar button svg {
+    fill: #000000 !important;
+    stroke: #000000 !important;
 }
 
 * {

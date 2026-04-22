@@ -602,3 +602,61 @@
         padding: 28px 22px;
     }
 }
+
+/* =========================================
+   Version 3.4.b: 视觉灵魂回归 (正常模式增强)
+   ========================================= */
+
+/* =========================================
+   Version 3.4.b: 视觉精修版
+   ========================================= */
+
+/* 1. 上面那个不要变彩色 (Hero 标题保持原色，仅 Gallery 标题变彩色) */
+#hero h1 .highlight {
+    background: none !important;
+    -webkit-text-fill-color: initial !important;
+    color: var(--primary-blue) !important; /* 保持原有的蓝色 */
+}
+
+/* 仅下方的 Gallery 标题保留彩色渐变 */
+.section-title {
+    background: linear-gradient(45deg, #007bff, #bf00ff) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    font-weight: 800 !important;
+    text-align: center;
+}
+
+/* 2. 定理卡片文字居中 */
+.theorem-card {
+    text-align: center !important;
+    align-items: center !important; /* 确保内容垂直居中 */
+}
+
+/* 3. 中间的卡片上三下三排列 (固定 3 列) */
+@media (min-width: 900px) {
+    .theorem-grid {
+        grid-template-columns: repeat(3, 1fr) !important; /* 强行固定 3 列 */
+        gap: 30px !important;
+    }
+}
+
+/* 4. 卡片浮动效果区分处理 */
+/* 所有卡片共用的平滑过渡 */
+.theorem-card, .bio-card {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+/* 定理卡片：浮动 + 蓝色发光 */
+.theorem-card:hover {
+    transform: translateY(-12px) !important;
+    border-color: #007bff !important;
+    box-shadow: 0 20px 40px rgba(0, 123, 255, 0.2) !important;
+}
+
+/* 数学家卡片：只浮动，不发光 (使用默认阴影) */
+.bio-card:hover {
+    transform: translateY(-12px) !important;
+    border-color: var(--border-color) !important; /* 保持原样 */
+    box-shadow: var(--shadow) !important; /* 保持原有阴影，不额外发光 */
+}

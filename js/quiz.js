@@ -696,6 +696,11 @@ function toggleContrast() {
     }
 }
 
+// 全站同步：进入页面时检查对比度设置
+if (localStorage.getItem('high-contrast') === 'true') {
+    document.documentElement.setAttribute('data-a11y', 'high-contrast');
+}
+
     function adjustFontSize(delta) {
         state.currentFontSize = Math.min(Math.max(state.currentFontSize + (delta * 2), 12), 26);
         document.documentElement.style.setProperty('--font-size-base', `${state.currentFontSize}px`);

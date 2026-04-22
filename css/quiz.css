@@ -201,3 +201,74 @@
         gap: 8px 12px;
     }
 }
+
+/* 高对比度小修：把测验的主区域和等级选择器变黑 */
+[data-a11y="high-contrast"] .quiz-main,
+[data-a11y="high-contrast"] .level-selector {
+    background: #000 !important; /* 强制变黑 */
+    background-image: none !important;
+    border: 2px solid #bf00ff !important; /* 你的招牌紫边 */
+    color: #ffffff !important;
+}
+
+/* 测验页文字变黄 */
+[data-a11y="high-contrast"] .quiz-main h2,
+[data-a11y="high-contrast"] .level-label {
+    color: #ffcc00 !important;
+}
+
+/* =========================================
+   终极修复：Quiz 页面高对比度 (基于实际类名)
+   ========================================= */
+
+/* 1. 强制把所有大框背景刷黑，并加上紫色边框 */
+[data-a11y="high-contrast"] .quiz-area,
+[data-a11y="high-contrast"] .panel-card,
+[data-a11y="high-contrast"] .level-fieldset,
+[data-a11y="high-contrast"] .answer-feedback,
+[data-a11y="high-contrast"] .analysis-text {
+    background-color: #000000 !important;
+    background-image: none !important; /* 删掉可能的渐变 */
+    border: 2px solid #bf00ff !important; /* 你的招牌紫边 */
+    color: #ffffff !important;
+    box-shadow: none !important;
+}
+
+/* 2. 重点解决：中间那个灰白色的问题区域 (#circle-canvas) */
+[data-a11y="high-contrast"] #circle-canvas {
+    background: #000000 !important;
+    background-image: none !important; /* 强制剥离同伴加的渐变色 */
+    border: 2px dashed #ffcc00 !important; /* 这里用黄色虚线很有设计感 */
+}
+
+/* 3. 修正输入框样式 */
+[data-a11y="high-contrast"] #answer-input {
+    background: #000 !important;
+    border: 2px solid #ffcc00 !important;
+    color: #ffcc00 !important;
+}
+
+/* 4. 修正标题和标签颜色 */
+[data-a11y="high-contrast"] #circle-canvas p,
+[data-a11y="high-contrast"] .level-fieldset legend {
+    color: #ffcc00 !important; /* 题目和“Level”标题变黄 */
+}
+
+[data-a11y="high-contrast"] .level-fieldset label {
+    color: #ffffff !important;
+}
+
+/* 5. 按钮统一：黄底黑字 */
+[data-a11y="high-contrast"] .control-card button,
+[data-a11y="high-contrast"] #next-btn,
+[data-a11y="high-contrast"] #feedback-btn {
+    background: #ffcc00 !important;
+    color: #000000 !important;
+    border: 2px solid #ffffff !important;
+    font-weight: 900 !important;
+}
+
+/* 6. 单选框（Radio）颜色 */
+[data-a11y="high-contrast"] .level-fieldset input[type="radio"] {
+    accent-color: #ffcc00 !important;
+}
