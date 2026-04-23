@@ -1829,7 +1829,15 @@ function setupChat() {
 if (themeBtn) {
     themeBtn.addEventListener('click', () => {
         const currentTheme = document.documentElement.getAttribute('data-theme');
-        document.documentElement.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+        // 1. 修改当前页面样式
+        document.documentElement.setAttribute('data-theme', newTheme);
+
+        // 2. 【核心修复】保存到本地，这样 Home 和 Quiz 才能知道 Game 变色了
+        localStorage.setItem('theme', newTheme);
+
+        // 3. 更新按钮文字和图标
         updateThemeButton();
     });
 }
@@ -1869,10 +1877,36 @@ function initializeLab() {
 
 initializeLab();
 
-// 页面一加载就检查之前的 Contrast 设置
-(function() {
-    const savedContrast = localStorage.getItem('high-contrast');
-    if (savedContrast === 'true') {
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+
+    // 关键：必须加上这一句，游戏页的修改才能被记住
+    localStorage.setItem('theme', newTheme);
+
+    updateThemeButton();
+}
+
+/* =========================================
+   Version 3.5.b: 最终全站同步修正 (Game 专项版)
+   ========================================= */
+function syncAtStartup() {
+    // 1. 检查对比度
+    if (localStorage.getItem('high-contrast') === 'true') {
         document.documentElement.setAttribute('data-a11y', 'high-contrast');
     }
-})();
+
+    // 2. 检查并同步黑夜模式
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        // 重要：Game 页面特有的更新按钮状态函数
+        if (typeof updateThemeButton === 'function') {
+            updateThemeButton();
+        }
+    }
+}
+
+// 立即执行同步
+syncAtStartup();

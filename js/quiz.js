@@ -666,10 +666,15 @@
     }
 
     function toggleTheme() {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        document.documentElement.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
-        updateThemeButton();
-    }
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+
+    // 关键：同步保存
+    localStorage.setItem('theme', newTheme);
+
+    updateThemeButton();
+}
 
 // --- 全站大脑：页面加载时立即同步对比度和主题 ---
 (function syncGlobalSettings() {
@@ -784,10 +789,22 @@ if (localStorage.getItem('high-contrast') === 'true') {
     window.togglePrivacyModal = togglePrivacyModal;
 })();
 
-// 页面一加载就检查之前的 Contrast 设置
-(function() {
-    const savedContrast = localStorage.getItem('high-contrast');
-    if (savedContrast === 'true') {
+/* =========================================
+   Version 3.5.b: 最终全站设置同步逻辑
+   ========================================= */
+(function initializeGlobalSettings() {
+    // 1. 启动时同步对比度
+    if (localStorage.getItem('high-contrast') === 'true') {
         document.documentElement.setAttribute('data-a11y', 'high-contrast');
+    }
+
+    // 2. 启动时同步黑夜模式
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        // 确保按钮文字（Dark Mode/Light Mode）同步更新
+        if (typeof updateThemeButton === 'function') {
+            updateThemeButton();
+        }
     }
 })();
