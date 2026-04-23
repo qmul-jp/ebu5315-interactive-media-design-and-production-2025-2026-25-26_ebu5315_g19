@@ -1762,12 +1762,13 @@ function setupActions() {
 
 function refreshChatWelcome() {
     if (!chatBody) return;
-    const firstMessage = chatBody.querySelector('[data-chat-welcome]');
-    if (!firstMessage) return;
+    const welcomeLine = chatBody.querySelector('[data-chat-welcome]');
+    if (!welcomeLine) return;
 
-    const strong = firstMessage.querySelector('strong');
-    const span = firstMessage.querySelector('span');
-    if (strong) strong.textContent = t('chat-ai');
+    // 这种写法确保不会把 "AI:" 这个词弄丢
+    const strong = welcomeLine.querySelector('strong');
+    const span = welcomeLine.querySelector('span');
+    if (strong) strong.textContent = t('chat-ai'); // 对应翻译里的 'AI:'
     if (span) span.textContent = t('chat-welcome');
 }
 
@@ -1910,3 +1911,29 @@ function syncAtStartup() {
 
 // 立即执行同步
 syncAtStartup();
+
+// 控制聊天框开关
+function toggleChat() {
+    const chat = document.getElementById('ai-chat-widget');
+    chat.style.display = (chat.style.display === 'none') ? 'block' : 'none';
+}
+
+// 弹出确认框
+function confirmClearChat() {
+    document.getElementById('confirm-modal').style.display = 'flex';
+}
+
+// 关闭确认框
+function closeModal() {
+    document.getElementById('confirm-modal').style.display = 'none';
+}
+
+// 执行清空并保留欢迎语
+function executeClear() {
+    const chatBody = document.getElementById('chat-body');
+    if (chatBody) {
+        const welcome = (currentLang === 'zh') ? "<strong>AI:</strong> 对话记录已清空。" : "<strong>AI:</strong> Chat history cleared.";
+        chatBody.innerHTML = `<p>${welcome}</p>`;
+    }
+    closeModal();
+}

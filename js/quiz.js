@@ -806,5 +806,30 @@ if (localStorage.getItem('high-contrast') === 'true') {
         if (typeof updateThemeButton === 'function') {
             updateThemeButton();
         }
+    }// 控制聊天框开关
+function toggleChat() {
+    const chat = document.getElementById('ai-chat-widget');
+    chat.style.display = (chat.style.display === 'none') ? 'block' : 'none';
+}
+
+// 弹出确认框
+function confirmClearChat() {
+    document.getElementById('confirm-modal').style.display = 'flex';
+}
+
+// 关闭确认框
+function closeModal() {
+    document.getElementById('confirm-modal').style.display = 'none';
+}
+
+// 执行清空并保留欢迎语
+function executeClear() {
+    const chatBody = document.getElementById('chat-body');
+    if (chatBody) {
+        const welcome = (currentLang === 'zh') ? "<strong>AI:</strong> 对话记录已清空。" : "<strong>AI:</strong> Chat history cleared.";
+        chatBody.innerHTML = `<p>${welcome}</p>`;
     }
+    closeModal();
+}
 })();
+

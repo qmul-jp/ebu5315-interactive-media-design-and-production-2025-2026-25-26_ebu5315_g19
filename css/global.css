@@ -547,3 +547,56 @@ footer {
         margin-top: 16px;
     }
 }
+/* =========================================
+   全站统一：AI 助手悬浮球 (好好改版)
+   ========================================= */
+
+#chat-toggle-btn {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    width: 60px;  /* 强制固定宽度 */
+    height: 60px; /* 强制固定高度 */
+
+    /* 1. 背景：使用你喜欢的蓝紫渐变，非常有科技感 */
+    background: linear-gradient(135deg, var(--primary-blue), #6610f2);
+
+    /* 2. 形状：纯圆 */
+    border-radius: 50%;
+
+    /* 3. 居中：让里的小头居中 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* 4. 阴影：让它“飘”在网页上面 */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+
+    /* 5. 交互：鼠标悬停变大，并置于最顶层 */
+    cursor: pointer;
+    z-index: 9999 !important; /* 确保它在所有内容（包括 Footer）之上 */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    /* 6. 字体大小：如果是 Emoji 的话 */
+    font-size: 32px;
+}
+
+#chat-toggle-btn:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* 7. 让按钮在黑夜模式下发光 */
+[data-theme="dark"] #chat-toggle-btn {
+    box-shadow: 0 0 15px rgba(102, 16, 242, 0.6);
+}
+
+/* 8. AI 助手心跳动画 (更显灵动) */
+#chat-toggle-btn {
+    animation: robot-float 3s ease-in-out infinite;
+}
+
+@keyframes robot-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
