@@ -379,11 +379,14 @@ header {
     color: var(--muted-text);
 }
 
+/* --- global.css 修改部分 --- */
+
 footer {
     margin-top: auto;
     background: var(--footer-bg);
     border-top: 1px solid var(--border-color);
-    padding: 28px 0;
+    /* 1. 高度再缩小：将之前的 12px 改为 6px (或者 4px) */
+    padding: 6px 0;
 }
 
 .footer-content {
@@ -392,24 +395,15 @@ footer {
     align-items: center;
     gap: 16px;
     flex-wrap: wrap;
+    font-size: 0.85rem;
 }
 
 .footer-links {
     display: flex;
     align-items: center;
-    gap: 16px;
+    /* 2. 词组间距变大：将原来的 16px 改为 32px (或根据视觉需求调大) */
+    gap: 32px;
     flex-wrap: wrap;
-}
-
-.footer-links a {
-    color: var(--footer-text);
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.footer-links a:hover,
-.footer-links a:focus-visible {
-    color: var(--primary-blue);
 }
 
 .modal-overlay {
