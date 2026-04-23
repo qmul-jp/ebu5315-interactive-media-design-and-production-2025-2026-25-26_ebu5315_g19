@@ -78,6 +78,45 @@
             <button id="feedback-btn" type="button" aria-label="Feedback">Feedback</button>
         </section>
     </main>
+
+<!-- =========================================
+         AI 助手组件 - 统一复刻版
+         ========================================= -->
+
+    <!-- 1. 悬浮触发按钮 -->
+    <div id="chat-toggle-btn" onclick="toggleChat()">🤖</div>
+
+    <!-- 2. AI 聊天窗口 -->
+    <div id="ai-chat-widget" style="display: none;">
+        <div class="chat-header">
+            <span data-i18n="chat-header">Circle AI Tutor</span>
+            <div style="float:right">
+                <!-- 🗑️ 垃圾桶：触发确认弹窗 -->
+                <button onclick="confirmClearChat()" style="background:none;border:none;color:white;cursor:pointer;font-size:1.1rem;">🗑️</button>
+                <!-- ✕ 关闭按钮 -->
+                <button onclick="toggleChat()" style="background:none;border:none;color:white;cursor:pointer;font-size:1.1rem;margin-left:10px;">✕</button>
+            </div>
+        </div>
+        <div class="chat-body" id="chat-body">
+            <p><strong data-i18n="chat-ai">AI:</strong> <span data-i18n="chat-welcome">Hi! Type "Contact" to message us!</span></p>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chat-input" data-i18n-placeholder="chat-placeholder" placeholder="Type here...">
+        </div>
+    </div>
+
+    <!-- 3. 二次确认弹窗 (清空历史) -->
+    <div id="confirm-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h3 data-i18n="modal-title">Confirm?</h3>
+            <p data-i18n="modal-desc">Clear all messages?</p>
+            <div style="margin-top:20px; display:flex; justify-content:center; gap:12px;">
+                <button onclick="executeClear()" class="btn-danger" data-i18n="btn-confirm">Delete</button>
+                <button onclick="closeModal()" class="control-btn" data-i18n="btn-cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <div class="container footer-content">
             <p data-i18n="footer-copy">© 2026 25/26_EBU5315_G19. All rights reserved.</p>
@@ -88,6 +127,8 @@
             </div>
         </div>
     </footer>
+
+
     <div id="privacy-modal" class="modal-overlay" hidden>
         <div class="modal-content privacy-box">
             <button type="button" class="close-modal" onclick="togglePrivacyModal(false)" aria-label="Close dialog">&times;</button>

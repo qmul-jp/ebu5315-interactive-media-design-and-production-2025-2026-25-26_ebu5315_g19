@@ -188,7 +188,8 @@ const state = {
     currentLang: 'en',
     soundEnabled: true,
     currentDetailId: null,
-    openAccordionId: null
+    openAccordionId: null,
+    homepageScrollPos: 0 // <--- 新增：用来存主页滚动位置
 };
 
 const mainView = document.getElementById('main-view');
@@ -326,35 +327,45 @@ function changeLanguage() {
 }
 
 function goToDetail(id) {
+    // 1. 【新增】在切换视图前，记住现在滚到哪里了
+    state.homepageScrollPos = window.scrollY || window.pageYOffset;
+
     state.currentDetailId = id;
     state.openAccordionId = id;
 
-    if (mainView) {
-        mainView.hidden = true;
-    }
-    if (detailView) {
-        detailView.hidden = false;
-    }
+    if (mainView) mainView.hidden = true;
+    if (detailView) detailView.hidden = false;
+
     if (activeTheoremName) {
         activeTheoremName.textContent = theoremTitle(id);
     }
 
     renderTheorems();
-    setNavOpen(false);
+
+    // ... 原有的跳转到详情页定理位置的代码保持不变 ...
+    setTimeout(() => {
+        const targetItem = document.getElementById(`acc-${id}`);
+        if (targetItem) {
+            const headerOffset = 110;
+            const elementPosition = targetItem.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        }
+    }, 100);
 }
 
 function hideDetail() {
     state.currentDetailId = null;
     state.openAccordionId = null;
 
-    if (mainView) {
-        mainView.hidden = false;
-    }
-    if (detailView) {
-        detailView.hidden = true;
-    }
+    if (mainView) mainView.hidden = false;
+    if (detailView) detailView.hidden = true;
 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // 2. 【核心修复】不要使用 window.scrollTo(0, 0)，而是回到记录的位置
+    window.scrollTo({
+        top: state.homepageScrollPos,
+        behavior: 'instant' // 建议用 instant 立即跳回，防止用户感到混乱
+    });
 }
 
 function toggleAccordion(id) {
@@ -371,18 +382,39 @@ function toggleAccordion(id) {
     }
 }
 
+// --- 全站大脑：页面加载时立即同步对比度和主题 ---
+(function syncGlobalSettings() {
+    // 检查并应用对比度
+    if (localStorage.getItem('high-contrast') === 'true') {
+        document.documentElement.setAttribute('data-a11y', 'high-contrast');
+    }
+    // 检查并应用黑夜模式 (顺便也同步了)
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+})();
+
+// --- 统一的切换函数 (确保每个页面的 Contrast 按钮都能调用它) ---
 function toggleContrast() {
     const isHighContrast = document.documentElement.getAttribute('data-a11y') === 'high-contrast';
     if (isHighContrast) {
         document.documentElement.removeAttribute('data-a11y');
+        localStorage.setItem('high-contrast', 'false');
     } else {
         document.documentElement.setAttribute('data-a11y', 'high-contrast');
+        localStorage.setItem('high-contrast', 'true');
     }
 }
 
 function toggleTheme() {
     const currentTheme = document.documentElement.getAttribute('data-theme');
-    document.documentElement.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+
+    // 关键：保存到本地存储
+    localStorage.setItem('theme', newTheme);
+
     updateThemeButton();
 }
 
@@ -590,3 +622,31 @@ window.closeModal = closeModal;
 window.executeClear = executeClear;
 window.openFooterModal = openFooterModal;
 window.togglePrivacyModal = togglePrivacyModal;
+
+// 页面一加载就检查之前的 Contrast 设置
+(function() {
+    const savedContrast = localStorage.getItem('high-contrast');
+    if (savedContrast === 'true') {
+        document.documentElement.setAttribute('data-a11y', 'high-contrast');
+    }
+})();
+
+/* =========================================
+   Version 3.5.b: 最终全站设置同步逻辑
+   ========================================= */
+(function initializeGlobalSettings() {
+    // 1. 启动时同步对比度
+    if (localStorage.getItem('high-contrast') === 'true') {
+        document.documentElement.setAttribute('data-a11y', 'high-contrast');
+    }
+
+    // 2. 启动时同步黑夜模式
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        // 确保按钮文字（Dark Mode/Light Mode）同步更新
+        if (typeof updateThemeButton === 'function') {
+            updateThemeButton();
+        }
+    }
+})();

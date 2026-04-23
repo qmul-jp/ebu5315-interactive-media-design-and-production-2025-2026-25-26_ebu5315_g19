@@ -666,19 +666,45 @@
     }
 
     function toggleTheme() {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        document.documentElement.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
-        updateThemeButton();
-    }
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
 
-    function toggleContrast() {
-        const isHighContrast = document.documentElement.getAttribute('data-a11y') === 'high-contrast';
-        if (isHighContrast) {
-            document.documentElement.removeAttribute('data-a11y');
-        } else {
-            document.documentElement.setAttribute('data-a11y', 'high-contrast');
-        }
+    // 关键：同步保存
+    localStorage.setItem('theme', newTheme);
+
+    updateThemeButton();
+}
+
+// --- 全站大脑：页面加载时立即同步对比度和主题 ---
+(function syncGlobalSettings() {
+    // 检查并应用对比度
+    if (localStorage.getItem('high-contrast') === 'true') {
+        document.documentElement.setAttribute('data-a11y', 'high-contrast');
     }
+    // 检查并应用黑夜模式 (顺便也同步了)
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+})();
+
+// --- 统一的切换函数 (确保每个页面的 Contrast 按钮都能调用它) ---
+function toggleContrast() {
+    const isHighContrast = document.documentElement.getAttribute('data-a11y') === 'high-contrast';
+    if (isHighContrast) {
+        document.documentElement.removeAttribute('data-a11y');
+        localStorage.setItem('high-contrast', 'false');
+    } else {
+        document.documentElement.setAttribute('data-a11y', 'high-contrast');
+        localStorage.setItem('high-contrast', 'true');
+    }
+}
+
+// 全站同步：进入页面时检查对比度设置
+if (localStorage.getItem('high-contrast') === 'true') {
+    document.documentElement.setAttribute('data-a11y', 'high-contrast');
+}
 
     function adjustFontSize(delta) {
         state.currentFontSize = Math.min(Math.max(state.currentFontSize + (delta * 2), 12), 26);
@@ -762,3 +788,48 @@
     window.openFooterModal = openFooterModal;
     window.togglePrivacyModal = togglePrivacyModal;
 })();
+
+/* =========================================
+   Version 3.5.b: 最终全站设置同步逻辑
+   ========================================= */
+(function initializeGlobalSettings() {
+    // 1. 启动时同步对比度
+    if (localStorage.getItem('high-contrast') === 'true') {
+        document.documentElement.setAttribute('data-a11y', 'high-contrast');
+    }
+
+    // 2. 启动时同步黑夜模式
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        // 确保按钮文字（Dark Mode/Light Mode）同步更新
+        if (typeof updateThemeButton === 'function') {
+            updateThemeButton();
+        }
+    }// 控制聊天框开关
+function toggleChat() {
+    const chat = document.getElementById('ai-chat-widget');
+    chat.style.display = (chat.style.display === 'none') ? 'block' : 'none';
+}
+
+// 弹出确认框
+function confirmClearChat() {
+    document.getElementById('confirm-modal').style.display = 'flex';
+}
+
+// 关闭确认框
+function closeModal() {
+    document.getElementById('confirm-modal').style.display = 'none';
+}
+
+// 执行清空并保留欢迎语
+function executeClear() {
+    const chatBody = document.getElementById('chat-body');
+    if (chatBody) {
+        const welcome = (currentLang === 'zh') ? "<strong>AI:</strong> 对话记录已清空。" : "<strong>AI:</strong> Chat history cleared.";
+        chatBody.innerHTML = `<p>${welcome}</p>`;
+    }
+    closeModal();
+}
+})();
+

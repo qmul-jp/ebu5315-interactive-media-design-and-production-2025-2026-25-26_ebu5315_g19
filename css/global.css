@@ -34,21 +34,153 @@
     --shadow: 0 16px 36px rgba(0, 0, 0, 0.28);
 }
 
+/* =========================================
+   终极版：黄紫黑高对比度方案 (核能级覆盖)
+   ========================================= */
+
+/* =========================================
+   Version 3.5.b: 精简版高对比度 (黄紫黑方案)
+   ========================================= */
+
 [data-a11y="high-contrast"] {
-    --primary-color: #ffff00;
-    --primary-hover: #ffffff;
-    --primary-blue: #ffff00;
-    --primary-blue-deep: #ffffff;
-    --bg-color: #000000;
-    --text-color: #ffffff;
-    --muted-text: #f5f58a;
-    --card-bg: #000000;
-    --header-bg: #000000;
-    --footer-bg: #000000;
-    --footer-text: #ffffff;
-    --border-color: #ffff00;
-    --secondary-bg: #000000;
-    --shadow: none;
+    --primary-color: #ffcc00 !important;  /* 橙黄色 */
+    --primary-blue: #ffcc00 !important;
+    --accent-purple: #bf00ff !important;  /* 亮紫色 */
+    --bg-color: #000000 !important;
+    --text-color: #ffffff !important;
+    --card-bg: #000000 !important;
+    --header-bg: #000000 !important;
+    --footer-bg: #000000 !important;
+    --border-color: #ffcc00 !important;
+    --shadow: none !important;
+}
+
+/* 1. 【核心：删掉多余框框】取消结构性容器的边框和底色 */
+[data-a11y="high-contrast"] div,
+[data-a11y="high-contrast"] section,
+[data-a11y="high-contrast"] main,
+[data-a11y="high-contrast"] .container,
+[data-a11y="high-contrast"] .header-content {
+    background-color: transparent !important;
+    border: none !important; /* 核心：删掉那些讨厌的线条 */
+    box-shadow: none !important;
+}
+
+/* 2. 【核心：彩色字转橙黄】高对比度下不使用渐变 */
+[data-a11y="high-contrast"] .section-title,
+[data-a11y="high-contrast"] .highlight {
+    background: none !important;
+    -webkit-text-fill-color: #ffcc00 !important; /* 强制变橙黄色 */
+    color: #ffcc00 !important;
+    font-weight: 900 !important;
+}
+
+/* 3. 【精准留边】只给真正的卡片组件留边框 */
+[data-a11y="high-contrast"] .theorem-card,
+[data-a11y="high-contrast"] .bio-card,
+[data-a11y="high-contrast"] .accordion-item,
+[data-a11y="high-contrast"] #ai-chat-widget,
+[data-a11y="high-contrast"] .video-container {
+    background-color: #000000 !important;
+    border: 2px solid #bf00ff !important; /* 紫色主边框，很有质感 */
+    border-radius: 15px !important;
+    padding: 20px !important;
+}
+
+/* 4. 按钮：亮黄底黑字 */
+[data-a11y="high-contrast"] button:not(.close-modal),
+[data-a11y="high-contrast"] .pro-btn,
+[data-a11y="high-contrast"] .btn-danger,
+[data-a11y="high-contrast"] .learn-more {
+    background: #ffcc00 !important;
+    color: #000000 !important;
+    border: 2px solid #ffffff !important;
+    opacity: 1 !important;
+}
+
+/* 5. 修正文字颜色 */
+[data-a11y="high-contrast"] p,
+[data-a11y="high-contrast"] span,
+[data-a11y="high-contrast"] h3,
+[data-a11y="high-contrast"] li {
+    color: #ffffff !important;
+}
+
+/* 6. 图形线条变白 */
+[data-a11y="high-contrast"] svg * {
+    stroke: #ffffff !important;
+}
+
+/* 7. 【SVG 几何图形修复】 */
+[data-a11y="high-contrast"] svg * {
+    stroke: #ffffff !important; /* 线条变白 */
+}
+[data-a11y="high-contrast"] svg text {
+    fill: #ffff00 !important; /* 图形内文字变黄 */
+}
+
+[data-a11y="high-contrast"] .theorem-card,
+[data-a11y="high-contrast"] .accordion-item,
+[data-a11y="high-contrast"] .accordion-content,
+[data-a11y="high-contrast"] .demo-container,
+[data-a11y="high-contrast"] .info-container {
+    background-color: #000 !important;
+    background-image: none !important; /* 关键：必须关掉同伴加的渐变色，底色才会变纯黑 */
+    color: #ffffff !important;
+}
+
+/* 确保页眉和工具栏在高对比度下是不透明的黑底 */
+[data-a11y="high-contrast"] header,
+[data-a11y="high-contrast"] #accessibility-bar {
+    background-color: #000 !important;
+    border-bottom: 2px solid #ffcc00 !important; /* 给页眉加一条明显的黄色底线 */
+    opacity: 1 !important;
+}
+
+/* 详情页内部标题变黄色 */
+[data-a11y="high-contrast"] .info-container h3 {
+    color: #ffcc00 !important;
+    border-bottom: 1px solid #bf00ff !important; /* 配一个紫色的细底线 */
+    padding-bottom: 5px;
+}
+
+/* 核心要点的小方块边框变黄色 */
+[data-a11y="high-contrast"] .property-item {
+    border-color: #ffcc00 !important;
+    color: #ffffff !important;
+}
+
+/* 面包屑导航的当前位置变黄色 */
+[data-a11y="high-contrast"] .breadcrumb #active-theorem-name {
+    color: #ffcc00 !important;
+}
+
+/* 精准把 Game 和 Quiz 的灰色块变黑，并加上你的紫色边框 */
+[data-a11y="high-contrast"] .lab-goal,
+[data-a11y="high-contrast"] .lab-status,
+[data-a11y="high-contrast"] .current-theorem,
+[data-a11y="high-contrast"] .quiz-main,
+[data-a11y="high-contrast"] .level-selector {
+    background-color: #000 !important;
+    background-image: none !important; /* 必须去掉背景图/渐变 */
+    border: 2px solid #bf00ff !important; /* 统一成你喜欢的紫色边框 */
+    color: #ffffff !important;
+}
+/* 把所有卡片的小标题统一变黄，增加活力 */
+[data-a11y="high-contrast"] h3 {
+    color: #ffcc00 !important;
+}
+/* 精准修正：强制无障碍工具栏按钮内的文字和图标为黑色 */
+[data-a11y="high-contrast"] #accessibility-bar button,
+[data-a11y="high-contrast"] #accessibility-bar button span {
+    color: #000000 !important;
+}
+
+/* 如果有图标也确保是黑色 */
+[data-a11y="high-contrast"] #accessibility-bar button i,
+[data-a11y="high-contrast"] #accessibility-bar button svg {
+    fill: #000000 !important;
+    stroke: #000000 !important;
 }
 
 * {
@@ -99,7 +231,11 @@ main.container {
 #accessibility-bar {
     background: var(--card-bg);
     border-bottom: 1px solid var(--border-color);
-    padding: 8px 0;
+    padding: 5px 0;
+    /* 新增以下三行 */
+    position: sticky;
+    top: 0;
+    z-index: 5000;
 }
 
 #accessibility-bar .container {
@@ -118,13 +254,14 @@ main.container {
     gap: 8px;
     border: 1px solid var(--border-color);
     border-radius: 999px;
-    padding: 8px 14px;
+    padding: 4px 10px;
     background: transparent;
     color: var(--text-color);
     font: inherit;
     font-weight: 600;
     cursor: pointer;
     transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    font-size: 13px !important;
 }
 
 #accessibility-bar button:hover,
@@ -143,8 +280,12 @@ header {
     background: var(--header-bg);
     border-bottom: 1px solid var(--border-color);
     box-shadow: var(--shadow);
-    padding: 18px 0;
+    padding: 8px 0;
     margin-bottom: 0;
+    /* 新增以下三行 */
+    position: sticky;
+    top: 41px; /* 这个值是工具栏的高度 */
+    z-index: 4000;
 }
 
 .header-content {
@@ -161,13 +302,13 @@ header {
     gap: 10px;
     color: var(--text-color);
     text-decoration: none;
-    font-size: 1.75rem;
+    font-size: 20px !important; /* 这里由 1.75rem 改为固定的 20px */
     font-weight: 700;
 }
 
 .logo-icon {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -209,6 +350,7 @@ header {
     padding-bottom: 6px;
     border-bottom: 2px solid transparent;
     transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    font-size: 16px !important;
 }
 
 .nav-links a.active,
@@ -237,11 +379,14 @@ header {
     color: var(--muted-text);
 }
 
+/* --- global.css 修改部分 --- */
+
 footer {
     margin-top: auto;
     background: var(--footer-bg);
     border-top: 1px solid var(--border-color);
-    padding: 28px 0;
+    /* 1. 高度再缩小：将之前的 12px 改为 6px (或者 4px) */
+    padding: 6px 0;
 }
 
 .footer-content {
@@ -250,24 +395,15 @@ footer {
     align-items: center;
     gap: 16px;
     flex-wrap: wrap;
+    font-size: 0.85rem;
 }
 
 .footer-links {
     display: flex;
     align-items: center;
-    gap: 16px;
+    /* 2. 词组间距变大：将原来的 16px 改为 32px (或根据视觉需求调大) */
+    gap: 32px;
     flex-wrap: wrap;
-}
-
-.footer-links a {
-    color: var(--footer-text);
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.footer-links a:hover,
-.footer-links a:focus-visible {
-    color: var(--primary-blue);
 }
 
 .modal-overlay {
@@ -410,4 +546,57 @@ footer {
     .breadcrumb {
         margin-top: 16px;
     }
+}
+/* =========================================
+   全站统一：AI 助手悬浮球 (好好改版)
+   ========================================= */
+
+#chat-toggle-btn {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    width: 60px;  /* 强制固定宽度 */
+    height: 60px; /* 强制固定高度 */
+
+    /* 1. 背景：使用你喜欢的蓝紫渐变，非常有科技感 */
+    background: linear-gradient(135deg, var(--primary-blue), #6610f2);
+
+    /* 2. 形状：纯圆 */
+    border-radius: 50%;
+
+    /* 3. 居中：让里的小头居中 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* 4. 阴影：让它“飘”在网页上面 */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+
+    /* 5. 交互：鼠标悬停变大，并置于最顶层 */
+    cursor: pointer;
+    z-index: 9999 !important; /* 确保它在所有内容（包括 Footer）之上 */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    /* 6. 字体大小：如果是 Emoji 的话 */
+    font-size: 32px;
+}
+
+#chat-toggle-btn:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* 7. 让按钮在黑夜模式下发光 */
+[data-theme="dark"] #chat-toggle-btn {
+    box-shadow: 0 0 15px rgba(102, 16, 242, 0.6);
+}
+
+/* 8. AI 助手心跳动画 (更显灵动) */
+#chat-toggle-btn {
+    animation: robot-float 3s ease-in-out infinite;
+}
+
+@keyframes robot-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
 }

@@ -513,13 +513,34 @@ function adjustFontSize(delta) {
     document.documentElement.style.setProperty('--font-size-base', `${currentFontSize}px`);
 }
 
+// --- 全站大脑：页面加载时立即同步对比度和主题 ---
+(function syncGlobalSettings() {
+    // 检查并应用对比度
+    if (localStorage.getItem('high-contrast') === 'true') {
+        document.documentElement.setAttribute('data-a11y', 'high-contrast');
+    }
+    // 检查并应用黑夜模式 (顺便也同步了)
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+})();
+
+// --- 统一的切换函数 (确保每个页面的 Contrast 按钮都能调用它) ---
 function toggleContrast() {
     const isHighContrast = document.documentElement.getAttribute('data-a11y') === 'high-contrast';
     if (isHighContrast) {
         document.documentElement.removeAttribute('data-a11y');
+        localStorage.setItem('high-contrast', 'false');
     } else {
         document.documentElement.setAttribute('data-a11y', 'high-contrast');
+        localStorage.setItem('high-contrast', 'true');
     }
+}
+
+// 全站同步：进入页面时检查对比度设置
+if (localStorage.getItem('high-contrast') === 'true') {
+    document.documentElement.setAttribute('data-a11y', 'high-contrast');
 }
 
 function setNavOpen(isOpen) {
@@ -1741,12 +1762,13 @@ function setupActions() {
 
 function refreshChatWelcome() {
     if (!chatBody) return;
-    const firstMessage = chatBody.querySelector('[data-chat-welcome]');
-    if (!firstMessage) return;
+    const welcomeLine = chatBody.querySelector('[data-chat-welcome]');
+    if (!welcomeLine) return;
 
-    const strong = firstMessage.querySelector('strong');
-    const span = firstMessage.querySelector('span');
-    if (strong) strong.textContent = t('chat-ai');
+    // 这种写法确保不会把 "AI:" 这个词弄丢
+    const strong = welcomeLine.querySelector('strong');
+    const span = welcomeLine.querySelector('span');
+    if (strong) strong.textContent = t('chat-ai'); // 对应翻译里的 'AI:'
     if (span) span.textContent = t('chat-welcome');
 }
 
@@ -1808,7 +1830,15 @@ function setupChat() {
 if (themeBtn) {
     themeBtn.addEventListener('click', () => {
         const currentTheme = document.documentElement.getAttribute('data-theme');
-        document.documentElement.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+        // 1. 修改当前页面样式
+        document.documentElement.setAttribute('data-theme', newTheme);
+
+        // 2. 【核心修复】保存到本地，这样 Home 和 Quiz 才能知道 Game 变色了
+        localStorage.setItem('theme', newTheme);
+
+        // 3. 更新按钮文字和图标
         updateThemeButton();
     });
 }
@@ -1847,3 +1877,63 @@ function initializeLab() {
 }
 
 initializeLab();
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+
+    // 关键：必须加上这一句，游戏页的修改才能被记住
+    localStorage.setItem('theme', newTheme);
+
+    updateThemeButton();
+}
+
+/* =========================================
+   Version 3.5.b: 最终全站同步修正 (Game 专项版)
+   ========================================= */
+function syncAtStartup() {
+    // 1. 检查对比度
+    if (localStorage.getItem('high-contrast') === 'true') {
+        document.documentElement.setAttribute('data-a11y', 'high-contrast');
+    }
+
+    // 2. 检查并同步黑夜模式
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        // 重要：Game 页面特有的更新按钮状态函数
+        if (typeof updateThemeButton === 'function') {
+            updateThemeButton();
+        }
+    }
+}
+
+// 立即执行同步
+syncAtStartup();
+
+// 控制聊天框开关
+function toggleChat() {
+    const chat = document.getElementById('ai-chat-widget');
+    chat.style.display = (chat.style.display === 'none') ? 'block' : 'none';
+}
+
+// 弹出确认框
+function confirmClearChat() {
+    document.getElementById('confirm-modal').style.display = 'flex';
+}
+
+// 关闭确认框
+function closeModal() {
+    document.getElementById('confirm-modal').style.display = 'none';
+}
+
+// 执行清空并保留欢迎语
+function executeClear() {
+    const chatBody = document.getElementById('chat-body');
+    if (chatBody) {
+        const welcome = (currentLang === 'zh') ? "<strong>AI:</strong> 对话记录已清空。" : "<strong>AI:</strong> Chat history cleared.";
+        chatBody.innerHTML = `<p>${welcome}</p>`;
+    }
+    closeModal();
+}

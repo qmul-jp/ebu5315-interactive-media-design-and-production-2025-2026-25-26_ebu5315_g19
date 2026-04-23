@@ -805,3 +805,101 @@
         bottom: 16px;
     }
 }
+
+/* =========================================
+   终极修复：Game 页面高对比度 (基于实际类名)
+   ========================================= */
+
+[data-a11y="high-contrast"] .prototype-stage,
+[data-a11y="high-contrast"] .mission-card,
+[data-a11y="high-contrast"] .target-card,
+[data-a11y="high-contrast"] .panel-card,
+[data-a11y="high-contrast"] .hud-chip,
+[data-a11y="high-contrast"] .arena-frame {
+    background-color: #000000 !important;
+    background-image: none !important; /* 杀掉所有渐变 */
+    border: 2px solid #bf00ff !important; /* 紫色边框 */
+    color: #ffffff !important;
+    box-shadow: none !important;
+}
+
+/* 核心：关掉那个导致“蒙灰感”的遮罩层 */
+[data-a11y="high-contrast"] .geometry-stage::before,
+[data-a11y="high-contrast"] .mission-status-card::after {
+    display: none !important;
+}
+
+/* 修正左侧标题和文字颜色 */
+[data-a11y="high-contrast"] .mission-card h3,
+[data-a11y="high-contrast"] .target-card h3,
+[data-a11y="high-contrast"] .panel-card h2,
+[data-a11y="high-contrast"] .stage-header h2 {
+    color: #ffcc00 !important; /* 标题变橙黄 */
+}
+
+/* 修正那些灰色的辅助文字 */
+[data-a11y="high-contrast"] .stage-header p,
+[data-a11y="high-contrast"] .objective-list li,
+[data-a11y="high-contrast"] .target-note,
+[data-a11y="high-contrast"] .hud-chip span,
+[data-a11y="high-contrast"] .task-label {
+    color: #ffffff !important;
+}
+
+/* 修正数值显示（如 90度） */
+[data-a11y="high-contrast"] .target-value {
+    color: #ffcc00 !important;
+}
+
+/* 修正 AI 聊天室头部（去除蓝色渐变） */
+[data-a11y="high-contrast"] #ai-chat-widget .chat-header {
+    background: #000 !important;
+    background-image: none !important;
+    border-bottom: 2px solid #ffcc00 !important;
+    color: #ffcc00 !important;
+}
+
+/* --- 高对比度：解决绘图板（SVG）发白问题 --- */
+
+/* 1. 强制绘图板外框变黑，去掉同伴加的浅蓝色渐变 */
+[data-a11y="high-contrast"] .arena-frame {
+    background: #000000 !important;
+    background-image: none !important;
+    border: 2px solid #bf00ff !important; /* 紫色粗边框 */
+    box-shadow: none !important;
+}
+
+/* 2. 核心：强制 SVG 内部的背景层变黑 */
+[data-a11y="high-contrast"] .board-backdrop {
+    fill: #000000 !important; /* 强制 SVG 背景矩形变黑 */
+}
+
+/* 3. 让绘图板上的网格线变暗，圆圈和重要线条变亮 */
+[data-a11y="high-contrast"] .board-grid {
+    stroke: #333333 !important; /* 网格线变深灰色，不干扰视觉 */
+}
+
+[data-a11y="high-contrast"] .board-circle {
+    stroke: #ffffff !important; /* 圆周线条变白 */
+    stroke-width: 2px !important;
+}
+
+/* 4. 修复绘图板上的文字（如 O, T, 90°） */
+[data-a11y="high-contrast"] .measure-label,
+[data-a11y="high-contrast"] .point-label,
+[data-a11y="high-contrast"] .board-caption {
+    fill: #ffcc00 !important; /* 绘图板上的标注文字变黄色 */
+    stroke: none !important;  /* 去掉文字描边防止模糊 */
+}
+
+/* 5. 修复拖拽点 */
+[data-a11y="high-contrast"] .center-point {
+    fill: #bf00ff !important; /* 圆心变紫色 */
+    stroke: #ffffff !important;
+}
+/* 精准调优：将绘图板顶部的数学公式也改为黄色 */
+[data-a11y="high-contrast"] .board-equation {
+    fill: #ffcc00 !important; /* 填充色变橙黄 */
+    stroke: none !important;  /* 移除原本的白色描边，让字体更清晰 */
+    font-weight: 900 !important;
+}
