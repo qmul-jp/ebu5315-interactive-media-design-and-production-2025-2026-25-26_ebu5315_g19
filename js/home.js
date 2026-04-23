@@ -188,7 +188,8 @@ const state = {
     currentLang: 'en',
     soundEnabled: true,
     currentDetailId: null,
-    openAccordionId: null
+    openAccordionId: null,
+    homepageScrollPos: 0 // <--- 新增：用来存主页滚动位置
 };
 
 const mainView = document.getElementById('main-view');
@@ -326,35 +327,45 @@ function changeLanguage() {
 }
 
 function goToDetail(id) {
+    // 1. 【新增】在切换视图前，记住现在滚到哪里了
+    state.homepageScrollPos = window.scrollY || window.pageYOffset;
+
     state.currentDetailId = id;
     state.openAccordionId = id;
 
-    if (mainView) {
-        mainView.hidden = true;
-    }
-    if (detailView) {
-        detailView.hidden = false;
-    }
+    if (mainView) mainView.hidden = true;
+    if (detailView) detailView.hidden = false;
+
     if (activeTheoremName) {
         activeTheoremName.textContent = theoremTitle(id);
     }
 
     renderTheorems();
-    setNavOpen(false);
+
+    // ... 原有的跳转到详情页定理位置的代码保持不变 ...
+    setTimeout(() => {
+        const targetItem = document.getElementById(`acc-${id}`);
+        if (targetItem) {
+            const headerOffset = 110;
+            const elementPosition = targetItem.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        }
+    }, 100);
 }
 
 function hideDetail() {
     state.currentDetailId = null;
     state.openAccordionId = null;
 
-    if (mainView) {
-        mainView.hidden = false;
-    }
-    if (detailView) {
-        detailView.hidden = true;
-    }
+    if (mainView) mainView.hidden = false;
+    if (detailView) detailView.hidden = true;
 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // 2. 【核心修复】不要使用 window.scrollTo(0, 0)，而是回到记录的位置
+    window.scrollTo({
+        top: state.homepageScrollPos,
+        behavior: 'instant' // 建议用 instant 立即跳回，防止用户感到混乱
+    });
 }
 
 function toggleAccordion(id) {
